@@ -1,0 +1,7182 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict sHob7IwjFGRqoZknlbsLy4p1LF8WhrWszPNLLwJWEOSx5hfPFVVoJzzFq5Zl3Io
+
+-- Dumped from database version 17.11 (Debian 17.11-1.pgdg13+2)
+-- Dumped by pg_dump version 18.6
+
+-- Started on 2026-09-23 20:53:20
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 218 (class 1259 OID 16537)
+-- Name: customers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.customers (
+    customer_id integer NOT NULL,
+    customer_name character varying(100) NOT NULL,
+    phone character varying(20),
+    address character varying(200)
+);
+
+
+ALTER TABLE public.customers OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 16536)
+-- Name: customers_customer_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.customers_customer_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.customers_customer_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3537 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: customers_customer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.customers_customer_id_seq OWNED BY public.customers.customer_id;
+
+
+--
+-- TOC entry 234 (class 1259 OID 16642)
+-- Name: deliveries; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.deliveries (
+    delivery_id integer NOT NULL,
+    shipment_id integer NOT NULL,
+    driver_id integer NOT NULL,
+    vehicle_id integer NOT NULL,
+    delivery_time timestamp without time zone NOT NULL,
+    receiver_name character varying(100),
+    delivery_status character varying(30) NOT NULL
+);
+
+
+ALTER TABLE public.deliveries OWNER TO postgres;
+
+--
+-- TOC entry 233 (class 1259 OID 16641)
+-- Name: deliveries_delivery_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.deliveries_delivery_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.deliveries_delivery_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3538 (class 0 OID 0)
+-- Dependencies: 233
+-- Name: deliveries_delivery_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.deliveries_delivery_id_seq OWNED BY public.deliveries.delivery_id;
+
+
+--
+-- TOC entry 220 (class 1259 OID 16544)
+-- Name: drivers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.drivers (
+    driver_id integer NOT NULL,
+    driver_name character varying(100) NOT NULL,
+    phone character varying(20)
+);
+
+
+ALTER TABLE public.drivers OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 16543)
+-- Name: drivers_driver_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.drivers_driver_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.drivers_driver_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3539 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: drivers_driver_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.drivers_driver_id_seq OWNED BY public.drivers.driver_id;
+
+
+--
+-- TOC entry 224 (class 1259 OID 16560)
+-- Name: locations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.locations (
+    location_id integer NOT NULL,
+    location_name character varying(100) NOT NULL,
+    city character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.locations OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 16559)
+-- Name: locations_location_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.locations_location_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.locations_location_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3540 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: locations_location_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.locations_location_id_seq OWNED BY public.locations.location_id;
+
+
+--
+-- TOC entry 230 (class 1259 OID 16603)
+-- Name: pickups; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.pickups (
+    pickup_id integer NOT NULL,
+    shipment_id integer NOT NULL,
+    driver_id integer NOT NULL,
+    vehicle_id integer NOT NULL,
+    pickup_time timestamp without time zone NOT NULL,
+    pickup_status character varying(30) NOT NULL
+);
+
+
+ALTER TABLE public.pickups OWNER TO postgres;
+
+--
+-- TOC entry 229 (class 1259 OID 16602)
+-- Name: pickups_pickup_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.pickups_pickup_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.pickups_pickup_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3541 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: pickups_pickup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.pickups_pickup_id_seq OWNED BY public.pickups.pickup_id;
+
+
+--
+-- TOC entry 226 (class 1259 OID 16567)
+-- Name: services; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.services (
+    service_id integer NOT NULL,
+    service_name character varying(100) NOT NULL,
+    base_price numeric(12,2) NOT NULL
+);
+
+
+ALTER TABLE public.services OWNER TO postgres;
+
+--
+-- TOC entry 225 (class 1259 OID 16566)
+-- Name: services_service_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.services_service_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.services_service_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3542 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: services_service_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.services_service_id_seq OWNED BY public.services.service_id;
+
+
+--
+-- TOC entry 228 (class 1259 OID 16574)
+-- Name: shipments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shipments (
+    shipment_id integer NOT NULL,
+    tracking_number character varying(30) NOT NULL,
+    customer_id integer NOT NULL,
+    service_id integer NOT NULL,
+    origin_location_id integer NOT NULL,
+    destination_location_id integer NOT NULL,
+    shipment_date date NOT NULL,
+    weight_kg numeric(8,2) NOT NULL,
+    shipping_cost numeric(12,2) NOT NULL,
+    status character varying(30) NOT NULL
+);
+
+
+ALTER TABLE public.shipments OWNER TO postgres;
+
+--
+-- TOC entry 227 (class 1259 OID 16573)
+-- Name: shipments_shipment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.shipments_shipment_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.shipments_shipment_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3543 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: shipments_shipment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.shipments_shipment_id_seq OWNED BY public.shipments.shipment_id;
+
+
+--
+-- TOC entry 232 (class 1259 OID 16625)
+-- Name: tracking_events; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tracking_events (
+    tracking_id integer NOT NULL,
+    shipment_id integer NOT NULL,
+    location_id integer NOT NULL,
+    event_time timestamp without time zone NOT NULL,
+    tracking_status character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.tracking_events OWNER TO postgres;
+
+--
+-- TOC entry 231 (class 1259 OID 16624)
+-- Name: tracking_events_tracking_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tracking_events_tracking_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.tracking_events_tracking_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3544 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: tracking_events_tracking_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tracking_events_tracking_id_seq OWNED BY public.tracking_events.tracking_id;
+
+
+--
+-- TOC entry 236 (class 1259 OID 16664)
+-- Name: vehicle_logs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.vehicle_logs (
+    log_id integer NOT NULL,
+    vehicle_id integer NOT NULL,
+    driver_id integer NOT NULL,
+    log_time timestamp without time zone NOT NULL,
+    speed_kmh integer,
+    latitude numeric(9,6),
+    longitude numeric(9,6)
+);
+
+
+ALTER TABLE public.vehicle_logs OWNER TO postgres;
+
+--
+-- TOC entry 235 (class 1259 OID 16663)
+-- Name: vehicle_logs_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.vehicle_logs_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.vehicle_logs_log_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3545 (class 0 OID 0)
+-- Dependencies: 235
+-- Name: vehicle_logs_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.vehicle_logs_log_id_seq OWNED BY public.vehicle_logs.log_id;
+
+
+--
+-- TOC entry 222 (class 1259 OID 16551)
+-- Name: vehicles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.vehicles (
+    vehicle_id integer NOT NULL,
+    plate_number character varying(20) NOT NULL,
+    vehicle_type character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.vehicles OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 16550)
+-- Name: vehicles_vehicle_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.vehicles_vehicle_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.vehicles_vehicle_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3546 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: vehicles_vehicle_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.vehicles_vehicle_id_seq OWNED BY public.vehicles.vehicle_id;
+
+
+--
+-- TOC entry 3319 (class 2604 OID 16540)
+-- Name: customers customer_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customers ALTER COLUMN customer_id SET DEFAULT nextval('public.customers_customer_id_seq'::regclass);
+
+
+--
+-- TOC entry 3327 (class 2604 OID 16645)
+-- Name: deliveries delivery_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveries ALTER COLUMN delivery_id SET DEFAULT nextval('public.deliveries_delivery_id_seq'::regclass);
+
+
+--
+-- TOC entry 3320 (class 2604 OID 16547)
+-- Name: drivers driver_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.drivers ALTER COLUMN driver_id SET DEFAULT nextval('public.drivers_driver_id_seq'::regclass);
+
+
+--
+-- TOC entry 3322 (class 2604 OID 16563)
+-- Name: locations location_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.locations ALTER COLUMN location_id SET DEFAULT nextval('public.locations_location_id_seq'::regclass);
+
+
+--
+-- TOC entry 3325 (class 2604 OID 16606)
+-- Name: pickups pickup_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pickups ALTER COLUMN pickup_id SET DEFAULT nextval('public.pickups_pickup_id_seq'::regclass);
+
+
+--
+-- TOC entry 3323 (class 2604 OID 16570)
+-- Name: services service_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.services ALTER COLUMN service_id SET DEFAULT nextval('public.services_service_id_seq'::regclass);
+
+
+--
+-- TOC entry 3324 (class 2604 OID 16577)
+-- Name: shipments shipment_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipments ALTER COLUMN shipment_id SET DEFAULT nextval('public.shipments_shipment_id_seq'::regclass);
+
+
+--
+-- TOC entry 3326 (class 2604 OID 16628)
+-- Name: tracking_events tracking_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tracking_events ALTER COLUMN tracking_id SET DEFAULT nextval('public.tracking_events_tracking_id_seq'::regclass);
+
+
+--
+-- TOC entry 3328 (class 2604 OID 16667)
+-- Name: vehicle_logs log_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vehicle_logs ALTER COLUMN log_id SET DEFAULT nextval('public.vehicle_logs_log_id_seq'::regclass);
+
+
+--
+-- TOC entry 3321 (class 2604 OID 16554)
+-- Name: vehicles vehicle_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vehicles ALTER COLUMN vehicle_id SET DEFAULT nextval('public.vehicles_vehicle_id_seq'::regclass);
+
+
+--
+-- TOC entry 3513 (class 0 OID 16537)
+-- Dependencies: 218
+-- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.customers (customer_id, customer_name, phone, address) FROM stdin;
+1	Abdul Malik Fajar Putra Syamsi	081200000001	Banjarmasin
+2	Sebastian Abe Santoso	081200000002	Banjarmasin
+3	Rizky Adhitiya Maulana	081200000003	Banjarmasin
+4	Hamka Arifani	081200000004	Banjarmasin
+5	Noor Muhammad Akmal Sulaiman	081200000005	Banjarmasin
+6	Muhammad Irgi Fahreza	081200000006	Banjarmasin
+7	Muhammad Naufal Abdillah	081200000007	Banjarbaru
+8	Arya Arrozza Ridho Syaputra	081200000008	Banjarmasin
+9	Muhammad Guntur Ricky Adhitya	081200000009	Banjarmasin
+10	Muhammad Naufal Khalish	081200000010	Banjarmasin
+11	Achmad Reihan Alfaiz	081200000011	Banjarmasin
+\.
+
+
+--
+-- TOC entry 3529 (class 0 OID 16642)
+-- Dependencies: 234
+-- Data for Name: deliveries; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.deliveries (delivery_id, shipment_id, driver_id, vehicle_id, delivery_time, receiver_name, delivery_status) FROM stdin;
+1	1	4	2	2026-01-14 00:00:00	Penerima 1	DELIVERED
+2	2	5	2	2026-05-07 00:00:00	Penerima 2	DELIVERED
+3	3	5	2	2026-04-25 00:00:00	Penerima 3	DELIVERED
+4	4	3	1	2026-01-31 00:00:00	Penerima 4	DELIVERED
+5	5	1	4	2026-02-18 00:00:00	Penerima 5	DELIVERED
+6	6	3	5	2026-02-22 00:00:00	Penerima 6	DELIVERED
+7	7	2	1	2026-05-29 00:00:00	Penerima 7	DELIVERED
+8	8	3	5	2026-03-12 00:00:00	Penerima 8	DELIVERED
+9	9	1	5	2026-05-29 00:00:00	Penerima 9	DELIVERED
+10	10	2	2	2026-03-20 00:00:00	Penerima 10	DELIVERED
+11	11	4	2	2026-06-26 00:00:00	Penerima 11	DELIVERED
+12	12	5	1	2026-03-01 00:00:00	Penerima 12	DELIVERED
+13	13	3	5	2026-04-22 00:00:00	Penerima 13	DELIVERED
+14	14	5	4	2026-04-17 00:00:00	Penerima 14	DELIVERED
+15	15	3	5	2026-06-11 00:00:00	Penerima 15	DELIVERED
+16	16	2	4	2026-01-27 00:00:00	Penerima 16	DELIVERED
+17	17	5	3	2026-02-26 00:00:00	Penerima 17	DELIVERED
+18	18	2	5	2026-01-18 00:00:00	Penerima 18	DELIVERED
+19	19	5	2	2026-03-18 00:00:00	Penerima 19	DELIVERED
+20	20	5	1	2026-02-01 00:00:00	Penerima 20	DELIVERED
+21	21	3	4	2026-05-07 00:00:00	Penerima 21	DELIVERED
+22	22	3	2	2026-04-12 00:00:00	Penerima 22	DELIVERED
+23	23	2	4	2026-04-15 00:00:00	Penerima 23	DELIVERED
+24	24	5	1	2026-06-07 00:00:00	Penerima 24	DELIVERED
+25	25	1	3	2026-05-13 00:00:00	Penerima 25	DELIVERED
+26	26	4	2	2026-06-04 00:00:00	Penerima 26	DELIVERED
+27	27	3	2	2026-01-18 00:00:00	Penerima 27	DELIVERED
+28	28	5	2	2026-05-04 00:00:00	Penerima 28	DELIVERED
+29	29	4	4	2026-03-12 00:00:00	Penerima 29	DELIVERED
+30	30	1	3	2026-03-15 00:00:00	Penerima 30	DELIVERED
+31	31	1	1	2026-04-15 00:00:00	Penerima 31	DELIVERED
+32	32	3	5	2026-05-06 00:00:00	Penerima 32	DELIVERED
+33	33	3	4	2026-03-11 00:00:00	Penerima 33	DELIVERED
+34	34	2	2	2026-05-23 00:00:00	Penerima 34	DELIVERED
+35	35	5	2	2026-01-31 00:00:00	Penerima 35	DELIVERED
+36	36	1	5	2026-04-17 00:00:00	Penerima 36	DELIVERED
+37	37	3	3	2026-04-16 00:00:00	Penerima 37	DELIVERED
+38	38	3	3	2026-02-12 00:00:00	Penerima 38	DELIVERED
+39	39	2	2	2026-04-04 00:00:00	Penerima 39	DELIVERED
+40	40	2	5	2026-01-15 00:00:00	Penerima 40	DELIVERED
+41	41	5	3	2026-02-01 00:00:00	Penerima 41	DELIVERED
+42	42	2	4	2026-03-18 00:00:00	Penerima 42	DELIVERED
+43	43	2	1	2026-02-03 00:00:00	Penerima 43	DELIVERED
+44	44	1	1	2026-04-18 00:00:00	Penerima 44	DELIVERED
+45	45	5	5	2026-02-06 00:00:00	Penerima 45	DELIVERED
+46	46	4	1	2026-06-16 00:00:00	Penerima 46	DELIVERED
+47	47	3	3	2026-04-11 00:00:00	Penerima 47	DELIVERED
+48	48	3	2	2026-05-14 00:00:00	Penerima 48	DELIVERED
+49	49	2	1	2026-02-13 00:00:00	Penerima 49	DELIVERED
+50	50	1	2	2026-05-10 00:00:00	Penerima 50	DELIVERED
+51	51	5	2	2026-02-16 00:00:00	Penerima 51	DELIVERED
+52	52	1	4	2026-04-04 00:00:00	Penerima 52	DELIVERED
+53	53	1	2	2026-05-03 00:00:00	Penerima 53	DELIVERED
+54	54	1	3	2026-03-24 00:00:00	Penerima 54	DELIVERED
+55	55	5	5	2026-01-23 00:00:00	Penerima 55	DELIVERED
+56	56	3	2	2026-04-24 00:00:00	Penerima 56	DELIVERED
+57	57	4	4	2026-02-11 00:00:00	Penerima 57	DELIVERED
+58	58	5	3	2026-01-29 00:00:00	Penerima 58	DELIVERED
+59	59	5	1	2026-02-07 00:00:00	Penerima 59	DELIVERED
+60	60	3	1	2026-04-26 00:00:00	Penerima 60	DELIVERED
+61	61	1	2	2026-03-13 00:00:00	Penerima 61	DELIVERED
+62	62	3	3	2026-06-28 00:00:00	Penerima 62	DELIVERED
+63	63	3	1	2026-05-23 00:00:00	Penerima 63	DELIVERED
+64	64	2	5	2026-06-11 00:00:00	Penerima 64	DELIVERED
+65	65	5	3	2026-06-29 00:00:00	Penerima 65	DELIVERED
+66	66	3	3	2026-06-22 00:00:00	Penerima 66	DELIVERED
+67	67	2	2	2026-03-24 00:00:00	Penerima 67	DELIVERED
+68	68	1	5	2026-03-12 00:00:00	Penerima 68	DELIVERED
+69	69	5	2	2026-04-18 00:00:00	Penerima 69	DELIVERED
+70	70	3	5	2026-01-28 00:00:00	Penerima 70	DELIVERED
+71	71	3	1	2026-04-23 00:00:00	Penerima 71	DELIVERED
+72	72	3	2	2026-02-01 00:00:00	Penerima 72	DELIVERED
+73	73	5	4	2026-02-06 00:00:00	Penerima 73	DELIVERED
+74	74	2	2	2026-06-03 00:00:00	Penerima 74	DELIVERED
+75	75	1	2	2026-04-23 00:00:00	Penerima 75	DELIVERED
+76	76	4	4	2026-03-05 00:00:00	Penerima 76	DELIVERED
+77	77	3	3	2026-06-27 00:00:00	Penerima 77	DELIVERED
+78	78	3	4	2026-02-28 00:00:00	Penerima 78	DELIVERED
+79	79	1	5	2026-01-06 00:00:00	Penerima 79	DELIVERED
+80	80	5	3	2026-04-23 00:00:00	Penerima 80	DELIVERED
+81	81	4	4	2026-03-22 00:00:00	Penerima 81	DELIVERED
+82	82	3	4	2026-06-27 00:00:00	Penerima 82	DELIVERED
+83	83	1	2	2026-03-03 00:00:00	Penerima 83	DELIVERED
+84	84	5	4	2026-05-29 00:00:00	Penerima 84	DELIVERED
+85	85	1	1	2026-05-18 00:00:00	Penerima 85	DELIVERED
+86	86	1	2	2026-03-31 00:00:00	Penerima 86	DELIVERED
+87	87	2	5	2026-01-11 00:00:00	Penerima 87	DELIVERED
+88	88	2	1	2026-02-21 00:00:00	Penerima 88	DELIVERED
+89	89	2	4	2026-02-16 00:00:00	Penerima 89	DELIVERED
+90	90	1	3	2026-06-14 00:00:00	Penerima 90	DELIVERED
+91	91	2	5	2026-03-14 00:00:00	Penerima 91	DELIVERED
+92	92	2	2	2026-02-21 00:00:00	Penerima 92	DELIVERED
+93	93	5	1	2026-02-02 00:00:00	Penerima 93	DELIVERED
+94	94	5	1	2026-02-22 00:00:00	Penerima 94	DELIVERED
+95	95	2	2	2026-03-13 00:00:00	Penerima 95	DELIVERED
+96	96	2	2	2026-02-09 00:00:00	Penerima 96	DELIVERED
+97	97	1	4	2026-06-18 00:00:00	Penerima 97	DELIVERED
+98	98	1	2	2026-01-29 00:00:00	Penerima 98	DELIVERED
+99	99	1	1	2026-03-06 00:00:00	Penerima 99	DELIVERED
+100	100	5	3	2026-06-23 00:00:00	Penerima 100	DELIVERED
+101	101	1	2	2026-04-06 00:00:00	Penerima 101	DELIVERED
+102	102	1	5	2026-01-06 00:00:00	Penerima 102	DELIVERED
+103	103	1	4	2026-06-30 00:00:00	Penerima 103	DELIVERED
+104	104	5	2	2026-06-13 00:00:00	Penerima 104	DELIVERED
+105	105	5	5	2026-02-07 00:00:00	Penerima 105	DELIVERED
+106	106	2	4	2026-06-16 00:00:00	Penerima 106	DELIVERED
+107	107	4	2	2026-05-12 00:00:00	Penerima 107	DELIVERED
+108	108	3	4	2026-05-26 00:00:00	Penerima 108	DELIVERED
+109	109	5	1	2026-03-11 00:00:00	Penerima 109	DELIVERED
+110	110	5	1	2026-01-05 00:00:00	Penerima 110	DELIVERED
+111	111	1	5	2026-06-15 00:00:00	Penerima 111	DELIVERED
+112	112	2	5	2026-02-09 00:00:00	Penerima 112	DELIVERED
+113	113	2	2	2026-06-22 00:00:00	Penerima 113	DELIVERED
+114	114	5	3	2026-03-29 00:00:00	Penerima 114	DELIVERED
+115	115	3	1	2026-03-30 00:00:00	Penerima 115	DELIVERED
+116	116	4	5	2026-06-21 00:00:00	Penerima 116	DELIVERED
+117	117	2	1	2026-01-12 00:00:00	Penerima 117	DELIVERED
+118	118	1	5	2026-02-15 00:00:00	Penerima 118	DELIVERED
+119	119	2	1	2026-01-17 00:00:00	Penerima 119	DELIVERED
+120	120	1	2	2026-06-06 00:00:00	Penerima 120	DELIVERED
+121	121	4	3	2026-05-28 00:00:00	Penerima 121	DELIVERED
+122	122	3	4	2026-05-19 00:00:00	Penerima 122	DELIVERED
+123	123	5	5	2026-05-18 00:00:00	Penerima 123	DELIVERED
+124	124	3	4	2026-06-30 00:00:00	Penerima 124	DELIVERED
+125	125	4	5	2026-06-01 00:00:00	Penerima 125	DELIVERED
+126	126	5	5	2026-06-24 00:00:00	Penerima 126	DELIVERED
+127	127	1	1	2026-01-18 00:00:00	Penerima 127	DELIVERED
+128	128	3	4	2026-04-26 00:00:00	Penerima 128	DELIVERED
+129	129	4	4	2026-05-12 00:00:00	Penerima 129	DELIVERED
+130	130	3	5	2026-01-04 00:00:00	Penerima 130	DELIVERED
+131	131	5	3	2026-05-28 00:00:00	Penerima 131	DELIVERED
+132	132	5	4	2026-01-21 00:00:00	Penerima 132	DELIVERED
+133	133	2	3	2026-03-13 00:00:00	Penerima 133	DELIVERED
+134	134	4	5	2026-05-07 00:00:00	Penerima 134	DELIVERED
+135	135	5	1	2026-03-04 00:00:00	Penerima 135	DELIVERED
+136	136	4	4	2026-01-29 00:00:00	Penerima 136	DELIVERED
+137	137	5	4	2026-04-24 00:00:00	Penerima 137	DELIVERED
+138	138	2	5	2026-05-18 00:00:00	Penerima 138	DELIVERED
+139	139	3	1	2026-06-18 00:00:00	Penerima 139	DELIVERED
+140	140	1	1	2026-05-02 00:00:00	Penerima 140	DELIVERED
+141	141	4	1	2026-03-22 00:00:00	Penerima 141	DELIVERED
+142	142	2	3	2026-05-16 00:00:00	Penerima 142	DELIVERED
+143	143	5	1	2026-06-19 00:00:00	Penerima 143	DELIVERED
+144	144	1	2	2026-04-08 00:00:00	Penerima 144	DELIVERED
+145	145	5	3	2026-05-01 00:00:00	Penerima 145	DELIVERED
+146	146	5	2	2026-01-24 00:00:00	Penerima 146	DELIVERED
+147	147	5	5	2026-04-27 00:00:00	Penerima 147	DELIVERED
+148	148	5	3	2026-03-15 00:00:00	Penerima 148	DELIVERED
+149	149	1	4	2026-04-26 00:00:00	Penerima 149	DELIVERED
+150	150	2	1	2026-02-23 00:00:00	Penerima 150	DELIVERED
+151	151	5	4	2026-02-16 00:00:00	Penerima 151	DELIVERED
+152	152	3	4	2026-01-12 00:00:00	Penerima 152	DELIVERED
+153	153	4	2	2026-02-24 00:00:00	Penerima 153	DELIVERED
+154	154	3	5	2026-01-27 00:00:00	Penerima 154	DELIVERED
+155	155	3	5	2026-04-19 00:00:00	Penerima 155	DELIVERED
+156	156	1	2	2026-01-17 00:00:00	Penerima 156	DELIVERED
+157	157	3	1	2026-01-04 00:00:00	Penerima 157	DELIVERED
+158	158	4	5	2026-01-05 00:00:00	Penerima 158	DELIVERED
+159	159	3	5	2026-01-11 00:00:00	Penerima 159	DELIVERED
+160	160	1	2	2026-01-20 00:00:00	Penerima 160	DELIVERED
+161	161	3	4	2026-01-07 00:00:00	Penerima 161	DELIVERED
+162	162	2	3	2026-06-21 00:00:00	Penerima 162	DELIVERED
+163	163	4	3	2026-06-11 00:00:00	Penerima 163	DELIVERED
+164	164	4	2	2026-04-17 00:00:00	Penerima 164	DELIVERED
+165	165	1	1	2026-02-26 00:00:00	Penerima 165	DELIVERED
+166	166	5	1	2026-04-30 00:00:00	Penerima 166	DELIVERED
+167	167	1	4	2026-04-05 00:00:00	Penerima 167	DELIVERED
+168	168	4	3	2026-01-31 00:00:00	Penerima 168	DELIVERED
+169	169	5	2	2026-03-12 00:00:00	Penerima 169	DELIVERED
+170	170	2	3	2026-05-15 00:00:00	Penerima 170	DELIVERED
+171	171	2	1	2026-05-11 00:00:00	Penerima 171	DELIVERED
+172	172	5	4	2026-03-13 00:00:00	Penerima 172	DELIVERED
+173	173	4	3	2026-03-14 00:00:00	Penerima 173	DELIVERED
+174	174	2	5	2026-04-17 00:00:00	Penerima 174	DELIVERED
+175	175	3	4	2026-01-17 00:00:00	Penerima 175	DELIVERED
+176	176	2	5	2026-06-14 00:00:00	Penerima 176	DELIVERED
+177	177	1	4	2026-05-03 00:00:00	Penerima 177	DELIVERED
+178	178	4	5	2026-06-28 00:00:00	Penerima 178	DELIVERED
+179	179	3	3	2026-05-11 00:00:00	Penerima 179	DELIVERED
+180	180	5	4	2026-02-04 00:00:00	Penerima 180	DELIVERED
+181	181	1	3	2026-02-07 00:00:00	Penerima 181	DELIVERED
+182	182	5	1	2026-02-18 00:00:00	Penerima 182	DELIVERED
+183	183	4	2	2026-06-13 00:00:00	Penerima 183	DELIVERED
+184	184	5	1	2026-06-19 00:00:00	Penerima 184	DELIVERED
+185	185	3	4	2026-05-10 00:00:00	Penerima 185	DELIVERED
+186	186	2	5	2026-06-08 00:00:00	Penerima 186	DELIVERED
+187	187	3	4	2026-05-26 00:00:00	Penerima 187	DELIVERED
+188	188	1	2	2026-03-11 00:00:00	Penerima 188	DELIVERED
+189	189	2	4	2026-03-07 00:00:00	Penerima 189	DELIVERED
+190	190	5	4	2026-07-01 00:00:00	Penerima 190	DELIVERED
+191	191	5	1	2026-03-17 00:00:00	Penerima 191	DELIVERED
+192	192	4	1	2026-04-02 00:00:00	Penerima 192	DELIVERED
+193	193	4	3	2026-04-07 00:00:00	Penerima 193	DELIVERED
+194	194	1	1	2026-01-17 00:00:00	Penerima 194	DELIVERED
+195	195	2	1	2026-04-13 00:00:00	Penerima 195	DELIVERED
+196	196	5	3	2026-03-18 00:00:00	Penerima 196	DELIVERED
+197	197	2	1	2026-03-13 00:00:00	Penerima 197	DELIVERED
+198	198	1	3	2026-02-05 00:00:00	Penerima 198	DELIVERED
+199	199	3	4	2026-06-24 00:00:00	Penerima 199	DELIVERED
+200	200	3	5	2026-03-17 00:00:00	Penerima 200	DELIVERED
+201	201	4	5	2026-04-04 00:00:00	Penerima 201	DELIVERED
+202	202	3	3	2026-03-31 00:00:00	Penerima 202	DELIVERED
+203	203	3	3	2026-04-27 00:00:00	Penerima 203	DELIVERED
+204	204	2	5	2026-03-12 00:00:00	Penerima 204	DELIVERED
+205	205	1	4	2026-06-20 00:00:00	Penerima 205	DELIVERED
+206	206	4	5	2026-03-04 00:00:00	Penerima 206	DELIVERED
+207	207	1	5	2026-05-24 00:00:00	Penerima 207	DELIVERED
+208	208	3	1	2026-02-11 00:00:00	Penerima 208	DELIVERED
+209	209	5	2	2026-06-19 00:00:00	Penerima 209	DELIVERED
+210	210	3	4	2026-02-12 00:00:00	Penerima 210	DELIVERED
+211	211	2	4	2026-03-29 00:00:00	Penerima 211	DELIVERED
+212	212	4	3	2026-02-11 00:00:00	Penerima 212	DELIVERED
+213	213	1	3	2026-01-03 00:00:00	Penerima 213	DELIVERED
+214	214	2	5	2026-06-03 00:00:00	Penerima 214	DELIVERED
+215	215	2	2	2026-06-29 00:00:00	Penerima 215	DELIVERED
+216	216	2	3	2026-01-06 00:00:00	Penerima 216	DELIVERED
+217	217	1	3	2026-03-17 00:00:00	Penerima 217	DELIVERED
+218	218	1	5	2026-02-28 00:00:00	Penerima 218	DELIVERED
+219	219	4	3	2026-04-11 00:00:00	Penerima 219	DELIVERED
+220	220	2	3	2026-06-26 00:00:00	Penerima 220	DELIVERED
+221	221	5	3	2026-05-05 00:00:00	Penerima 221	DELIVERED
+222	222	4	5	2026-04-18 00:00:00	Penerima 222	DELIVERED
+223	223	2	4	2026-04-08 00:00:00	Penerima 223	DELIVERED
+224	224	1	1	2026-01-16 00:00:00	Penerima 224	DELIVERED
+225	225	4	4	2026-04-20 00:00:00	Penerima 225	DELIVERED
+226	226	1	4	2026-03-24 00:00:00	Penerima 226	DELIVERED
+227	227	3	3	2026-04-25 00:00:00	Penerima 227	DELIVERED
+228	228	5	1	2026-01-08 00:00:00	Penerima 228	DELIVERED
+229	229	1	4	2026-01-17 00:00:00	Penerima 229	DELIVERED
+230	230	5	4	2026-06-16 00:00:00	Penerima 230	DELIVERED
+231	231	3	4	2026-03-10 00:00:00	Penerima 231	DELIVERED
+232	232	2	2	2026-02-19 00:00:00	Penerima 232	DELIVERED
+233	233	3	1	2026-03-03 00:00:00	Penerima 233	DELIVERED
+234	234	3	2	2026-01-20 00:00:00	Penerima 234	DELIVERED
+235	235	5	1	2026-04-07 00:00:00	Penerima 235	DELIVERED
+236	236	2	4	2026-05-22 00:00:00	Penerima 236	DELIVERED
+237	237	3	1	2026-03-19 00:00:00	Penerima 237	DELIVERED
+238	238	3	1	2026-01-07 00:00:00	Penerima 238	DELIVERED
+239	239	4	2	2026-01-14 00:00:00	Penerima 239	DELIVERED
+240	240	3	3	2026-01-06 00:00:00	Penerima 240	DELIVERED
+241	241	3	3	2026-01-27 00:00:00	Penerima 241	DELIVERED
+242	242	5	1	2026-06-20 00:00:00	Penerima 242	DELIVERED
+243	243	5	3	2026-01-31 00:00:00	Penerima 243	DELIVERED
+244	244	2	3	2026-04-07 00:00:00	Penerima 244	DELIVERED
+245	245	4	2	2026-05-11 00:00:00	Penerima 245	DELIVERED
+246	246	2	1	2026-01-15 00:00:00	Penerima 246	DELIVERED
+247	247	1	3	2026-03-24 00:00:00	Penerima 247	DELIVERED
+248	248	1	4	2026-04-21 00:00:00	Penerima 248	DELIVERED
+249	249	1	2	2026-03-13 00:00:00	Penerima 249	DELIVERED
+250	250	1	1	2026-01-24 00:00:00	Penerima 250	DELIVERED
+251	251	5	5	2026-05-25 00:00:00	Penerima 251	DELIVERED
+252	252	4	2	2026-01-28 00:00:00	Penerima 252	DELIVERED
+253	253	1	2	2026-03-07 00:00:00	Penerima 253	DELIVERED
+254	254	5	3	2026-01-06 00:00:00	Penerima 254	DELIVERED
+255	255	3	3	2026-07-01 00:00:00	Penerima 255	DELIVERED
+256	256	4	4	2026-02-04 00:00:00	Penerima 256	DELIVERED
+257	257	5	1	2026-04-13 00:00:00	Penerima 257	DELIVERED
+258	258	3	2	2026-04-11 00:00:00	Penerima 258	DELIVERED
+259	259	5	3	2026-02-13 00:00:00	Penerima 259	DELIVERED
+260	260	4	2	2026-02-24 00:00:00	Penerima 260	DELIVERED
+261	261	2	1	2026-06-12 00:00:00	Penerima 261	DELIVERED
+262	262	3	2	2026-05-01 00:00:00	Penerima 262	DELIVERED
+263	263	2	2	2026-05-13 00:00:00	Penerima 263	DELIVERED
+264	264	5	2	2026-05-04 00:00:00	Penerima 264	DELIVERED
+265	265	3	3	2026-06-15 00:00:00	Penerima 265	DELIVERED
+266	266	4	3	2026-06-18 00:00:00	Penerima 266	DELIVERED
+267	267	3	1	2026-02-02 00:00:00	Penerima 267	DELIVERED
+268	268	4	2	2026-04-17 00:00:00	Penerima 268	DELIVERED
+269	269	1	4	2026-04-04 00:00:00	Penerima 269	DELIVERED
+270	270	1	4	2026-02-27 00:00:00	Penerima 270	DELIVERED
+271	271	5	4	2026-01-06 00:00:00	Penerima 271	DELIVERED
+272	272	5	4	2026-06-07 00:00:00	Penerima 272	DELIVERED
+273	273	1	2	2026-06-23 00:00:00	Penerima 273	DELIVERED
+274	274	2	3	2026-03-11 00:00:00	Penerima 274	DELIVERED
+275	275	4	5	2026-03-14 00:00:00	Penerima 275	DELIVERED
+276	276	3	1	2026-03-22 00:00:00	Penerima 276	DELIVERED
+277	277	4	5	2026-04-24 00:00:00	Penerima 277	DELIVERED
+278	278	3	2	2026-05-10 00:00:00	Penerima 278	DELIVERED
+279	279	3	5	2026-02-24 00:00:00	Penerima 279	DELIVERED
+280	280	3	1	2026-01-09 00:00:00	Penerima 280	DELIVERED
+281	281	5	4	2026-04-24 00:00:00	Penerima 281	DELIVERED
+282	282	1	1	2026-03-01 00:00:00	Penerima 282	DELIVERED
+283	283	4	2	2026-02-22 00:00:00	Penerima 283	DELIVERED
+284	284	3	4	2026-05-08 00:00:00	Penerima 284	DELIVERED
+285	285	3	4	2026-05-31 00:00:00	Penerima 285	DELIVERED
+286	286	2	4	2026-02-15 00:00:00	Penerima 286	DELIVERED
+287	287	1	1	2026-03-02 00:00:00	Penerima 287	DELIVERED
+288	288	2	4	2026-06-05 00:00:00	Penerima 288	DELIVERED
+289	289	4	4	2026-06-11 00:00:00	Penerima 289	DELIVERED
+290	290	2	1	2026-03-13 00:00:00	Penerima 290	DELIVERED
+291	291	4	5	2026-03-22 00:00:00	Penerima 291	DELIVERED
+292	292	4	1	2026-03-01 00:00:00	Penerima 292	DELIVERED
+293	293	4	1	2026-03-28 00:00:00	Penerima 293	DELIVERED
+294	294	4	3	2026-06-29 00:00:00	Penerima 294	DELIVERED
+295	295	4	3	2026-05-17 00:00:00	Penerima 295	DELIVERED
+296	296	5	3	2026-02-21 00:00:00	Penerima 296	DELIVERED
+297	297	2	2	2026-02-13 00:00:00	Penerima 297	DELIVERED
+298	298	3	5	2026-04-30 00:00:00	Penerima 298	DELIVERED
+299	299	3	4	2026-05-28 00:00:00	Penerima 299	DELIVERED
+300	300	3	3	2026-06-23 00:00:00	Penerima 300	DELIVERED
+301	301	2	2	2026-04-06 00:00:00	Penerima 301	DELIVERED
+302	302	1	2	2026-02-10 00:00:00	Penerima 302	DELIVERED
+303	303	3	3	2026-04-28 00:00:00	Penerima 303	DELIVERED
+304	304	4	2	2026-06-05 00:00:00	Penerima 304	DELIVERED
+305	305	3	1	2026-04-29 00:00:00	Penerima 305	DELIVERED
+306	306	2	5	2026-06-06 00:00:00	Penerima 306	DELIVERED
+307	307	3	2	2026-05-19 00:00:00	Penerima 307	DELIVERED
+308	308	5	5	2026-02-24 00:00:00	Penerima 308	DELIVERED
+309	309	1	1	2026-06-21 00:00:00	Penerima 309	DELIVERED
+310	310	1	2	2026-05-15 00:00:00	Penerima 310	DELIVERED
+311	311	3	1	2026-05-03 00:00:00	Penerima 311	DELIVERED
+312	312	2	5	2026-03-14 00:00:00	Penerima 312	DELIVERED
+313	313	1	3	2026-05-15 00:00:00	Penerima 313	DELIVERED
+314	314	1	3	2026-02-17 00:00:00	Penerima 314	DELIVERED
+315	315	1	3	2026-06-04 00:00:00	Penerima 315	DELIVERED
+316	316	5	3	2026-04-18 00:00:00	Penerima 316	DELIVERED
+317	317	4	1	2026-04-21 00:00:00	Penerima 317	DELIVERED
+318	318	1	4	2026-06-09 00:00:00	Penerima 318	DELIVERED
+319	319	3	5	2026-06-20 00:00:00	Penerima 319	DELIVERED
+320	320	1	4	2026-04-15 00:00:00	Penerima 320	DELIVERED
+321	321	3	5	2026-01-07 00:00:00	Penerima 321	DELIVERED
+322	322	5	5	2026-03-22 00:00:00	Penerima 322	DELIVERED
+323	323	4	1	2026-05-13 00:00:00	Penerima 323	DELIVERED
+324	324	1	4	2026-06-26 00:00:00	Penerima 324	DELIVERED
+325	325	1	1	2026-06-20 00:00:00	Penerima 325	DELIVERED
+326	326	2	4	2026-06-07 00:00:00	Penerima 326	DELIVERED
+327	327	3	3	2026-04-02 00:00:00	Penerima 327	DELIVERED
+328	328	3	1	2026-01-13 00:00:00	Penerima 328	DELIVERED
+329	329	5	2	2026-02-09 00:00:00	Penerima 329	DELIVERED
+330	330	2	5	2026-03-20 00:00:00	Penerima 330	DELIVERED
+331	331	3	5	2026-04-02 00:00:00	Penerima 331	DELIVERED
+332	332	2	2	2026-04-11 00:00:00	Penerima 332	DELIVERED
+333	333	1	3	2026-04-11 00:00:00	Penerima 333	DELIVERED
+334	334	5	2	2026-03-06 00:00:00	Penerima 334	DELIVERED
+335	335	1	5	2026-02-20 00:00:00	Penerima 335	DELIVERED
+336	336	1	3	2026-05-19 00:00:00	Penerima 336	DELIVERED
+337	337	1	2	2026-06-27 00:00:00	Penerima 337	DELIVERED
+338	338	3	3	2026-05-09 00:00:00	Penerima 338	DELIVERED
+339	339	1	2	2026-06-01 00:00:00	Penerima 339	DELIVERED
+340	340	5	5	2026-05-06 00:00:00	Penerima 340	DELIVERED
+341	341	1	3	2026-03-13 00:00:00	Penerima 341	DELIVERED
+342	342	2	3	2026-02-13 00:00:00	Penerima 342	DELIVERED
+343	343	1	5	2026-05-31 00:00:00	Penerima 343	DELIVERED
+344	344	2	1	2026-01-22 00:00:00	Penerima 344	DELIVERED
+345	345	2	4	2026-05-21 00:00:00	Penerima 345	DELIVERED
+346	346	4	3	2026-05-11 00:00:00	Penerima 346	DELIVERED
+347	347	2	4	2026-02-20 00:00:00	Penerima 347	DELIVERED
+348	348	2	3	2026-04-13 00:00:00	Penerima 348	DELIVERED
+349	349	1	3	2026-05-06 00:00:00	Penerima 349	DELIVERED
+350	350	2	3	2026-03-07 00:00:00	Penerima 350	DELIVERED
+351	351	3	5	2026-03-27 00:00:00	Penerima 351	DELIVERED
+352	352	3	2	2026-02-26 00:00:00	Penerima 352	DELIVERED
+353	353	1	3	2026-02-11 00:00:00	Penerima 353	DELIVERED
+354	354	2	4	2026-05-06 00:00:00	Penerima 354	DELIVERED
+355	355	5	2	2026-03-12 00:00:00	Penerima 355	DELIVERED
+356	356	4	4	2026-03-12 00:00:00	Penerima 356	DELIVERED
+357	357	2	5	2026-02-19 00:00:00	Penerima 357	DELIVERED
+358	358	3	4	2026-04-03 00:00:00	Penerima 358	DELIVERED
+359	359	3	4	2026-01-20 00:00:00	Penerima 359	DELIVERED
+360	360	1	1	2026-05-10 00:00:00	Penerima 360	DELIVERED
+361	361	5	4	2026-05-23 00:00:00	Penerima 361	DELIVERED
+362	362	4	5	2026-03-05 00:00:00	Penerima 362	DELIVERED
+363	363	1	1	2026-05-09 00:00:00	Penerima 363	DELIVERED
+364	364	1	2	2026-03-13 00:00:00	Penerima 364	DELIVERED
+365	365	3	4	2026-07-01 00:00:00	Penerima 365	DELIVERED
+366	366	5	4	2026-05-11 00:00:00	Penerima 366	DELIVERED
+367	367	2	2	2026-05-12 00:00:00	Penerima 367	DELIVERED
+368	368	3	1	2026-05-11 00:00:00	Penerima 368	DELIVERED
+369	369	5	4	2026-01-06 00:00:00	Penerima 369	DELIVERED
+370	370	2	3	2026-03-10 00:00:00	Penerima 370	DELIVERED
+371	371	1	5	2026-03-20 00:00:00	Penerima 371	DELIVERED
+372	372	1	5	2026-04-14 00:00:00	Penerima 372	DELIVERED
+373	373	5	1	2026-04-26 00:00:00	Penerima 373	DELIVERED
+374	374	4	5	2026-02-05 00:00:00	Penerima 374	DELIVERED
+375	375	3	3	2026-04-09 00:00:00	Penerima 375	DELIVERED
+376	376	1	3	2026-06-19 00:00:00	Penerima 376	DELIVERED
+377	377	5	3	2026-02-03 00:00:00	Penerima 377	DELIVERED
+378	378	5	5	2026-03-20 00:00:00	Penerima 378	DELIVERED
+379	379	1	1	2026-03-03 00:00:00	Penerima 379	DELIVERED
+380	380	5	5	2026-04-12 00:00:00	Penerima 380	DELIVERED
+381	381	4	3	2026-05-25 00:00:00	Penerima 381	DELIVERED
+382	382	4	2	2026-06-03 00:00:00	Penerima 382	DELIVERED
+383	383	1	2	2026-05-14 00:00:00	Penerima 383	DELIVERED
+384	384	3	3	2026-04-19 00:00:00	Penerima 384	DELIVERED
+385	385	1	2	2026-04-25 00:00:00	Penerima 385	DELIVERED
+386	386	5	1	2026-04-28 00:00:00	Penerima 386	DELIVERED
+387	387	4	4	2026-06-29 00:00:00	Penerima 387	DELIVERED
+388	388	1	3	2026-06-02 00:00:00	Penerima 388	DELIVERED
+389	389	5	4	2026-01-15 00:00:00	Penerima 389	DELIVERED
+390	390	1	2	2026-04-05 00:00:00	Penerima 390	DELIVERED
+391	391	1	3	2026-07-01 00:00:00	Penerima 391	DELIVERED
+392	392	3	4	2026-03-05 00:00:00	Penerima 392	DELIVERED
+393	393	3	4	2026-03-30 00:00:00	Penerima 393	DELIVERED
+394	394	1	2	2026-06-27 00:00:00	Penerima 394	DELIVERED
+395	395	2	5	2026-06-11 00:00:00	Penerima 395	DELIVERED
+396	396	1	2	2026-02-01 00:00:00	Penerima 396	DELIVERED
+397	397	2	4	2026-02-04 00:00:00	Penerima 397	DELIVERED
+398	398	5	3	2026-02-09 00:00:00	Penerima 398	DELIVERED
+399	399	4	4	2026-05-02 00:00:00	Penerima 399	DELIVERED
+400	400	3	5	2026-04-02 00:00:00	Penerima 400	DELIVERED
+401	401	2	1	2026-06-05 00:00:00	Penerima 401	DELIVERED
+402	402	5	3	2026-03-28 00:00:00	Penerima 402	DELIVERED
+403	403	1	4	2026-03-23 00:00:00	Penerima 403	DELIVERED
+404	404	2	4	2026-01-19 00:00:00	Penerima 404	DELIVERED
+405	405	5	4	2026-05-16 00:00:00	Penerima 405	DELIVERED
+406	406	1	5	2026-06-08 00:00:00	Penerima 406	DELIVERED
+407	407	2	3	2026-06-01 00:00:00	Penerima 407	DELIVERED
+408	408	2	3	2026-04-15 00:00:00	Penerima 408	DELIVERED
+409	409	5	3	2026-03-30 00:00:00	Penerima 409	DELIVERED
+410	410	5	4	2026-02-14 00:00:00	Penerima 410	DELIVERED
+411	411	5	3	2026-03-21 00:00:00	Penerima 411	DELIVERED
+412	412	3	2	2026-03-14 00:00:00	Penerima 412	DELIVERED
+413	413	4	3	2026-05-19 00:00:00	Penerima 413	DELIVERED
+414	414	2	1	2026-06-04 00:00:00	Penerima 414	DELIVERED
+415	415	2	2	2026-02-16 00:00:00	Penerima 415	DELIVERED
+416	416	1	3	2026-04-12 00:00:00	Penerima 416	DELIVERED
+417	417	5	1	2026-06-22 00:00:00	Penerima 417	DELIVERED
+418	418	5	3	2026-06-15 00:00:00	Penerima 418	DELIVERED
+419	419	2	3	2026-01-19 00:00:00	Penerima 419	DELIVERED
+420	420	4	4	2026-04-13 00:00:00	Penerima 420	DELIVERED
+421	421	2	1	2026-04-29 00:00:00	Penerima 421	DELIVERED
+422	422	3	2	2026-01-30 00:00:00	Penerima 422	DELIVERED
+423	423	1	2	2026-01-05 00:00:00	Penerima 423	DELIVERED
+424	424	1	2	2026-04-23 00:00:00	Penerima 424	DELIVERED
+425	425	2	4	2026-01-30 00:00:00	Penerima 425	DELIVERED
+426	426	4	1	2026-01-22 00:00:00	Penerima 426	DELIVERED
+427	427	2	2	2026-05-07 00:00:00	Penerima 427	DELIVERED
+428	428	2	2	2026-05-06 00:00:00	Penerima 428	DELIVERED
+429	429	2	3	2026-05-05 00:00:00	Penerima 429	DELIVERED
+430	430	3	3	2026-06-14 00:00:00	Penerima 430	DELIVERED
+431	431	3	4	2026-01-26 00:00:00	Penerima 431	DELIVERED
+432	432	4	4	2026-04-07 00:00:00	Penerima 432	DELIVERED
+433	433	1	4	2026-02-15 00:00:00	Penerima 433	DELIVERED
+434	434	5	3	2026-02-20 00:00:00	Penerima 434	DELIVERED
+435	435	1	4	2026-03-18 00:00:00	Penerima 435	DELIVERED
+436	436	1	5	2026-04-08 00:00:00	Penerima 436	DELIVERED
+437	437	5	2	2026-04-02 00:00:00	Penerima 437	DELIVERED
+438	438	2	5	2026-05-27 00:00:00	Penerima 438	DELIVERED
+439	439	3	3	2026-03-23 00:00:00	Penerima 439	DELIVERED
+440	440	1	4	2026-05-25 00:00:00	Penerima 440	DELIVERED
+441	441	2	4	2026-05-22 00:00:00	Penerima 441	DELIVERED
+442	442	2	5	2026-01-26 00:00:00	Penerima 442	DELIVERED
+443	443	5	1	2026-02-13 00:00:00	Penerima 443	DELIVERED
+444	444	3	4	2026-02-13 00:00:00	Penerima 444	DELIVERED
+445	445	1	4	2026-05-11 00:00:00	Penerima 445	DELIVERED
+446	446	5	3	2026-06-22 00:00:00	Penerima 446	DELIVERED
+447	447	3	4	2026-05-24 00:00:00	Penerima 447	DELIVERED
+448	448	2	5	2026-04-20 00:00:00	Penerima 448	DELIVERED
+449	449	4	1	2026-03-06 00:00:00	Penerima 449	DELIVERED
+450	450	5	4	2026-02-03 00:00:00	Penerima 450	DELIVERED
+451	451	5	3	2026-01-30 00:00:00	Penerima 451	DELIVERED
+452	452	5	3	2026-04-12 00:00:00	Penerima 452	DELIVERED
+453	453	2	1	2026-04-19 00:00:00	Penerima 453	DELIVERED
+454	454	2	5	2026-01-16 00:00:00	Penerima 454	DELIVERED
+455	455	4	2	2026-04-10 00:00:00	Penerima 455	DELIVERED
+456	456	5	3	2026-05-17 00:00:00	Penerima 456	DELIVERED
+457	457	5	5	2026-05-15 00:00:00	Penerima 457	DELIVERED
+458	458	3	4	2026-01-08 00:00:00	Penerima 458	DELIVERED
+459	459	1	3	2026-06-10 00:00:00	Penerima 459	DELIVERED
+460	460	5	1	2026-03-06 00:00:00	Penerima 460	DELIVERED
+461	461	3	3	2026-01-14 00:00:00	Penerima 461	DELIVERED
+462	462	1	5	2026-04-20 00:00:00	Penerima 462	DELIVERED
+463	463	3	5	2026-04-26 00:00:00	Penerima 463	DELIVERED
+464	464	5	2	2026-06-18 00:00:00	Penerima 464	DELIVERED
+465	465	3	5	2026-03-19 00:00:00	Penerima 465	DELIVERED
+466	466	2	3	2026-03-14 00:00:00	Penerima 466	DELIVERED
+467	467	4	4	2026-06-29 00:00:00	Penerima 467	DELIVERED
+468	468	4	1	2026-04-10 00:00:00	Penerima 468	DELIVERED
+469	469	2	5	2026-01-11 00:00:00	Penerima 469	DELIVERED
+470	470	4	3	2026-04-07 00:00:00	Penerima 470	DELIVERED
+471	471	3	5	2026-02-23 00:00:00	Penerima 471	DELIVERED
+472	472	5	5	2026-06-24 00:00:00	Penerima 472	DELIVERED
+473	473	3	1	2026-04-21 00:00:00	Penerima 473	DELIVERED
+474	474	5	5	2026-05-01 00:00:00	Penerima 474	DELIVERED
+475	475	5	3	2026-06-17 00:00:00	Penerima 475	DELIVERED
+476	476	4	4	2026-01-04 00:00:00	Penerima 476	DELIVERED
+477	477	5	4	2026-04-17 00:00:00	Penerima 477	DELIVERED
+478	478	5	2	2026-05-31 00:00:00	Penerima 478	DELIVERED
+479	479	2	2	2026-04-21 00:00:00	Penerima 479	DELIVERED
+480	480	4	2	2026-03-04 00:00:00	Penerima 480	DELIVERED
+481	481	3	1	2026-01-16 00:00:00	Penerima 481	DELIVERED
+482	482	1	5	2026-06-02 00:00:00	Penerima 482	DELIVERED
+483	483	2	4	2026-02-01 00:00:00	Penerima 483	DELIVERED
+484	484	2	4	2026-03-15 00:00:00	Penerima 484	DELIVERED
+485	485	5	4	2026-03-25 00:00:00	Penerima 485	DELIVERED
+486	486	5	5	2026-01-23 00:00:00	Penerima 486	DELIVERED
+487	487	5	3	2026-06-16 00:00:00	Penerima 487	DELIVERED
+488	488	3	1	2026-02-27 00:00:00	Penerima 488	DELIVERED
+489	489	5	2	2026-06-25 00:00:00	Penerima 489	DELIVERED
+490	490	3	1	2026-05-01 00:00:00	Penerima 490	DELIVERED
+491	491	2	5	2026-01-13 00:00:00	Penerima 491	DELIVERED
+492	492	1	4	2026-01-25 00:00:00	Penerima 492	DELIVERED
+493	493	4	4	2026-05-02 00:00:00	Penerima 493	DELIVERED
+494	494	4	3	2026-03-10 00:00:00	Penerima 494	DELIVERED
+495	495	1	1	2026-02-20 00:00:00	Penerima 495	DELIVERED
+496	496	4	1	2026-04-24 00:00:00	Penerima 496	DELIVERED
+497	497	1	5	2026-04-13 00:00:00	Penerima 497	DELIVERED
+498	498	5	5	2026-01-22 00:00:00	Penerima 498	DELIVERED
+499	499	3	3	2026-02-26 00:00:00	Penerima 499	DELIVERED
+500	500	3	4	2026-06-27 00:00:00	Penerima 500	DELIVERED
+501	501	2	4	2026-01-30 00:00:00	Penerima 501	DELIVERED
+502	502	5	1	2026-04-12 00:00:00	Penerima 502	DELIVERED
+503	503	3	3	2026-05-24 00:00:00	Penerima 503	DELIVERED
+504	504	5	4	2026-02-27 00:00:00	Penerima 504	DELIVERED
+505	505	2	1	2026-03-15 00:00:00	Penerima 505	DELIVERED
+506	506	3	5	2026-05-01 00:00:00	Penerima 506	DELIVERED
+507	507	5	4	2026-06-19 00:00:00	Penerima 507	DELIVERED
+508	508	5	4	2026-02-26 00:00:00	Penerima 508	DELIVERED
+509	509	1	1	2026-05-29 00:00:00	Penerima 509	DELIVERED
+510	510	3	2	2026-03-11 00:00:00	Penerima 510	DELIVERED
+511	511	1	3	2026-05-16 00:00:00	Penerima 511	DELIVERED
+512	512	2	3	2026-05-15 00:00:00	Penerima 512	DELIVERED
+513	513	1	5	2026-05-09 00:00:00	Penerima 513	DELIVERED
+514	514	1	5	2026-02-17 00:00:00	Penerima 514	DELIVERED
+515	515	4	5	2026-06-12 00:00:00	Penerima 515	DELIVERED
+516	516	2	1	2026-04-16 00:00:00	Penerima 516	DELIVERED
+517	517	5	3	2026-06-23 00:00:00	Penerima 517	DELIVERED
+518	518	1	1	2026-01-13 00:00:00	Penerima 518	DELIVERED
+519	519	2	4	2026-04-04 00:00:00	Penerima 519	DELIVERED
+520	520	4	5	2026-03-24 00:00:00	Penerima 520	DELIVERED
+521	521	1	5	2026-04-15 00:00:00	Penerima 521	DELIVERED
+522	522	4	3	2026-03-21 00:00:00	Penerima 522	DELIVERED
+523	523	2	2	2026-04-02 00:00:00	Penerima 523	DELIVERED
+524	524	5	3	2026-04-08 00:00:00	Penerima 524	DELIVERED
+525	525	5	5	2026-01-24 00:00:00	Penerima 525	DELIVERED
+526	526	4	4	2026-04-02 00:00:00	Penerima 526	DELIVERED
+527	527	3	3	2026-01-11 00:00:00	Penerima 527	DELIVERED
+528	528	5	1	2026-01-19 00:00:00	Penerima 528	DELIVERED
+529	529	5	3	2026-03-04 00:00:00	Penerima 529	DELIVERED
+530	530	2	5	2026-02-25 00:00:00	Penerima 530	DELIVERED
+531	531	4	5	2026-05-14 00:00:00	Penerima 531	DELIVERED
+532	532	2	5	2026-06-03 00:00:00	Penerima 532	DELIVERED
+533	533	5	4	2026-06-22 00:00:00	Penerima 533	DELIVERED
+534	534	5	1	2026-04-16 00:00:00	Penerima 534	DELIVERED
+535	535	5	5	2026-04-04 00:00:00	Penerima 535	DELIVERED
+536	536	4	2	2026-06-27 00:00:00	Penerima 536	DELIVERED
+537	537	4	5	2026-06-23 00:00:00	Penerima 537	DELIVERED
+538	538	2	4	2026-04-23 00:00:00	Penerima 538	DELIVERED
+539	539	4	3	2026-02-15 00:00:00	Penerima 539	DELIVERED
+540	540	4	2	2026-06-11 00:00:00	Penerima 540	DELIVERED
+541	541	3	3	2026-04-05 00:00:00	Penerima 541	DELIVERED
+542	542	3	1	2026-01-09 00:00:00	Penerima 542	DELIVERED
+543	543	1	5	2026-01-13 00:00:00	Penerima 543	DELIVERED
+544	544	1	4	2026-04-17 00:00:00	Penerima 544	DELIVERED
+545	545	3	3	2026-02-19 00:00:00	Penerima 545	DELIVERED
+546	546	1	5	2026-03-01 00:00:00	Penerima 546	DELIVERED
+547	547	4	4	2026-04-16 00:00:00	Penerima 547	DELIVERED
+548	548	1	1	2026-06-23 00:00:00	Penerima 548	DELIVERED
+549	549	2	3	2026-02-16 00:00:00	Penerima 549	DELIVERED
+550	550	2	4	2026-02-24 00:00:00	Penerima 550	DELIVERED
+551	551	4	1	2026-04-07 00:00:00	Penerima 551	DELIVERED
+552	552	2	1	2026-01-30 00:00:00	Penerima 552	DELIVERED
+553	553	5	5	2026-02-07 00:00:00	Penerima 553	DELIVERED
+554	554	2	3	2026-01-20 00:00:00	Penerima 554	DELIVERED
+555	555	2	4	2026-04-02 00:00:00	Penerima 555	DELIVERED
+556	556	5	3	2026-03-10 00:00:00	Penerima 556	DELIVERED
+557	557	3	4	2026-07-01 00:00:00	Penerima 557	DELIVERED
+558	558	5	2	2026-06-12 00:00:00	Penerima 558	DELIVERED
+559	559	1	5	2026-02-18 00:00:00	Penerima 559	DELIVERED
+560	560	1	5	2026-06-05 00:00:00	Penerima 560	DELIVERED
+561	561	2	2	2026-01-26 00:00:00	Penerima 561	DELIVERED
+562	562	2	2	2026-02-09 00:00:00	Penerima 562	DELIVERED
+563	563	4	5	2026-06-05 00:00:00	Penerima 563	DELIVERED
+564	564	1	2	2026-01-24 00:00:00	Penerima 564	DELIVERED
+565	565	4	1	2026-05-07 00:00:00	Penerima 565	DELIVERED
+566	566	4	5	2026-03-03 00:00:00	Penerima 566	DELIVERED
+567	567	2	3	2026-06-02 00:00:00	Penerima 567	DELIVERED
+568	568	1	4	2026-03-23 00:00:00	Penerima 568	DELIVERED
+569	569	2	5	2026-04-16 00:00:00	Penerima 569	DELIVERED
+570	570	2	4	2026-04-01 00:00:00	Penerima 570	DELIVERED
+571	571	2	2	2026-04-25 00:00:00	Penerima 571	DELIVERED
+572	572	2	5	2026-01-15 00:00:00	Penerima 572	DELIVERED
+573	573	2	4	2026-01-14 00:00:00	Penerima 573	DELIVERED
+574	574	5	2	2026-02-13 00:00:00	Penerima 574	DELIVERED
+575	575	2	2	2026-02-10 00:00:00	Penerima 575	DELIVERED
+576	576	1	5	2026-05-16 00:00:00	Penerima 576	DELIVERED
+577	577	4	1	2026-05-18 00:00:00	Penerima 577	DELIVERED
+578	578	2	2	2026-05-28 00:00:00	Penerima 578	DELIVERED
+579	579	3	5	2026-01-23 00:00:00	Penerima 579	DELIVERED
+580	580	3	1	2026-03-08 00:00:00	Penerima 580	DELIVERED
+581	581	1	5	2026-01-16 00:00:00	Penerima 581	DELIVERED
+582	582	5	3	2026-06-03 00:00:00	Penerima 582	DELIVERED
+583	583	3	2	2026-04-20 00:00:00	Penerima 583	DELIVERED
+584	584	3	1	2026-05-29 00:00:00	Penerima 584	DELIVERED
+585	585	2	2	2026-03-11 00:00:00	Penerima 585	DELIVERED
+586	586	5	4	2026-03-26 00:00:00	Penerima 586	DELIVERED
+587	587	5	4	2026-04-24 00:00:00	Penerima 587	DELIVERED
+588	588	4	5	2026-04-05 00:00:00	Penerima 588	DELIVERED
+589	589	4	1	2026-04-23 00:00:00	Penerima 589	DELIVERED
+590	590	4	4	2026-02-08 00:00:00	Penerima 590	DELIVERED
+591	591	5	1	2026-05-01 00:00:00	Penerima 591	DELIVERED
+592	592	5	4	2026-04-13 00:00:00	Penerima 592	DELIVERED
+593	593	3	2	2026-03-02 00:00:00	Penerima 593	DELIVERED
+594	594	3	5	2026-01-03 00:00:00	Penerima 594	DELIVERED
+595	595	3	3	2026-06-01 00:00:00	Penerima 595	DELIVERED
+596	596	2	2	2026-04-13 00:00:00	Penerima 596	DELIVERED
+597	597	5	2	2026-01-27 00:00:00	Penerima 597	DELIVERED
+598	598	4	5	2026-05-24 00:00:00	Penerima 598	DELIVERED
+599	599	3	2	2026-01-16 00:00:00	Penerima 599	DELIVERED
+600	600	3	2	2026-06-03 00:00:00	Penerima 600	DELIVERED
+601	601	4	4	2026-02-16 00:00:00	Penerima 601	DELIVERED
+602	602	4	3	2026-05-04 00:00:00	Penerima 602	DELIVERED
+603	603	4	1	2026-04-23 00:00:00	Penerima 603	DELIVERED
+604	604	1	3	2026-06-09 00:00:00	Penerima 604	DELIVERED
+605	605	1	2	2026-06-23 00:00:00	Penerima 605	DELIVERED
+606	606	3	2	2026-04-01 00:00:00	Penerima 606	DELIVERED
+607	607	5	3	2026-05-09 00:00:00	Penerima 607	DELIVERED
+608	608	4	1	2026-01-28 00:00:00	Penerima 608	DELIVERED
+609	609	2	4	2026-02-24 00:00:00	Penerima 609	DELIVERED
+610	610	5	1	2026-05-12 00:00:00	Penerima 610	DELIVERED
+611	611	2	4	2026-03-29 00:00:00	Penerima 611	DELIVERED
+612	612	3	5	2026-03-10 00:00:00	Penerima 612	DELIVERED
+613	613	4	2	2026-04-16 00:00:00	Penerima 613	DELIVERED
+614	614	4	5	2026-04-13 00:00:00	Penerima 614	DELIVERED
+615	615	3	1	2026-03-26 00:00:00	Penerima 615	DELIVERED
+616	616	5	1	2026-03-02 00:00:00	Penerima 616	DELIVERED
+617	617	5	5	2026-01-07 00:00:00	Penerima 617	DELIVERED
+618	618	4	5	2026-06-22 00:00:00	Penerima 618	DELIVERED
+619	619	3	5	2026-04-17 00:00:00	Penerima 619	DELIVERED
+620	620	1	5	2026-06-14 00:00:00	Penerima 620	DELIVERED
+621	621	3	4	2026-04-03 00:00:00	Penerima 621	DELIVERED
+622	622	3	4	2026-05-14 00:00:00	Penerima 622	DELIVERED
+623	623	2	1	2026-06-16 00:00:00	Penerima 623	DELIVERED
+624	624	2	3	2026-04-26 00:00:00	Penerima 624	DELIVERED
+625	625	4	1	2026-03-15 00:00:00	Penerima 625	DELIVERED
+626	626	5	2	2026-04-04 00:00:00	Penerima 626	DELIVERED
+627	627	2	1	2026-04-03 00:00:00	Penerima 627	DELIVERED
+628	628	2	5	2026-05-13 00:00:00	Penerima 628	DELIVERED
+629	629	2	2	2026-01-29 00:00:00	Penerima 629	DELIVERED
+630	630	1	5	2026-04-30 00:00:00	Penerima 630	DELIVERED
+631	631	5	2	2026-01-17 00:00:00	Penerima 631	DELIVERED
+632	632	3	3	2026-04-12 00:00:00	Penerima 632	DELIVERED
+633	633	3	1	2026-06-15 00:00:00	Penerima 633	DELIVERED
+634	634	2	5	2026-03-16 00:00:00	Penerima 634	DELIVERED
+635	635	3	3	2026-04-17 00:00:00	Penerima 635	DELIVERED
+636	636	3	4	2026-05-15 00:00:00	Penerima 636	DELIVERED
+637	637	5	4	2026-05-08 00:00:00	Penerima 637	DELIVERED
+638	638	4	1	2026-03-09 00:00:00	Penerima 638	DELIVERED
+639	639	1	2	2026-01-20 00:00:00	Penerima 639	DELIVERED
+640	640	5	2	2026-07-01 00:00:00	Penerima 640	DELIVERED
+641	641	5	1	2026-01-22 00:00:00	Penerima 641	DELIVERED
+642	642	5	1	2026-01-18 00:00:00	Penerima 642	DELIVERED
+643	643	5	5	2026-03-05 00:00:00	Penerima 643	DELIVERED
+644	644	1	4	2026-05-18 00:00:00	Penerima 644	DELIVERED
+645	645	3	2	2026-05-29 00:00:00	Penerima 645	DELIVERED
+646	646	4	3	2026-01-03 00:00:00	Penerima 646	DELIVERED
+647	647	3	2	2026-04-30 00:00:00	Penerima 647	DELIVERED
+648	648	5	4	2026-01-11 00:00:00	Penerima 648	DELIVERED
+649	649	1	1	2026-04-16 00:00:00	Penerima 649	DELIVERED
+650	650	5	2	2026-02-01 00:00:00	Penerima 650	DELIVERED
+651	651	2	4	2026-03-07 00:00:00	Penerima 651	DELIVERED
+652	652	2	3	2026-04-05 00:00:00	Penerima 652	DELIVERED
+653	653	5	3	2026-04-18 00:00:00	Penerima 653	DELIVERED
+654	654	1	4	2026-04-27 00:00:00	Penerima 654	DELIVERED
+655	655	5	1	2026-01-21 00:00:00	Penerima 655	DELIVERED
+656	656	3	4	2026-05-16 00:00:00	Penerima 656	DELIVERED
+657	657	1	4	2026-01-29 00:00:00	Penerima 657	DELIVERED
+658	658	5	1	2026-03-04 00:00:00	Penerima 658	DELIVERED
+659	659	1	3	2026-03-20 00:00:00	Penerima 659	DELIVERED
+660	660	5	3	2026-05-06 00:00:00	Penerima 660	DELIVERED
+661	661	4	2	2026-04-12 00:00:00	Penerima 661	DELIVERED
+662	662	3	5	2026-01-14 00:00:00	Penerima 662	DELIVERED
+663	663	5	1	2026-06-07 00:00:00	Penerima 663	DELIVERED
+664	664	3	1	2026-03-29 00:00:00	Penerima 664	DELIVERED
+665	665	3	4	2026-05-12 00:00:00	Penerima 665	DELIVERED
+666	666	2	5	2026-06-04 00:00:00	Penerima 666	DELIVERED
+667	667	2	2	2026-05-12 00:00:00	Penerima 667	DELIVERED
+668	668	5	3	2026-01-29 00:00:00	Penerima 668	DELIVERED
+669	669	2	3	2026-01-22 00:00:00	Penerima 669	DELIVERED
+670	670	2	1	2026-06-09 00:00:00	Penerima 670	DELIVERED
+671	671	1	2	2026-01-09 00:00:00	Penerima 671	DELIVERED
+672	672	3	1	2026-05-02 00:00:00	Penerima 672	DELIVERED
+673	673	1	2	2026-03-23 00:00:00	Penerima 673	DELIVERED
+674	674	3	5	2026-04-18 00:00:00	Penerima 674	DELIVERED
+675	675	5	1	2026-04-20 00:00:00	Penerima 675	DELIVERED
+676	676	5	2	2026-02-04 00:00:00	Penerima 676	DELIVERED
+677	677	2	4	2026-03-10 00:00:00	Penerima 677	DELIVERED
+678	678	5	3	2026-02-02 00:00:00	Penerima 678	DELIVERED
+679	679	3	4	2026-02-07 00:00:00	Penerima 679	DELIVERED
+680	680	1	5	2026-02-05 00:00:00	Penerima 680	DELIVERED
+681	681	3	5	2026-06-11 00:00:00	Penerima 681	DELIVERED
+682	682	1	4	2026-04-08 00:00:00	Penerima 682	DELIVERED
+683	683	4	4	2026-05-28 00:00:00	Penerima 683	DELIVERED
+684	684	1	1	2026-05-30 00:00:00	Penerima 684	DELIVERED
+685	685	2	5	2026-01-12 00:00:00	Penerima 685	DELIVERED
+686	686	4	3	2026-02-03 00:00:00	Penerima 686	DELIVERED
+687	687	4	1	2026-06-03 00:00:00	Penerima 687	DELIVERED
+688	688	4	3	2026-04-10 00:00:00	Penerima 688	DELIVERED
+689	689	1	5	2026-05-15 00:00:00	Penerima 689	DELIVERED
+690	690	2	3	2026-02-06 00:00:00	Penerima 690	DELIVERED
+691	691	1	5	2026-01-27 00:00:00	Penerima 691	DELIVERED
+692	692	3	2	2026-02-12 00:00:00	Penerima 692	DELIVERED
+693	693	1	3	2026-02-01 00:00:00	Penerima 693	DELIVERED
+694	694	3	2	2026-03-15 00:00:00	Penerima 694	DELIVERED
+695	695	1	5	2026-01-11 00:00:00	Penerima 695	DELIVERED
+696	696	3	3	2026-01-03 00:00:00	Penerima 696	DELIVERED
+697	697	3	3	2026-04-19 00:00:00	Penerima 697	DELIVERED
+698	698	1	5	2026-01-30 00:00:00	Penerima 698	DELIVERED
+699	699	1	5	2026-03-23 00:00:00	Penerima 699	DELIVERED
+700	700	4	4	2026-04-19 00:00:00	Penerima 700	DELIVERED
+\.
+
+
+--
+-- TOC entry 3515 (class 0 OID 16544)
+-- Dependencies: 220
+-- Data for Name: drivers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.drivers (driver_id, driver_name, phone) FROM stdin;
+1	Faisal Tanjung	081300000001
+2	Afrian Pradipta Rizky	081300000002
+3	Muhammad Rizki Dinar	081300000003
+4	Hafiz Perdana	081300000004
+5	Muhammad Kusuma	081300000005
+\.
+
+
+--
+-- TOC entry 3519 (class 0 OID 16560)
+-- Dependencies: 224
+-- Data for Name: locations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.locations (location_id, location_name, city) FROM stdin;
+1	Banjarmasin Hub	Banjarmasin
+2	Banjarbaru Hub	Banjarbaru
+3	Martapura Hub	Martapura
+4	Pelaihari Hub	Pelaihari
+5	Barabai Hub	Barabai
+6	Kandangan Hub	Kandangan
+7	Amuntai Hub	Amuntai
+8	Tanjung Hub	Tanjung
+\.
+
+
+--
+-- TOC entry 3525 (class 0 OID 16603)
+-- Dependencies: 230
+-- Data for Name: pickups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.pickups (pickup_id, shipment_id, driver_id, vehicle_id, pickup_time, pickup_status) FROM stdin;
+1	1	5	3	2026-01-12 08:00:00	COMPLETED
+2	2	1	4	2026-05-05 08:00:00	COMPLETED
+3	3	4	5	2026-04-23 08:00:00	COMPLETED
+4	4	3	5	2026-01-29 08:00:00	COMPLETED
+5	5	3	2	2026-02-16 08:00:00	COMPLETED
+6	6	5	2	2026-02-20 08:00:00	COMPLETED
+7	7	2	3	2026-05-27 08:00:00	COMPLETED
+8	8	1	1	2026-03-10 08:00:00	COMPLETED
+9	9	3	2	2026-05-27 08:00:00	COMPLETED
+10	10	1	5	2026-03-18 08:00:00	COMPLETED
+11	11	1	3	2026-06-24 08:00:00	COMPLETED
+12	12	3	2	2026-02-27 08:00:00	COMPLETED
+13	13	4	4	2026-04-20 08:00:00	COMPLETED
+14	14	5	3	2026-04-15 08:00:00	COMPLETED
+15	15	4	5	2026-06-09 08:00:00	COMPLETED
+16	16	3	3	2026-01-25 08:00:00	COMPLETED
+17	17	2	1	2026-02-24 08:00:00	COMPLETED
+18	18	4	3	2026-01-16 08:00:00	COMPLETED
+19	19	1	4	2026-03-16 08:00:00	COMPLETED
+20	20	1	5	2026-01-30 08:00:00	COMPLETED
+21	21	1	3	2026-05-05 08:00:00	COMPLETED
+22	22	5	5	2026-04-10 08:00:00	COMPLETED
+23	23	4	3	2026-04-13 08:00:00	COMPLETED
+24	24	1	3	2026-06-05 08:00:00	COMPLETED
+25	25	3	1	2026-05-11 08:00:00	COMPLETED
+26	26	1	4	2026-06-02 08:00:00	COMPLETED
+27	27	1	2	2026-01-16 08:00:00	COMPLETED
+28	28	3	2	2026-05-02 08:00:00	COMPLETED
+29	29	3	4	2026-03-10 08:00:00	COMPLETED
+30	30	3	3	2026-03-13 08:00:00	COMPLETED
+31	31	2	4	2026-04-13 08:00:00	COMPLETED
+32	32	4	4	2026-05-04 08:00:00	COMPLETED
+33	33	5	2	2026-03-09 08:00:00	COMPLETED
+34	34	4	1	2026-05-21 08:00:00	COMPLETED
+35	35	2	4	2026-01-29 08:00:00	COMPLETED
+36	36	5	2	2026-04-15 08:00:00	COMPLETED
+37	37	3	3	2026-04-14 08:00:00	COMPLETED
+38	38	3	5	2026-02-10 08:00:00	COMPLETED
+39	39	1	4	2026-04-02 08:00:00	COMPLETED
+40	40	2	5	2026-01-13 08:00:00	COMPLETED
+41	41	5	5	2026-01-30 08:00:00	COMPLETED
+42	42	4	4	2026-03-16 08:00:00	COMPLETED
+43	43	1	3	2026-02-01 08:00:00	COMPLETED
+44	44	3	3	2026-04-16 08:00:00	COMPLETED
+45	45	2	1	2026-02-04 08:00:00	COMPLETED
+46	46	3	2	2026-06-14 08:00:00	COMPLETED
+47	47	4	2	2026-04-09 08:00:00	COMPLETED
+48	48	4	2	2026-05-12 08:00:00	COMPLETED
+49	49	4	3	2026-02-11 08:00:00	COMPLETED
+50	50	2	2	2026-05-08 08:00:00	COMPLETED
+51	51	2	4	2026-02-14 08:00:00	COMPLETED
+52	52	5	1	2026-04-02 08:00:00	COMPLETED
+53	53	2	2	2026-05-01 08:00:00	COMPLETED
+54	54	1	5	2026-03-22 08:00:00	COMPLETED
+55	55	2	5	2026-01-21 08:00:00	COMPLETED
+56	56	3	2	2026-04-22 08:00:00	COMPLETED
+57	57	2	4	2026-02-09 08:00:00	COMPLETED
+58	58	1	3	2026-01-27 08:00:00	COMPLETED
+59	59	3	4	2026-02-05 08:00:00	COMPLETED
+60	60	2	3	2026-04-24 08:00:00	COMPLETED
+61	61	2	3	2026-03-11 08:00:00	COMPLETED
+62	62	4	3	2026-06-26 08:00:00	COMPLETED
+63	63	3	4	2026-05-21 08:00:00	COMPLETED
+64	64	2	3	2026-06-09 08:00:00	COMPLETED
+65	65	2	3	2026-06-27 08:00:00	COMPLETED
+66	66	3	2	2026-06-20 08:00:00	COMPLETED
+67	67	4	1	2026-03-22 08:00:00	COMPLETED
+68	68	1	3	2026-03-10 08:00:00	COMPLETED
+69	69	2	5	2026-04-16 08:00:00	COMPLETED
+70	70	1	5	2026-01-26 08:00:00	COMPLETED
+71	71	2	3	2026-04-21 08:00:00	COMPLETED
+72	72	3	5	2026-01-30 08:00:00	COMPLETED
+73	73	2	2	2026-02-04 08:00:00	COMPLETED
+74	74	1	4	2026-06-01 08:00:00	COMPLETED
+75	75	2	5	2026-04-21 08:00:00	COMPLETED
+76	76	5	5	2026-03-03 08:00:00	COMPLETED
+77	77	4	5	2026-06-25 08:00:00	COMPLETED
+78	78	2	4	2026-02-26 08:00:00	COMPLETED
+79	79	3	3	2026-01-04 08:00:00	COMPLETED
+80	80	2	3	2026-04-21 08:00:00	COMPLETED
+81	81	3	2	2026-03-20 08:00:00	COMPLETED
+82	82	4	4	2026-06-25 08:00:00	COMPLETED
+83	83	5	2	2026-03-01 08:00:00	COMPLETED
+84	84	5	5	2026-05-27 08:00:00	COMPLETED
+85	85	5	3	2026-05-16 08:00:00	COMPLETED
+86	86	4	4	2026-03-29 08:00:00	COMPLETED
+87	87	3	5	2026-01-09 08:00:00	COMPLETED
+88	88	4	4	2026-02-19 08:00:00	COMPLETED
+89	89	5	2	2026-02-14 08:00:00	COMPLETED
+90	90	5	5	2026-06-12 08:00:00	COMPLETED
+91	91	1	5	2026-03-12 08:00:00	COMPLETED
+92	92	4	4	2026-02-19 08:00:00	COMPLETED
+93	93	4	1	2026-01-31 08:00:00	COMPLETED
+94	94	1	2	2026-02-20 08:00:00	COMPLETED
+95	95	2	3	2026-03-11 08:00:00	COMPLETED
+96	96	2	1	2026-02-07 08:00:00	COMPLETED
+97	97	5	5	2026-06-16 08:00:00	COMPLETED
+98	98	2	4	2026-01-27 08:00:00	COMPLETED
+99	99	5	3	2026-03-04 08:00:00	COMPLETED
+100	100	3	5	2026-06-21 08:00:00	COMPLETED
+101	101	5	1	2026-04-04 08:00:00	COMPLETED
+102	102	4	1	2026-01-04 08:00:00	COMPLETED
+103	103	4	1	2026-06-28 08:00:00	COMPLETED
+104	104	4	3	2026-06-11 08:00:00	COMPLETED
+105	105	2	2	2026-02-05 08:00:00	COMPLETED
+106	106	1	5	2026-06-14 08:00:00	COMPLETED
+107	107	5	5	2026-05-10 08:00:00	COMPLETED
+108	108	5	5	2026-05-24 08:00:00	COMPLETED
+109	109	2	3	2026-03-09 08:00:00	COMPLETED
+110	110	1	1	2026-01-03 08:00:00	COMPLETED
+111	111	1	1	2026-06-13 08:00:00	COMPLETED
+112	112	4	3	2026-02-07 08:00:00	COMPLETED
+113	113	3	5	2026-06-20 08:00:00	COMPLETED
+114	114	4	1	2026-03-27 08:00:00	COMPLETED
+115	115	2	5	2026-03-28 08:00:00	COMPLETED
+116	116	5	2	2026-06-19 08:00:00	COMPLETED
+117	117	2	5	2026-01-10 08:00:00	COMPLETED
+118	118	3	1	2026-02-13 08:00:00	COMPLETED
+119	119	1	5	2026-01-15 08:00:00	COMPLETED
+120	120	1	1	2026-06-04 08:00:00	COMPLETED
+121	121	4	3	2026-05-26 08:00:00	COMPLETED
+122	122	1	4	2026-05-17 08:00:00	COMPLETED
+123	123	5	3	2026-05-16 08:00:00	COMPLETED
+124	124	3	5	2026-06-28 08:00:00	COMPLETED
+125	125	5	5	2026-05-30 08:00:00	COMPLETED
+126	126	5	2	2026-06-22 08:00:00	COMPLETED
+127	127	5	1	2026-01-16 08:00:00	COMPLETED
+128	128	1	2	2026-04-24 08:00:00	COMPLETED
+129	129	5	2	2026-05-10 08:00:00	COMPLETED
+130	130	5	1	2026-01-02 08:00:00	COMPLETED
+131	131	4	3	2026-05-26 08:00:00	COMPLETED
+132	132	2	5	2026-01-19 08:00:00	COMPLETED
+133	133	1	3	2026-03-11 08:00:00	COMPLETED
+134	134	1	1	2026-05-05 08:00:00	COMPLETED
+135	135	1	2	2026-03-02 08:00:00	COMPLETED
+136	136	5	4	2026-01-27 08:00:00	COMPLETED
+137	137	4	3	2026-04-22 08:00:00	COMPLETED
+138	138	2	1	2026-05-16 08:00:00	COMPLETED
+139	139	3	2	2026-06-16 08:00:00	COMPLETED
+140	140	5	3	2026-04-30 08:00:00	COMPLETED
+141	141	1	2	2026-03-20 08:00:00	COMPLETED
+142	142	3	3	2026-05-14 08:00:00	COMPLETED
+143	143	1	1	2026-06-17 08:00:00	COMPLETED
+144	144	5	4	2026-04-06 08:00:00	COMPLETED
+145	145	5	5	2026-04-29 08:00:00	COMPLETED
+146	146	1	3	2026-01-22 08:00:00	COMPLETED
+147	147	5	2	2026-04-25 08:00:00	COMPLETED
+148	148	3	1	2026-03-13 08:00:00	COMPLETED
+149	149	4	3	2026-04-24 08:00:00	COMPLETED
+150	150	3	2	2026-02-21 08:00:00	COMPLETED
+151	151	5	3	2026-02-14 08:00:00	COMPLETED
+152	152	3	2	2026-01-10 08:00:00	COMPLETED
+153	153	2	3	2026-02-22 08:00:00	COMPLETED
+154	154	3	2	2026-01-25 08:00:00	COMPLETED
+155	155	1	4	2026-04-17 08:00:00	COMPLETED
+156	156	1	4	2026-01-15 08:00:00	COMPLETED
+157	157	3	2	2026-01-02 08:00:00	COMPLETED
+158	158	5	5	2026-01-03 08:00:00	COMPLETED
+159	159	3	2	2026-01-09 08:00:00	COMPLETED
+160	160	1	1	2026-01-18 08:00:00	COMPLETED
+161	161	3	4	2026-01-05 08:00:00	COMPLETED
+162	162	5	1	2026-06-19 08:00:00	COMPLETED
+163	163	2	3	2026-06-09 08:00:00	COMPLETED
+164	164	4	2	2026-04-15 08:00:00	COMPLETED
+165	165	1	1	2026-02-24 08:00:00	COMPLETED
+166	166	5	4	2026-04-28 08:00:00	COMPLETED
+167	167	2	2	2026-04-03 08:00:00	COMPLETED
+168	168	1	5	2026-01-29 08:00:00	COMPLETED
+169	169	4	3	2026-03-10 08:00:00	COMPLETED
+170	170	1	1	2026-05-13 08:00:00	COMPLETED
+171	171	5	5	2026-05-09 08:00:00	COMPLETED
+172	172	5	1	2026-03-11 08:00:00	COMPLETED
+173	173	2	3	2026-03-12 08:00:00	COMPLETED
+174	174	2	2	2026-04-15 08:00:00	COMPLETED
+175	175	3	4	2026-01-15 08:00:00	COMPLETED
+176	176	3	4	2026-06-12 08:00:00	COMPLETED
+177	177	1	5	2026-05-01 08:00:00	COMPLETED
+178	178	2	3	2026-06-26 08:00:00	COMPLETED
+179	179	4	1	2026-05-09 08:00:00	COMPLETED
+180	180	4	4	2026-02-02 08:00:00	COMPLETED
+181	181	5	4	2026-02-05 08:00:00	COMPLETED
+182	182	1	4	2026-02-16 08:00:00	COMPLETED
+183	183	5	1	2026-06-11 08:00:00	COMPLETED
+184	184	2	3	2026-06-17 08:00:00	COMPLETED
+185	185	5	3	2026-05-08 08:00:00	COMPLETED
+186	186	2	1	2026-06-06 08:00:00	COMPLETED
+187	187	5	4	2026-05-24 08:00:00	COMPLETED
+188	188	5	1	2026-03-09 08:00:00	COMPLETED
+189	189	4	1	2026-03-05 08:00:00	COMPLETED
+190	190	4	4	2026-06-29 08:00:00	COMPLETED
+191	191	4	1	2026-03-15 08:00:00	COMPLETED
+192	192	3	4	2026-03-31 08:00:00	COMPLETED
+193	193	1	2	2026-04-05 08:00:00	COMPLETED
+194	194	1	3	2026-01-15 08:00:00	COMPLETED
+195	195	4	1	2026-04-11 08:00:00	COMPLETED
+196	196	4	3	2026-03-16 08:00:00	COMPLETED
+197	197	1	2	2026-03-11 08:00:00	COMPLETED
+198	198	4	2	2026-02-03 08:00:00	COMPLETED
+199	199	5	4	2026-06-22 08:00:00	COMPLETED
+200	200	4	1	2026-03-15 08:00:00	COMPLETED
+201	201	1	1	2026-04-02 08:00:00	COMPLETED
+202	202	5	5	2026-03-29 08:00:00	COMPLETED
+203	203	4	1	2026-04-25 08:00:00	COMPLETED
+204	204	1	4	2026-03-10 08:00:00	COMPLETED
+205	205	5	3	2026-06-18 08:00:00	COMPLETED
+206	206	3	5	2026-03-02 08:00:00	COMPLETED
+207	207	4	1	2026-05-22 08:00:00	COMPLETED
+208	208	4	5	2026-02-09 08:00:00	COMPLETED
+209	209	4	3	2026-06-17 08:00:00	COMPLETED
+210	210	1	5	2026-02-10 08:00:00	COMPLETED
+211	211	1	3	2026-03-27 08:00:00	COMPLETED
+212	212	3	1	2026-02-09 08:00:00	COMPLETED
+213	213	2	2	2026-01-01 08:00:00	COMPLETED
+214	214	4	5	2026-06-01 08:00:00	COMPLETED
+215	215	2	4	2026-06-27 08:00:00	COMPLETED
+216	216	4	1	2026-01-04 08:00:00	COMPLETED
+217	217	5	1	2026-03-15 08:00:00	COMPLETED
+218	218	1	3	2026-02-26 08:00:00	COMPLETED
+219	219	3	1	2026-04-09 08:00:00	COMPLETED
+220	220	2	5	2026-06-24 08:00:00	COMPLETED
+221	221	4	4	2026-05-03 08:00:00	COMPLETED
+222	222	4	3	2026-04-16 08:00:00	COMPLETED
+223	223	4	3	2026-04-06 08:00:00	COMPLETED
+224	224	2	2	2026-01-14 08:00:00	COMPLETED
+225	225	5	1	2026-04-18 08:00:00	COMPLETED
+226	226	1	5	2026-03-22 08:00:00	COMPLETED
+227	227	5	1	2026-04-23 08:00:00	COMPLETED
+228	228	5	1	2026-01-06 08:00:00	COMPLETED
+229	229	1	3	2026-01-15 08:00:00	COMPLETED
+230	230	5	1	2026-06-14 08:00:00	COMPLETED
+231	231	4	5	2026-03-08 08:00:00	COMPLETED
+232	232	1	3	2026-02-17 08:00:00	COMPLETED
+233	233	3	2	2026-03-01 08:00:00	COMPLETED
+234	234	5	2	2026-01-18 08:00:00	COMPLETED
+235	235	2	3	2026-04-05 08:00:00	COMPLETED
+236	236	3	2	2026-05-20 08:00:00	COMPLETED
+237	237	4	3	2026-03-17 08:00:00	COMPLETED
+238	238	3	1	2026-01-05 08:00:00	COMPLETED
+239	239	4	4	2026-01-12 08:00:00	COMPLETED
+240	240	3	4	2026-01-04 08:00:00	COMPLETED
+241	241	3	4	2026-01-25 08:00:00	COMPLETED
+242	242	5	3	2026-06-18 08:00:00	COMPLETED
+243	243	2	1	2026-01-29 08:00:00	COMPLETED
+244	244	5	1	2026-04-05 08:00:00	COMPLETED
+245	245	1	5	2026-05-09 08:00:00	COMPLETED
+246	246	5	2	2026-01-13 08:00:00	COMPLETED
+247	247	3	4	2026-03-22 08:00:00	COMPLETED
+248	248	1	2	2026-04-19 08:00:00	COMPLETED
+249	249	1	3	2026-03-11 08:00:00	COMPLETED
+250	250	2	5	2026-01-22 08:00:00	COMPLETED
+251	251	5	3	2026-05-23 08:00:00	COMPLETED
+252	252	5	1	2026-01-26 08:00:00	COMPLETED
+253	253	5	4	2026-03-05 08:00:00	COMPLETED
+254	254	5	2	2026-01-04 08:00:00	COMPLETED
+255	255	3	2	2026-06-29 08:00:00	COMPLETED
+256	256	1	4	2026-02-02 08:00:00	COMPLETED
+257	257	1	1	2026-04-11 08:00:00	COMPLETED
+258	258	1	3	2026-04-09 08:00:00	COMPLETED
+259	259	5	4	2026-02-11 08:00:00	COMPLETED
+260	260	3	1	2026-02-22 08:00:00	COMPLETED
+261	261	4	1	2026-06-10 08:00:00	COMPLETED
+262	262	4	3	2026-04-29 08:00:00	COMPLETED
+263	263	4	3	2026-05-11 08:00:00	COMPLETED
+264	264	4	4	2026-05-02 08:00:00	COMPLETED
+265	265	1	2	2026-06-13 08:00:00	COMPLETED
+266	266	2	5	2026-06-16 08:00:00	COMPLETED
+267	267	1	2	2026-01-31 08:00:00	COMPLETED
+268	268	3	3	2026-04-15 08:00:00	COMPLETED
+269	269	5	2	2026-04-02 08:00:00	COMPLETED
+270	270	2	4	2026-02-25 08:00:00	COMPLETED
+271	271	1	4	2026-01-04 08:00:00	COMPLETED
+272	272	3	4	2026-06-05 08:00:00	COMPLETED
+273	273	1	3	2026-06-21 08:00:00	COMPLETED
+274	274	2	4	2026-03-09 08:00:00	COMPLETED
+275	275	3	5	2026-03-12 08:00:00	COMPLETED
+276	276	3	1	2026-03-20 08:00:00	COMPLETED
+277	277	4	4	2026-04-22 08:00:00	COMPLETED
+278	278	3	1	2026-05-08 08:00:00	COMPLETED
+279	279	5	3	2026-02-22 08:00:00	COMPLETED
+280	280	1	2	2026-01-07 08:00:00	COMPLETED
+281	281	1	2	2026-04-22 08:00:00	COMPLETED
+282	282	5	4	2026-02-27 08:00:00	COMPLETED
+283	283	1	3	2026-02-20 08:00:00	COMPLETED
+284	284	5	2	2026-05-06 08:00:00	COMPLETED
+285	285	1	4	2026-05-29 08:00:00	COMPLETED
+286	286	4	3	2026-02-13 08:00:00	COMPLETED
+287	287	4	3	2026-02-28 08:00:00	COMPLETED
+288	288	1	4	2026-06-03 08:00:00	COMPLETED
+289	289	1	3	2026-06-09 08:00:00	COMPLETED
+290	290	3	1	2026-03-11 08:00:00	COMPLETED
+291	291	2	3	2026-03-20 08:00:00	COMPLETED
+292	292	1	4	2026-02-27 08:00:00	COMPLETED
+293	293	3	5	2026-03-26 08:00:00	COMPLETED
+294	294	5	5	2026-06-27 08:00:00	COMPLETED
+295	295	1	1	2026-05-15 08:00:00	COMPLETED
+296	296	4	2	2026-02-19 08:00:00	COMPLETED
+297	297	2	5	2026-02-11 08:00:00	COMPLETED
+298	298	4	2	2026-04-28 08:00:00	COMPLETED
+299	299	2	3	2026-05-26 08:00:00	COMPLETED
+300	300	4	1	2026-06-21 08:00:00	COMPLETED
+301	301	1	4	2026-04-04 08:00:00	COMPLETED
+302	302	5	5	2026-02-08 08:00:00	COMPLETED
+303	303	3	5	2026-04-26 08:00:00	COMPLETED
+304	304	5	1	2026-06-03 08:00:00	COMPLETED
+305	305	5	1	2026-04-27 08:00:00	COMPLETED
+306	306	1	3	2026-06-04 08:00:00	COMPLETED
+307	307	2	4	2026-05-17 08:00:00	COMPLETED
+308	308	5	1	2026-02-22 08:00:00	COMPLETED
+309	309	3	4	2026-06-19 08:00:00	COMPLETED
+310	310	1	2	2026-05-13 08:00:00	COMPLETED
+311	311	5	3	2026-05-01 08:00:00	COMPLETED
+312	312	2	5	2026-03-12 08:00:00	COMPLETED
+313	313	2	5	2026-05-13 08:00:00	COMPLETED
+314	314	4	4	2026-02-15 08:00:00	COMPLETED
+315	315	3	1	2026-06-02 08:00:00	COMPLETED
+316	316	5	2	2026-04-16 08:00:00	COMPLETED
+317	317	4	3	2026-04-19 08:00:00	COMPLETED
+318	318	4	4	2026-06-07 08:00:00	COMPLETED
+319	319	3	3	2026-06-18 08:00:00	COMPLETED
+320	320	4	2	2026-04-13 08:00:00	COMPLETED
+321	321	5	5	2026-01-05 08:00:00	COMPLETED
+322	322	4	1	2026-03-20 08:00:00	COMPLETED
+323	323	2	2	2026-05-11 08:00:00	COMPLETED
+324	324	2	1	2026-06-24 08:00:00	COMPLETED
+325	325	1	4	2026-06-18 08:00:00	COMPLETED
+326	326	4	3	2026-06-05 08:00:00	COMPLETED
+327	327	5	5	2026-03-31 08:00:00	COMPLETED
+328	328	2	4	2026-01-11 08:00:00	COMPLETED
+329	329	1	2	2026-02-07 08:00:00	COMPLETED
+330	330	2	5	2026-03-18 08:00:00	COMPLETED
+331	331	1	3	2026-03-31 08:00:00	COMPLETED
+332	332	2	5	2026-04-09 08:00:00	COMPLETED
+333	333	3	3	2026-04-09 08:00:00	COMPLETED
+334	334	2	3	2026-03-04 08:00:00	COMPLETED
+335	335	4	3	2026-02-18 08:00:00	COMPLETED
+336	336	1	3	2026-05-17 08:00:00	COMPLETED
+337	337	1	4	2026-06-25 08:00:00	COMPLETED
+338	338	4	4	2026-05-07 08:00:00	COMPLETED
+339	339	3	3	2026-05-30 08:00:00	COMPLETED
+340	340	2	5	2026-05-04 08:00:00	COMPLETED
+341	341	4	1	2026-03-11 08:00:00	COMPLETED
+342	342	1	5	2026-02-11 08:00:00	COMPLETED
+343	343	4	2	2026-05-29 08:00:00	COMPLETED
+344	344	1	2	2026-01-20 08:00:00	COMPLETED
+345	345	3	2	2026-05-19 08:00:00	COMPLETED
+346	346	4	4	2026-05-09 08:00:00	COMPLETED
+347	347	3	4	2026-02-18 08:00:00	COMPLETED
+348	348	4	4	2026-04-11 08:00:00	COMPLETED
+349	349	5	2	2026-05-04 08:00:00	COMPLETED
+350	350	4	2	2026-03-05 08:00:00	COMPLETED
+351	351	5	2	2026-03-25 08:00:00	COMPLETED
+352	352	5	4	2026-02-24 08:00:00	COMPLETED
+353	353	2	4	2026-02-09 08:00:00	COMPLETED
+354	354	3	3	2026-05-04 08:00:00	COMPLETED
+355	355	1	1	2026-03-10 08:00:00	COMPLETED
+356	356	3	2	2026-03-10 08:00:00	COMPLETED
+357	357	4	1	2026-02-17 08:00:00	COMPLETED
+358	358	1	5	2026-04-01 08:00:00	COMPLETED
+359	359	2	4	2026-01-18 08:00:00	COMPLETED
+360	360	3	5	2026-05-08 08:00:00	COMPLETED
+361	361	1	4	2026-05-21 08:00:00	COMPLETED
+362	362	1	1	2026-03-03 08:00:00	COMPLETED
+363	363	2	2	2026-05-07 08:00:00	COMPLETED
+364	364	5	5	2026-03-11 08:00:00	COMPLETED
+365	365	2	1	2026-06-29 08:00:00	COMPLETED
+366	366	5	3	2026-05-09 08:00:00	COMPLETED
+367	367	5	3	2026-05-10 08:00:00	COMPLETED
+368	368	1	2	2026-05-09 08:00:00	COMPLETED
+369	369	4	1	2026-01-04 08:00:00	COMPLETED
+370	370	4	3	2026-03-08 08:00:00	COMPLETED
+371	371	2	3	2026-03-18 08:00:00	COMPLETED
+372	372	2	3	2026-04-12 08:00:00	COMPLETED
+373	373	1	5	2026-04-24 08:00:00	COMPLETED
+374	374	5	4	2026-02-03 08:00:00	COMPLETED
+375	375	4	4	2026-04-07 08:00:00	COMPLETED
+376	376	4	3	2026-06-17 08:00:00	COMPLETED
+377	377	2	5	2026-02-01 08:00:00	COMPLETED
+378	378	5	5	2026-03-18 08:00:00	COMPLETED
+379	379	3	2	2026-03-01 08:00:00	COMPLETED
+380	380	5	2	2026-04-10 08:00:00	COMPLETED
+381	381	3	2	2026-05-23 08:00:00	COMPLETED
+382	382	1	3	2026-06-01 08:00:00	COMPLETED
+383	383	4	2	2026-05-12 08:00:00	COMPLETED
+384	384	1	3	2026-04-17 08:00:00	COMPLETED
+385	385	4	2	2026-04-23 08:00:00	COMPLETED
+386	386	1	5	2026-04-26 08:00:00	COMPLETED
+387	387	3	4	2026-06-27 08:00:00	COMPLETED
+388	388	2	4	2026-05-31 08:00:00	COMPLETED
+389	389	1	3	2026-01-13 08:00:00	COMPLETED
+390	390	4	4	2026-04-03 08:00:00	COMPLETED
+391	391	4	3	2026-06-29 08:00:00	COMPLETED
+392	392	5	4	2026-03-03 08:00:00	COMPLETED
+393	393	2	4	2026-03-28 08:00:00	COMPLETED
+394	394	5	2	2026-06-25 08:00:00	COMPLETED
+395	395	5	3	2026-06-09 08:00:00	COMPLETED
+396	396	2	3	2026-01-30 08:00:00	COMPLETED
+397	397	1	1	2026-02-02 08:00:00	COMPLETED
+398	398	2	2	2026-02-07 08:00:00	COMPLETED
+399	399	2	1	2026-04-30 08:00:00	COMPLETED
+400	400	3	1	2026-03-31 08:00:00	COMPLETED
+401	401	4	5	2026-06-03 08:00:00	COMPLETED
+402	402	3	2	2026-03-26 08:00:00	COMPLETED
+403	403	5	5	2026-03-21 08:00:00	COMPLETED
+404	404	4	3	2026-01-17 08:00:00	COMPLETED
+405	405	3	2	2026-05-14 08:00:00	COMPLETED
+406	406	3	4	2026-06-06 08:00:00	COMPLETED
+407	407	2	3	2026-05-30 08:00:00	COMPLETED
+408	408	3	4	2026-04-13 08:00:00	COMPLETED
+409	409	5	3	2026-03-28 08:00:00	COMPLETED
+410	410	1	3	2026-02-12 08:00:00	COMPLETED
+411	411	2	3	2026-03-19 08:00:00	COMPLETED
+412	412	5	4	2026-03-12 08:00:00	COMPLETED
+413	413	1	4	2026-05-17 08:00:00	COMPLETED
+414	414	5	4	2026-06-02 08:00:00	COMPLETED
+415	415	5	3	2026-02-14 08:00:00	COMPLETED
+416	416	2	5	2026-04-10 08:00:00	COMPLETED
+417	417	1	3	2026-06-20 08:00:00	COMPLETED
+418	418	2	4	2026-06-13 08:00:00	COMPLETED
+419	419	3	2	2026-01-17 08:00:00	COMPLETED
+420	420	1	3	2026-04-11 08:00:00	COMPLETED
+421	421	1	3	2026-04-27 08:00:00	COMPLETED
+422	422	2	1	2026-01-28 08:00:00	COMPLETED
+423	423	2	2	2026-01-03 08:00:00	COMPLETED
+424	424	5	4	2026-04-21 08:00:00	COMPLETED
+425	425	5	5	2026-01-28 08:00:00	COMPLETED
+426	426	3	5	2026-01-20 08:00:00	COMPLETED
+427	427	2	1	2026-05-05 08:00:00	COMPLETED
+428	428	5	4	2026-05-04 08:00:00	COMPLETED
+429	429	2	5	2026-05-03 08:00:00	COMPLETED
+430	430	3	3	2026-06-12 08:00:00	COMPLETED
+431	431	5	5	2026-01-24 08:00:00	COMPLETED
+432	432	3	3	2026-04-05 08:00:00	COMPLETED
+433	433	5	4	2026-02-13 08:00:00	COMPLETED
+434	434	3	1	2026-02-18 08:00:00	COMPLETED
+435	435	2	4	2026-03-16 08:00:00	COMPLETED
+436	436	5	5	2026-04-06 08:00:00	COMPLETED
+437	437	1	4	2026-03-31 08:00:00	COMPLETED
+438	438	1	1	2026-05-25 08:00:00	COMPLETED
+439	439	5	2	2026-03-21 08:00:00	COMPLETED
+440	440	2	3	2026-05-23 08:00:00	COMPLETED
+441	441	3	5	2026-05-20 08:00:00	COMPLETED
+442	442	2	4	2026-01-24 08:00:00	COMPLETED
+443	443	3	1	2026-02-11 08:00:00	COMPLETED
+444	444	3	3	2026-02-11 08:00:00	COMPLETED
+445	445	1	5	2026-05-09 08:00:00	COMPLETED
+446	446	2	1	2026-06-20 08:00:00	COMPLETED
+447	447	4	3	2026-05-22 08:00:00	COMPLETED
+448	448	3	5	2026-04-18 08:00:00	COMPLETED
+449	449	5	1	2026-03-04 08:00:00	COMPLETED
+450	450	2	4	2026-02-01 08:00:00	COMPLETED
+451	451	3	5	2026-01-28 08:00:00	COMPLETED
+452	452	2	5	2026-04-10 08:00:00	COMPLETED
+453	453	5	1	2026-04-17 08:00:00	COMPLETED
+454	454	3	1	2026-01-14 08:00:00	COMPLETED
+455	455	2	4	2026-04-08 08:00:00	COMPLETED
+456	456	2	2	2026-05-15 08:00:00	COMPLETED
+457	457	5	1	2026-05-13 08:00:00	COMPLETED
+458	458	5	1	2026-01-06 08:00:00	COMPLETED
+459	459	5	3	2026-06-08 08:00:00	COMPLETED
+460	460	1	2	2026-03-04 08:00:00	COMPLETED
+461	461	2	1	2026-01-12 08:00:00	COMPLETED
+462	462	5	5	2026-04-18 08:00:00	COMPLETED
+463	463	5	2	2026-04-24 08:00:00	COMPLETED
+464	464	4	1	2026-06-16 08:00:00	COMPLETED
+465	465	5	5	2026-03-17 08:00:00	COMPLETED
+466	466	1	4	2026-03-12 08:00:00	COMPLETED
+467	467	4	2	2026-06-27 08:00:00	COMPLETED
+468	468	1	4	2026-04-08 08:00:00	COMPLETED
+469	469	4	2	2026-01-09 08:00:00	COMPLETED
+470	470	1	2	2026-04-05 08:00:00	COMPLETED
+471	471	5	5	2026-02-21 08:00:00	COMPLETED
+472	472	1	3	2026-06-22 08:00:00	COMPLETED
+473	473	2	1	2026-04-19 08:00:00	COMPLETED
+474	474	1	3	2026-04-29 08:00:00	COMPLETED
+475	475	3	1	2026-06-15 08:00:00	COMPLETED
+476	476	5	5	2026-01-02 08:00:00	COMPLETED
+477	477	3	2	2026-04-15 08:00:00	COMPLETED
+478	478	5	1	2026-05-29 08:00:00	COMPLETED
+479	479	2	5	2026-04-19 08:00:00	COMPLETED
+480	480	1	4	2026-03-02 08:00:00	COMPLETED
+481	481	5	5	2026-01-14 08:00:00	COMPLETED
+482	482	1	2	2026-05-31 08:00:00	COMPLETED
+483	483	2	2	2026-01-30 08:00:00	COMPLETED
+484	484	4	5	2026-03-13 08:00:00	COMPLETED
+485	485	5	3	2026-03-23 08:00:00	COMPLETED
+486	486	1	5	2026-01-21 08:00:00	COMPLETED
+487	487	5	3	2026-06-14 08:00:00	COMPLETED
+488	488	3	5	2026-02-25 08:00:00	COMPLETED
+489	489	4	1	2026-06-23 08:00:00	COMPLETED
+490	490	3	1	2026-04-29 08:00:00	COMPLETED
+491	491	2	1	2026-01-11 08:00:00	COMPLETED
+492	492	5	1	2026-01-23 08:00:00	COMPLETED
+493	493	2	4	2026-04-30 08:00:00	COMPLETED
+494	494	4	1	2026-03-08 08:00:00	COMPLETED
+495	495	5	1	2026-02-18 08:00:00	COMPLETED
+496	496	5	1	2026-04-22 08:00:00	COMPLETED
+497	497	5	2	2026-04-11 08:00:00	COMPLETED
+498	498	4	3	2026-01-20 08:00:00	COMPLETED
+499	499	5	4	2026-02-24 08:00:00	COMPLETED
+500	500	4	1	2026-06-25 08:00:00	COMPLETED
+501	501	5	1	2026-01-28 08:00:00	COMPLETED
+502	502	1	3	2026-04-10 08:00:00	COMPLETED
+503	503	1	1	2026-05-22 08:00:00	COMPLETED
+504	504	1	1	2026-02-25 08:00:00	COMPLETED
+505	505	5	3	2026-03-13 08:00:00	COMPLETED
+506	506	3	3	2026-04-29 08:00:00	COMPLETED
+507	507	5	5	2026-06-17 08:00:00	COMPLETED
+508	508	5	4	2026-02-24 08:00:00	COMPLETED
+509	509	5	1	2026-05-27 08:00:00	COMPLETED
+510	510	4	4	2026-03-09 08:00:00	COMPLETED
+511	511	2	3	2026-05-14 08:00:00	COMPLETED
+512	512	5	1	2026-05-13 08:00:00	COMPLETED
+513	513	2	1	2026-05-07 08:00:00	COMPLETED
+514	514	3	3	2026-02-15 08:00:00	COMPLETED
+515	515	4	4	2026-06-10 08:00:00	COMPLETED
+516	516	2	5	2026-04-14 08:00:00	COMPLETED
+517	517	3	4	2026-06-21 08:00:00	COMPLETED
+518	518	4	2	2026-01-11 08:00:00	COMPLETED
+519	519	2	1	2026-04-02 08:00:00	COMPLETED
+520	520	4	1	2026-03-22 08:00:00	COMPLETED
+521	521	4	2	2026-04-13 08:00:00	COMPLETED
+522	522	5	5	2026-03-19 08:00:00	COMPLETED
+523	523	4	3	2026-03-31 08:00:00	COMPLETED
+524	524	5	1	2026-04-06 08:00:00	COMPLETED
+525	525	4	4	2026-01-22 08:00:00	COMPLETED
+526	526	1	1	2026-03-31 08:00:00	COMPLETED
+527	527	5	5	2026-01-09 08:00:00	COMPLETED
+528	528	2	4	2026-01-17 08:00:00	COMPLETED
+529	529	2	5	2026-03-02 08:00:00	COMPLETED
+530	530	2	2	2026-02-23 08:00:00	COMPLETED
+531	531	2	3	2026-05-12 08:00:00	COMPLETED
+532	532	2	3	2026-06-01 08:00:00	COMPLETED
+533	533	4	1	2026-06-20 08:00:00	COMPLETED
+534	534	4	3	2026-04-14 08:00:00	COMPLETED
+535	535	2	2	2026-04-02 08:00:00	COMPLETED
+536	536	3	4	2026-06-25 08:00:00	COMPLETED
+537	537	4	2	2026-06-21 08:00:00	COMPLETED
+538	538	4	4	2026-04-21 08:00:00	COMPLETED
+539	539	2	5	2026-02-13 08:00:00	COMPLETED
+540	540	5	4	2026-06-09 08:00:00	COMPLETED
+541	541	2	4	2026-04-03 08:00:00	COMPLETED
+542	542	4	5	2026-01-07 08:00:00	COMPLETED
+543	543	5	3	2026-01-11 08:00:00	COMPLETED
+544	544	1	2	2026-04-15 08:00:00	COMPLETED
+545	545	3	2	2026-02-17 08:00:00	COMPLETED
+546	546	4	1	2026-02-27 08:00:00	COMPLETED
+547	547	1	3	2026-04-14 08:00:00	COMPLETED
+548	548	3	2	2026-06-21 08:00:00	COMPLETED
+549	549	2	2	2026-02-14 08:00:00	COMPLETED
+550	550	5	4	2026-02-22 08:00:00	COMPLETED
+551	551	1	1	2026-04-05 08:00:00	COMPLETED
+552	552	4	2	2026-01-28 08:00:00	COMPLETED
+553	553	2	4	2026-02-05 08:00:00	COMPLETED
+554	554	3	2	2026-01-18 08:00:00	COMPLETED
+555	555	1	5	2026-03-31 08:00:00	COMPLETED
+556	556	3	1	2026-03-08 08:00:00	COMPLETED
+557	557	3	4	2026-06-29 08:00:00	COMPLETED
+558	558	5	4	2026-06-10 08:00:00	COMPLETED
+559	559	5	5	2026-02-16 08:00:00	COMPLETED
+560	560	3	2	2026-06-03 08:00:00	COMPLETED
+561	561	1	2	2026-01-24 08:00:00	COMPLETED
+562	562	3	5	2026-02-07 08:00:00	COMPLETED
+563	563	2	3	2026-06-03 08:00:00	COMPLETED
+564	564	3	1	2026-01-22 08:00:00	COMPLETED
+565	565	2	2	2026-05-05 08:00:00	COMPLETED
+566	566	2	2	2026-03-01 08:00:00	COMPLETED
+567	567	5	2	2026-05-31 08:00:00	COMPLETED
+568	568	5	1	2026-03-21 08:00:00	COMPLETED
+569	569	2	1	2026-04-14 08:00:00	COMPLETED
+570	570	4	4	2026-03-30 08:00:00	COMPLETED
+571	571	5	3	2026-04-23 08:00:00	COMPLETED
+572	572	3	5	2026-01-13 08:00:00	COMPLETED
+573	573	3	2	2026-01-12 08:00:00	COMPLETED
+574	574	1	2	2026-02-11 08:00:00	COMPLETED
+575	575	3	1	2026-02-08 08:00:00	COMPLETED
+576	576	3	3	2026-05-14 08:00:00	COMPLETED
+577	577	3	3	2026-05-16 08:00:00	COMPLETED
+578	578	3	5	2026-05-26 08:00:00	COMPLETED
+579	579	4	4	2026-01-21 08:00:00	COMPLETED
+580	580	3	3	2026-03-06 08:00:00	COMPLETED
+581	581	3	3	2026-01-14 08:00:00	COMPLETED
+582	582	4	3	2026-06-01 08:00:00	COMPLETED
+583	583	2	5	2026-04-18 08:00:00	COMPLETED
+584	584	2	4	2026-05-27 08:00:00	COMPLETED
+585	585	5	2	2026-03-09 08:00:00	COMPLETED
+586	586	3	3	2026-03-24 08:00:00	COMPLETED
+587	587	3	4	2026-04-22 08:00:00	COMPLETED
+588	588	5	1	2026-04-03 08:00:00	COMPLETED
+589	589	3	5	2026-04-21 08:00:00	COMPLETED
+590	590	4	1	2026-02-06 08:00:00	COMPLETED
+591	591	3	3	2026-04-29 08:00:00	COMPLETED
+592	592	2	5	2026-04-11 08:00:00	COMPLETED
+593	593	5	4	2026-02-28 08:00:00	COMPLETED
+594	594	2	5	2026-01-01 08:00:00	COMPLETED
+595	595	2	4	2026-05-30 08:00:00	COMPLETED
+596	596	5	3	2026-04-11 08:00:00	COMPLETED
+597	597	4	3	2026-01-25 08:00:00	COMPLETED
+598	598	4	2	2026-05-22 08:00:00	COMPLETED
+599	599	1	3	2026-01-14 08:00:00	COMPLETED
+600	600	1	5	2026-06-01 08:00:00	COMPLETED
+601	601	2	4	2026-02-14 08:00:00	COMPLETED
+602	602	3	4	2026-05-02 08:00:00	COMPLETED
+603	603	3	5	2026-04-21 08:00:00	COMPLETED
+604	604	5	1	2026-06-07 08:00:00	COMPLETED
+605	605	5	4	2026-06-21 08:00:00	COMPLETED
+606	606	2	5	2026-03-30 08:00:00	COMPLETED
+607	607	1	1	2026-05-07 08:00:00	COMPLETED
+608	608	1	3	2026-01-26 08:00:00	COMPLETED
+609	609	1	3	2026-02-22 08:00:00	COMPLETED
+610	610	3	3	2026-05-10 08:00:00	COMPLETED
+611	611	3	1	2026-03-27 08:00:00	COMPLETED
+612	612	4	4	2026-03-08 08:00:00	COMPLETED
+613	613	3	3	2026-04-14 08:00:00	COMPLETED
+614	614	2	4	2026-04-11 08:00:00	COMPLETED
+615	615	5	4	2026-03-24 08:00:00	COMPLETED
+616	616	4	1	2026-02-28 08:00:00	COMPLETED
+617	617	3	1	2026-01-05 08:00:00	COMPLETED
+618	618	5	2	2026-06-20 08:00:00	COMPLETED
+619	619	3	2	2026-04-15 08:00:00	COMPLETED
+620	620	4	1	2026-06-12 08:00:00	COMPLETED
+621	621	4	2	2026-04-01 08:00:00	COMPLETED
+622	622	1	2	2026-05-12 08:00:00	COMPLETED
+623	623	3	3	2026-06-14 08:00:00	COMPLETED
+624	624	3	5	2026-04-24 08:00:00	COMPLETED
+625	625	3	3	2026-03-13 08:00:00	COMPLETED
+626	626	4	2	2026-04-02 08:00:00	COMPLETED
+627	627	2	4	2026-04-01 08:00:00	COMPLETED
+628	628	1	2	2026-05-11 08:00:00	COMPLETED
+629	629	1	1	2026-01-27 08:00:00	COMPLETED
+630	630	2	2	2026-04-28 08:00:00	COMPLETED
+631	631	1	2	2026-01-15 08:00:00	COMPLETED
+632	632	2	3	2026-04-10 08:00:00	COMPLETED
+633	633	4	2	2026-06-13 08:00:00	COMPLETED
+634	634	2	2	2026-03-14 08:00:00	COMPLETED
+635	635	1	5	2026-04-15 08:00:00	COMPLETED
+636	636	2	4	2026-05-13 08:00:00	COMPLETED
+637	637	4	4	2026-05-06 08:00:00	COMPLETED
+638	638	3	5	2026-03-07 08:00:00	COMPLETED
+639	639	5	1	2026-01-18 08:00:00	COMPLETED
+640	640	5	2	2026-06-29 08:00:00	COMPLETED
+641	641	5	5	2026-01-20 08:00:00	COMPLETED
+642	642	4	5	2026-01-16 08:00:00	COMPLETED
+643	643	4	2	2026-03-03 08:00:00	COMPLETED
+644	644	5	2	2026-05-16 08:00:00	COMPLETED
+645	645	2	5	2026-05-27 08:00:00	COMPLETED
+646	646	2	4	2026-01-01 08:00:00	COMPLETED
+647	647	1	2	2026-04-28 08:00:00	COMPLETED
+648	648	4	5	2026-01-09 08:00:00	COMPLETED
+649	649	1	1	2026-04-14 08:00:00	COMPLETED
+650	650	1	2	2026-01-30 08:00:00	COMPLETED
+651	651	4	1	2026-03-05 08:00:00	COMPLETED
+652	652	1	2	2026-04-03 08:00:00	COMPLETED
+653	653	3	5	2026-04-16 08:00:00	COMPLETED
+654	654	2	2	2026-04-25 08:00:00	COMPLETED
+655	655	5	5	2026-01-19 08:00:00	COMPLETED
+656	656	2	2	2026-05-14 08:00:00	COMPLETED
+657	657	2	4	2026-01-27 08:00:00	COMPLETED
+658	658	5	4	2026-03-02 08:00:00	COMPLETED
+659	659	2	1	2026-03-18 08:00:00	COMPLETED
+660	660	5	3	2026-05-04 08:00:00	COMPLETED
+661	661	2	4	2026-04-10 08:00:00	COMPLETED
+662	662	5	1	2026-01-12 08:00:00	COMPLETED
+663	663	4	4	2026-06-05 08:00:00	COMPLETED
+664	664	2	1	2026-03-27 08:00:00	COMPLETED
+665	665	2	3	2026-05-10 08:00:00	COMPLETED
+666	666	3	1	2026-06-02 08:00:00	COMPLETED
+667	667	3	3	2026-05-10 08:00:00	COMPLETED
+668	668	4	3	2026-01-27 08:00:00	COMPLETED
+669	669	1	2	2026-01-20 08:00:00	COMPLETED
+670	670	5	5	2026-06-07 08:00:00	COMPLETED
+671	671	2	1	2026-01-07 08:00:00	COMPLETED
+672	672	2	4	2026-04-30 08:00:00	COMPLETED
+673	673	3	3	2026-03-21 08:00:00	COMPLETED
+674	674	5	2	2026-04-16 08:00:00	COMPLETED
+675	675	3	5	2026-04-18 08:00:00	COMPLETED
+676	676	4	2	2026-02-02 08:00:00	COMPLETED
+677	677	4	3	2026-03-08 08:00:00	COMPLETED
+678	678	4	2	2026-01-31 08:00:00	COMPLETED
+679	679	5	5	2026-02-05 08:00:00	COMPLETED
+680	680	5	2	2026-02-03 08:00:00	COMPLETED
+681	681	1	2	2026-06-09 08:00:00	COMPLETED
+682	682	3	2	2026-04-06 08:00:00	COMPLETED
+683	683	5	5	2026-05-26 08:00:00	COMPLETED
+684	684	5	5	2026-05-28 08:00:00	COMPLETED
+685	685	5	4	2026-01-10 08:00:00	COMPLETED
+686	686	4	4	2026-02-01 08:00:00	COMPLETED
+687	687	4	3	2026-06-01 08:00:00	COMPLETED
+688	688	2	3	2026-04-08 08:00:00	COMPLETED
+689	689	2	3	2026-05-13 08:00:00	COMPLETED
+690	690	1	3	2026-02-04 08:00:00	COMPLETED
+691	691	2	5	2026-01-25 08:00:00	COMPLETED
+692	692	3	3	2026-02-10 08:00:00	COMPLETED
+693	693	3	1	2026-01-30 08:00:00	COMPLETED
+694	694	3	5	2026-03-13 08:00:00	COMPLETED
+695	695	4	4	2026-01-09 08:00:00	COMPLETED
+696	696	2	1	2026-01-01 08:00:00	COMPLETED
+697	697	4	2	2026-04-17 08:00:00	COMPLETED
+698	698	1	2	2026-01-28 08:00:00	COMPLETED
+699	699	3	4	2026-03-21 08:00:00	COMPLETED
+700	700	3	1	2026-04-17 08:00:00	COMPLETED
+701	701	2	5	2026-05-21 08:00:00	COMPLETED
+702	702	3	5	2026-06-04 08:00:00	COMPLETED
+703	703	4	3	2026-04-05 08:00:00	COMPLETED
+704	704	5	4	2026-05-31 08:00:00	COMPLETED
+705	705	2	4	2026-04-17 08:00:00	COMPLETED
+706	706	5	4	2026-06-19 08:00:00	COMPLETED
+707	707	4	4	2026-02-09 08:00:00	COMPLETED
+708	708	1	3	2026-06-15 08:00:00	COMPLETED
+709	709	4	4	2026-02-01 08:00:00	COMPLETED
+710	710	2	4	2026-06-09 08:00:00	COMPLETED
+711	711	2	4	2026-02-06 08:00:00	COMPLETED
+712	712	1	2	2026-01-24 08:00:00	COMPLETED
+713	713	2	5	2026-03-07 08:00:00	COMPLETED
+714	714	2	1	2026-02-17 08:00:00	COMPLETED
+715	715	3	5	2026-05-27 08:00:00	COMPLETED
+716	716	1	4	2026-06-24 08:00:00	COMPLETED
+717	717	3	2	2026-06-17 08:00:00	COMPLETED
+718	718	5	3	2026-04-06 08:00:00	COMPLETED
+719	719	1	1	2026-06-02 08:00:00	COMPLETED
+720	720	2	5	2026-01-16 08:00:00	COMPLETED
+721	721	3	2	2026-03-23 08:00:00	COMPLETED
+722	722	2	3	2026-01-24 08:00:00	COMPLETED
+723	723	1	2	2026-01-26 08:00:00	COMPLETED
+724	724	5	5	2026-04-15 08:00:00	COMPLETED
+725	725	1	2	2026-01-11 08:00:00	COMPLETED
+726	726	3	1	2026-04-16 08:00:00	COMPLETED
+727	727	3	2	2026-03-20 08:00:00	COMPLETED
+728	728	4	1	2026-04-18 08:00:00	COMPLETED
+729	729	4	1	2026-03-08 08:00:00	COMPLETED
+730	730	5	4	2026-02-07 08:00:00	COMPLETED
+731	731	2	1	2026-05-18 08:00:00	COMPLETED
+732	732	4	5	2026-06-18 08:00:00	COMPLETED
+733	733	5	5	2026-02-17 08:00:00	COMPLETED
+734	734	2	4	2026-03-08 08:00:00	COMPLETED
+735	735	2	3	2026-01-19 08:00:00	COMPLETED
+736	736	4	2	2026-03-11 08:00:00	COMPLETED
+737	737	4	5	2026-01-14 08:00:00	COMPLETED
+738	738	2	2	2026-01-13 08:00:00	COMPLETED
+739	739	2	3	2026-03-11 08:00:00	COMPLETED
+740	740	5	4	2026-06-26 08:00:00	COMPLETED
+741	741	4	4	2026-04-14 08:00:00	COMPLETED
+742	742	2	1	2026-04-04 08:00:00	COMPLETED
+743	743	2	4	2026-06-26 08:00:00	COMPLETED
+744	744	2	2	2026-05-31 08:00:00	COMPLETED
+745	745	1	3	2026-05-05 08:00:00	COMPLETED
+746	746	4	3	2026-05-23 08:00:00	COMPLETED
+747	747	2	1	2026-05-06 08:00:00	COMPLETED
+748	748	4	5	2026-03-26 08:00:00	COMPLETED
+749	749	1	4	2026-03-31 08:00:00	COMPLETED
+750	750	1	1	2026-02-25 08:00:00	COMPLETED
+751	751	3	2	2026-04-16 08:00:00	COMPLETED
+752	752	5	3	2026-02-07 08:00:00	COMPLETED
+753	753	1	4	2026-04-17 08:00:00	COMPLETED
+754	754	5	5	2026-01-12 08:00:00	COMPLETED
+755	755	1	3	2026-06-01 08:00:00	COMPLETED
+756	756	5	4	2026-02-05 08:00:00	COMPLETED
+757	757	2	2	2026-06-09 08:00:00	COMPLETED
+758	758	4	2	2026-05-24 08:00:00	COMPLETED
+759	759	5	1	2026-02-03 08:00:00	COMPLETED
+760	760	5	2	2026-02-11 08:00:00	COMPLETED
+761	761	4	4	2026-05-08 08:00:00	COMPLETED
+762	762	3	1	2026-05-05 08:00:00	COMPLETED
+763	763	2	5	2026-04-14 08:00:00	COMPLETED
+764	764	5	4	2026-03-25 08:00:00	COMPLETED
+765	765	2	1	2026-01-27 08:00:00	COMPLETED
+766	766	3	5	2026-03-03 08:00:00	COMPLETED
+767	767	2	2	2026-03-24 08:00:00	COMPLETED
+768	768	3	5	2026-05-27 08:00:00	COMPLETED
+769	769	4	4	2026-05-25 08:00:00	COMPLETED
+770	770	4	5	2026-02-08 08:00:00	COMPLETED
+771	771	3	1	2026-01-08 08:00:00	COMPLETED
+772	772	3	4	2026-02-13 08:00:00	COMPLETED
+773	773	5	3	2026-04-09 08:00:00	COMPLETED
+774	774	1	2	2026-06-19 08:00:00	COMPLETED
+775	775	3	1	2026-05-30 08:00:00	COMPLETED
+776	776	4	1	2026-04-21 08:00:00	COMPLETED
+777	777	5	2	2026-01-14 08:00:00	COMPLETED
+778	778	3	1	2026-06-21 08:00:00	COMPLETED
+779	779	3	5	2026-04-09 08:00:00	COMPLETED
+780	780	3	3	2026-05-02 08:00:00	COMPLETED
+781	781	5	5	2026-06-07 08:00:00	COMPLETED
+782	782	5	2	2026-04-06 08:00:00	COMPLETED
+783	783	2	5	2026-03-26 08:00:00	COMPLETED
+784	784	1	1	2026-04-30 08:00:00	COMPLETED
+785	785	4	5	2026-05-12 08:00:00	COMPLETED
+786	786	3	1	2026-06-22 08:00:00	COMPLETED
+787	787	1	4	2026-05-31 08:00:00	COMPLETED
+788	788	1	1	2026-04-18 08:00:00	COMPLETED
+789	789	4	3	2026-06-03 08:00:00	COMPLETED
+790	790	5	4	2026-06-26 08:00:00	COMPLETED
+791	791	3	2	2026-01-03 08:00:00	COMPLETED
+792	792	5	2	2026-04-04 08:00:00	COMPLETED
+793	793	1	4	2026-02-03 08:00:00	COMPLETED
+794	794	1	5	2026-04-20 08:00:00	COMPLETED
+795	795	1	3	2026-02-10 08:00:00	COMPLETED
+796	796	5	5	2026-06-18 08:00:00	COMPLETED
+797	797	2	3	2026-02-16 08:00:00	COMPLETED
+798	798	3	2	2026-04-15 08:00:00	COMPLETED
+799	799	2	4	2026-03-03 08:00:00	COMPLETED
+800	800	3	4	2026-01-11 08:00:00	COMPLETED
+801	801	2	3	2026-02-26 08:00:00	COMPLETED
+802	802	1	5	2026-02-25 08:00:00	COMPLETED
+803	803	4	4	2026-05-18 08:00:00	COMPLETED
+804	804	3	4	2026-04-12 08:00:00	COMPLETED
+805	805	3	3	2026-01-15 08:00:00	COMPLETED
+806	806	4	5	2026-04-20 08:00:00	COMPLETED
+807	807	1	5	2026-02-20 08:00:00	COMPLETED
+808	808	2	4	2026-01-03 08:00:00	COMPLETED
+809	809	3	1	2026-05-05 08:00:00	COMPLETED
+810	810	3	1	2026-02-19 08:00:00	COMPLETED
+811	811	5	1	2026-03-16 08:00:00	COMPLETED
+812	812	4	5	2026-02-12 08:00:00	COMPLETED
+813	813	1	3	2026-03-08 08:00:00	COMPLETED
+814	814	3	3	2026-06-16 08:00:00	COMPLETED
+815	815	1	1	2026-06-08 08:00:00	COMPLETED
+816	816	4	1	2026-03-13 08:00:00	COMPLETED
+817	817	3	3	2026-06-09 08:00:00	COMPLETED
+818	818	2	2	2026-04-20 08:00:00	COMPLETED
+819	819	2	4	2026-05-29 08:00:00	COMPLETED
+820	820	5	2	2026-06-09 08:00:00	COMPLETED
+821	821	2	4	2026-01-24 08:00:00	COMPLETED
+822	822	2	1	2026-04-15 08:00:00	COMPLETED
+823	823	3	3	2026-06-10 08:00:00	COMPLETED
+824	824	1	4	2026-02-10 08:00:00	COMPLETED
+825	825	5	2	2026-01-20 08:00:00	COMPLETED
+826	826	1	5	2026-04-16 08:00:00	COMPLETED
+827	827	4	3	2026-03-11 08:00:00	COMPLETED
+828	828	3	5	2026-05-19 08:00:00	COMPLETED
+829	829	2	5	2026-01-14 08:00:00	COMPLETED
+830	830	4	2	2026-02-24 08:00:00	COMPLETED
+831	831	5	4	2026-03-22 08:00:00	COMPLETED
+832	832	2	2	2026-04-28 08:00:00	COMPLETED
+833	833	5	5	2026-01-07 08:00:00	COMPLETED
+834	834	5	1	2026-05-03 08:00:00	COMPLETED
+835	835	2	2	2026-04-16 08:00:00	COMPLETED
+836	836	5	5	2026-03-22 08:00:00	COMPLETED
+837	837	2	3	2026-06-24 08:00:00	COMPLETED
+838	838	3	1	2026-05-02 08:00:00	COMPLETED
+839	839	1	5	2026-01-10 08:00:00	COMPLETED
+840	840	2	5	2026-02-23 08:00:00	COMPLETED
+841	841	2	3	2026-03-26 08:00:00	COMPLETED
+842	842	4	4	2026-03-14 08:00:00	COMPLETED
+843	843	5	2	2026-05-25 08:00:00	COMPLETED
+844	844	5	3	2026-02-13 08:00:00	COMPLETED
+845	845	5	5	2026-03-29 08:00:00	COMPLETED
+846	846	1	4	2026-03-01 08:00:00	COMPLETED
+847	847	2	5	2026-03-04 08:00:00	COMPLETED
+848	848	3	2	2026-04-05 08:00:00	COMPLETED
+849	849	2	5	2026-03-29 08:00:00	COMPLETED
+850	850	1	1	2026-04-13 08:00:00	COMPLETED
+851	851	2	1	2026-02-24 08:00:00	COMPLETED
+852	852	5	2	2026-01-08 08:00:00	COMPLETED
+853	853	1	2	2026-03-29 08:00:00	COMPLETED
+854	854	3	4	2026-02-26 08:00:00	COMPLETED
+855	855	5	5	2026-06-14 08:00:00	COMPLETED
+856	856	1	3	2026-01-03 08:00:00	COMPLETED
+857	857	5	2	2026-03-06 08:00:00	COMPLETED
+858	858	2	4	2026-02-19 08:00:00	COMPLETED
+859	859	3	4	2026-06-22 08:00:00	COMPLETED
+860	860	1	4	2026-05-23 08:00:00	COMPLETED
+861	861	4	1	2026-05-15 08:00:00	COMPLETED
+862	862	5	4	2026-05-28 08:00:00	COMPLETED
+863	863	2	2	2026-05-09 08:00:00	COMPLETED
+864	864	3	4	2026-02-05 08:00:00	COMPLETED
+865	865	5	5	2026-05-30 08:00:00	COMPLETED
+866	866	4	1	2026-03-11 08:00:00	COMPLETED
+867	867	5	1	2026-05-01 08:00:00	COMPLETED
+868	868	5	1	2026-03-12 08:00:00	COMPLETED
+869	869	5	5	2026-03-01 08:00:00	COMPLETED
+870	870	3	5	2026-02-16 08:00:00	COMPLETED
+871	871	5	5	2026-05-11 08:00:00	COMPLETED
+872	872	2	5	2026-02-22 08:00:00	COMPLETED
+873	873	2	5	2026-05-01 08:00:00	COMPLETED
+874	874	3	2	2026-05-31 08:00:00	COMPLETED
+875	875	1	5	2026-04-04 08:00:00	COMPLETED
+876	876	3	3	2026-04-21 08:00:00	COMPLETED
+877	877	3	3	2026-06-24 08:00:00	COMPLETED
+878	878	5	3	2026-05-08 08:00:00	COMPLETED
+879	879	5	3	2026-03-19 08:00:00	COMPLETED
+880	880	4	2	2026-03-30 08:00:00	COMPLETED
+881	881	2	3	2026-05-16 08:00:00	COMPLETED
+882	882	5	2	2026-06-09 08:00:00	COMPLETED
+883	883	5	5	2026-02-11 08:00:00	COMPLETED
+884	884	4	2	2026-06-09 08:00:00	COMPLETED
+885	885	4	1	2026-05-05 08:00:00	COMPLETED
+886	886	1	5	2026-04-08 08:00:00	COMPLETED
+887	887	5	4	2026-06-21 08:00:00	COMPLETED
+888	888	2	3	2026-02-19 08:00:00	COMPLETED
+889	889	4	1	2026-05-30 08:00:00	COMPLETED
+890	890	4	1	2026-05-06 08:00:00	COMPLETED
+891	891	4	3	2026-01-26 08:00:00	COMPLETED
+892	892	3	3	2026-06-15 08:00:00	COMPLETED
+893	893	2	4	2026-05-20 08:00:00	COMPLETED
+894	894	5	4	2026-02-11 08:00:00	COMPLETED
+895	895	1	5	2026-02-27 08:00:00	COMPLETED
+896	896	5	4	2026-06-18 08:00:00	COMPLETED
+897	897	5	1	2026-06-03 08:00:00	COMPLETED
+898	898	4	1	2026-06-04 08:00:00	COMPLETED
+899	899	1	5	2026-04-05 08:00:00	COMPLETED
+900	900	3	2	2026-02-18 08:00:00	COMPLETED
+901	901	3	5	2026-05-15 08:00:00	COMPLETED
+902	902	3	5	2026-06-09 08:00:00	COMPLETED
+903	903	2	2	2026-06-16 08:00:00	COMPLETED
+904	904	2	5	2026-03-18 08:00:00	COMPLETED
+905	905	5	4	2026-05-09 08:00:00	COMPLETED
+906	906	5	5	2026-04-18 08:00:00	COMPLETED
+907	907	1	3	2026-03-06 08:00:00	COMPLETED
+908	908	4	2	2026-05-17 08:00:00	COMPLETED
+909	909	5	2	2026-04-11 08:00:00	COMPLETED
+910	910	3	1	2026-01-17 08:00:00	COMPLETED
+911	911	4	1	2026-01-10 08:00:00	COMPLETED
+912	912	1	3	2026-05-31 08:00:00	COMPLETED
+913	913	4	1	2026-06-09 08:00:00	COMPLETED
+914	914	3	3	2026-01-21 08:00:00	COMPLETED
+915	915	5	5	2026-04-06 08:00:00	COMPLETED
+916	916	4	5	2026-05-30 08:00:00	COMPLETED
+917	917	2	5	2026-06-24 08:00:00	COMPLETED
+918	918	1	2	2026-04-20 08:00:00	COMPLETED
+919	919	5	4	2026-02-24 08:00:00	COMPLETED
+920	920	5	4	2026-02-27 08:00:00	COMPLETED
+921	921	5	2	2026-01-06 08:00:00	COMPLETED
+922	922	5	3	2026-05-06 08:00:00	COMPLETED
+923	923	1	2	2026-02-13 08:00:00	COMPLETED
+924	924	2	1	2026-05-04 08:00:00	COMPLETED
+925	925	2	2	2026-06-02 08:00:00	COMPLETED
+926	926	5	2	2026-05-11 08:00:00	COMPLETED
+927	927	5	2	2026-01-20 08:00:00	COMPLETED
+928	928	1	4	2026-02-05 08:00:00	COMPLETED
+929	929	4	4	2026-01-20 08:00:00	COMPLETED
+930	930	3	1	2026-01-20 08:00:00	COMPLETED
+931	931	3	5	2026-01-12 08:00:00	COMPLETED
+932	932	5	3	2026-05-16 08:00:00	COMPLETED
+933	933	2	4	2026-05-20 08:00:00	COMPLETED
+934	934	3	3	2026-02-15 08:00:00	COMPLETED
+935	935	4	3	2026-06-24 08:00:00	COMPLETED
+936	936	4	2	2026-06-19 08:00:00	COMPLETED
+937	937	5	4	2026-03-03 08:00:00	COMPLETED
+938	938	5	2	2026-06-10 08:00:00	COMPLETED
+939	939	2	3	2026-03-19 08:00:00	COMPLETED
+940	940	5	5	2026-02-17 08:00:00	COMPLETED
+941	941	5	5	2026-02-07 08:00:00	COMPLETED
+942	942	2	3	2026-01-01 08:00:00	COMPLETED
+943	943	4	1	2026-04-11 08:00:00	COMPLETED
+944	944	1	2	2026-04-06 08:00:00	COMPLETED
+945	945	2	1	2026-01-23 08:00:00	COMPLETED
+946	946	1	3	2026-04-28 08:00:00	COMPLETED
+947	947	4	5	2026-05-06 08:00:00	COMPLETED
+948	948	4	5	2026-02-02 08:00:00	COMPLETED
+949	949	5	4	2026-01-07 08:00:00	COMPLETED
+950	950	4	5	2026-02-05 08:00:00	COMPLETED
+951	951	4	2	2026-06-17 08:00:00	COMPLETED
+952	952	1	1	2026-02-11 08:00:00	COMPLETED
+953	953	4	4	2026-04-24 08:00:00	COMPLETED
+954	954	4	5	2026-03-21 08:00:00	COMPLETED
+955	955	1	4	2026-04-25 08:00:00	COMPLETED
+956	956	4	3	2026-04-28 08:00:00	COMPLETED
+957	957	4	3	2026-03-25 08:00:00	COMPLETED
+958	958	3	5	2026-05-14 08:00:00	COMPLETED
+959	959	4	5	2026-03-18 08:00:00	COMPLETED
+960	960	2	1	2026-05-26 08:00:00	COMPLETED
+961	961	5	2	2026-01-10 08:00:00	COMPLETED
+962	962	5	4	2026-02-05 08:00:00	COMPLETED
+963	963	5	5	2026-06-18 08:00:00	COMPLETED
+964	964	2	4	2026-03-14 08:00:00	COMPLETED
+965	965	2	5	2026-03-08 08:00:00	COMPLETED
+966	966	4	4	2026-06-03 08:00:00	COMPLETED
+967	967	3	1	2026-06-27 08:00:00	COMPLETED
+968	968	1	3	2026-04-25 08:00:00	COMPLETED
+969	969	4	3	2026-03-10 08:00:00	COMPLETED
+970	970	3	2	2026-03-29 08:00:00	COMPLETED
+971	971	1	5	2026-04-25 08:00:00	COMPLETED
+972	972	1	4	2026-04-25 08:00:00	COMPLETED
+973	973	1	5	2026-03-30 08:00:00	COMPLETED
+974	974	5	2	2026-01-01 08:00:00	COMPLETED
+975	975	5	5	2026-05-29 08:00:00	COMPLETED
+976	976	3	2	2026-01-16 08:00:00	COMPLETED
+977	977	2	2	2026-04-01 08:00:00	COMPLETED
+978	978	1	1	2026-05-22 08:00:00	COMPLETED
+979	979	3	2	2026-01-13 08:00:00	COMPLETED
+980	980	3	5	2026-03-08 08:00:00	COMPLETED
+981	981	5	1	2026-06-12 08:00:00	COMPLETED
+982	982	5	5	2026-02-12 08:00:00	COMPLETED
+983	983	1	3	2026-05-18 08:00:00	COMPLETED
+984	984	3	3	2026-01-05 08:00:00	COMPLETED
+985	985	1	3	2026-06-13 08:00:00	COMPLETED
+986	986	2	1	2026-01-17 08:00:00	COMPLETED
+987	987	3	1	2026-03-13 08:00:00	COMPLETED
+988	988	4	2	2026-01-05 08:00:00	COMPLETED
+989	989	3	5	2026-02-03 08:00:00	COMPLETED
+990	990	2	5	2026-01-28 08:00:00	COMPLETED
+991	991	3	1	2026-02-28 08:00:00	COMPLETED
+992	992	5	3	2026-03-13 08:00:00	COMPLETED
+993	993	1	1	2026-06-08 08:00:00	COMPLETED
+994	994	1	3	2026-05-08 08:00:00	COMPLETED
+995	995	3	3	2026-06-07 08:00:00	COMPLETED
+996	996	1	3	2026-06-15 08:00:00	COMPLETED
+997	997	2	3	2026-03-28 08:00:00	COMPLETED
+998	998	2	1	2026-02-25 08:00:00	COMPLETED
+999	999	2	3	2026-03-25 08:00:00	COMPLETED
+1000	1000	5	4	2026-02-21 08:00:00	COMPLETED
+\.
+
+
+--
+-- TOC entry 3521 (class 0 OID 16567)
+-- Dependencies: 226
+-- Data for Name: services; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.services (service_id, service_name, base_price) FROM stdin;
+1	Standard	50000.00
+2	Express	100000.00
+3	Next Day	150000.00
+\.
+
+
+--
+-- TOC entry 3523 (class 0 OID 16574)
+-- Dependencies: 228
+-- Data for Name: shipments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shipments (shipment_id, tracking_number, customer_id, service_id, origin_location_id, destination_location_id, shipment_date, weight_kg, shipping_cost, status) FROM stdin;
+1	UPS000001	1	3	4	3	2026-01-12	9.97	70000.00	DELIVERED
+2	UPS000002	9	1	3	7	2026-05-05	15.28	110000.00	DELIVERED
+3	UPS000003	5	3	3	2	2026-04-23	7.29	70000.00	DELIVERED
+4	UPS000004	4	2	4	6	2026-01-29	16.38	110000.00	DELIVERED
+5	UPS000005	11	2	4	8	2026-02-16	4.63	110000.00	DELIVERED
+6	UPS000006	3	2	3	8	2026-02-20	6.26	120000.00	DELIVERED
+7	UPS000007	2	1	6	4	2026-05-27	5.25	50000.00	DELIVERED
+8	UPS000008	10	1	3	5	2026-03-10	11.35	130000.00	DELIVERED
+9	UPS000009	7	3	3	2	2026-05-27	12.62	110000.00	DELIVERED
+10	UPS000010	9	2	1	4	2026-03-18	11.20	110000.00	DELIVERED
+11	UPS000011	2	3	7	7	2026-06-24	18.43	130000.00	DELIVERED
+12	UPS000012	5	2	7	8	2026-02-27	15.14	70000.00	DELIVERED
+13	UPS000013	7	2	2	8	2026-04-20	18.25	80000.00	DELIVERED
+14	UPS000014	4	2	1	8	2026-04-15	18.31	60000.00	DELIVERED
+15	UPS000015	11	1	7	8	2026-06-09	19.48	60000.00	DELIVERED
+16	UPS000016	9	3	8	8	2026-01-25	3.09	130000.00	DELIVERED
+17	UPS000017	11	3	6	1	2026-02-24	6.34	130000.00	DELIVERED
+18	UPS000018	5	2	1	5	2026-01-16	14.04	60000.00	DELIVERED
+19	UPS000019	2	1	5	6	2026-03-16	16.31	100000.00	DELIVERED
+20	UPS000020	7	3	5	8	2026-01-30	14.21	110000.00	DELIVERED
+21	UPS000021	4	3	1	5	2026-05-05	18.13	130000.00	DELIVERED
+22	UPS000022	6	1	1	6	2026-04-10	10.52	120000.00	DELIVERED
+23	UPS000023	11	3	1	5	2026-04-13	12.23	120000.00	DELIVERED
+24	UPS000024	8	3	8	1	2026-06-05	7.17	90000.00	DELIVERED
+25	UPS000025	3	1	3	2	2026-05-11	7.80	90000.00	DELIVERED
+26	UPS000026	6	2	3	3	2026-06-02	6.82	70000.00	DELIVERED
+27	UPS000027	3	1	8	3	2026-01-16	16.94	90000.00	DELIVERED
+28	UPS000028	8	1	1	8	2026-05-02	3.73	50000.00	DELIVERED
+29	UPS000029	7	2	7	5	2026-03-10	16.91	130000.00	DELIVERED
+30	UPS000030	11	1	8	4	2026-03-13	16.21	120000.00	DELIVERED
+31	UPS000031	7	3	3	8	2026-04-13	12.21	50000.00	DELIVERED
+32	UPS000032	4	3	1	1	2026-05-04	4.86	80000.00	DELIVERED
+33	UPS000033	11	1	6	2	2026-03-09	2.89	140000.00	DELIVERED
+34	UPS000034	4	3	5	5	2026-05-21	8.10	120000.00	DELIVERED
+35	UPS000035	8	2	1	2	2026-01-29	18.66	50000.00	DELIVERED
+36	UPS000036	6	2	2	5	2026-04-15	13.20	70000.00	DELIVERED
+37	UPS000037	4	3	1	3	2026-04-14	2.88	90000.00	DELIVERED
+38	UPS000038	8	3	5	7	2026-02-10	10.99	50000.00	DELIVERED
+39	UPS000039	8	1	8	7	2026-04-02	10.28	80000.00	DELIVERED
+40	UPS000040	2	3	1	6	2026-01-13	5.75	120000.00	DELIVERED
+41	UPS000041	4	3	7	3	2026-01-30	12.44	130000.00	DELIVERED
+42	UPS000042	6	3	4	4	2026-03-16	5.92	70000.00	DELIVERED
+43	UPS000043	10	1	4	4	2026-02-01	18.43	140000.00	DELIVERED
+44	UPS000044	9	1	1	7	2026-04-16	1.33	50000.00	DELIVERED
+45	UPS000045	11	3	7	2	2026-02-04	5.18	60000.00	DELIVERED
+46	UPS000046	5	1	2	5	2026-06-14	8.31	50000.00	DELIVERED
+47	UPS000047	2	1	1	2	2026-04-09	4.05	90000.00	DELIVERED
+48	UPS000048	6	3	5	7	2026-05-12	13.09	50000.00	DELIVERED
+49	UPS000049	6	1	3	1	2026-02-11	4.99	60000.00	DELIVERED
+50	UPS000050	2	3	4	2	2026-05-08	9.08	90000.00	DELIVERED
+51	UPS000051	9	1	4	7	2026-02-14	16.78	120000.00	DELIVERED
+52	UPS000052	5	2	3	5	2026-04-02	5.42	70000.00	DELIVERED
+53	UPS000053	3	3	5	4	2026-05-01	6.39	100000.00	DELIVERED
+54	UPS000054	11	2	4	1	2026-03-22	14.69	130000.00	DELIVERED
+55	UPS000055	10	3	2	6	2026-01-21	10.57	120000.00	DELIVERED
+56	UPS000056	7	2	5	2	2026-04-22	9.11	130000.00	DELIVERED
+57	UPS000057	1	1	6	7	2026-02-09	10.78	120000.00	DELIVERED
+58	UPS000058	11	1	7	6	2026-01-27	17.03	50000.00	DELIVERED
+59	UPS000059	11	3	3	1	2026-02-05	10.42	80000.00	DELIVERED
+60	UPS000060	3	2	5	1	2026-04-24	1.19	130000.00	DELIVERED
+61	UPS000061	6	2	4	8	2026-03-11	5.52	90000.00	DELIVERED
+62	UPS000062	2	2	3	1	2026-06-26	16.61	80000.00	DELIVERED
+63	UPS000063	11	3	8	5	2026-05-21	12.02	140000.00	DELIVERED
+64	UPS000064	8	3	6	5	2026-06-09	13.58	80000.00	DELIVERED
+65	UPS000065	4	2	8	4	2026-06-27	18.85	100000.00	DELIVERED
+66	UPS000066	6	1	8	3	2026-06-20	18.00	80000.00	DELIVERED
+67	UPS000067	4	3	2	3	2026-03-22	6.45	60000.00	DELIVERED
+68	UPS000068	7	1	5	7	2026-03-10	1.28	110000.00	DELIVERED
+69	UPS000069	3	2	1	6	2026-04-16	16.47	80000.00	DELIVERED
+70	UPS000070	8	3	1	8	2026-01-26	6.92	110000.00	DELIVERED
+71	UPS000071	11	1	6	4	2026-04-21	1.54	60000.00	DELIVERED
+72	UPS000072	7	2	7	7	2026-01-30	9.89	60000.00	DELIVERED
+73	UPS000073	3	1	4	1	2026-02-04	8.38	60000.00	DELIVERED
+74	UPS000074	2	2	4	2	2026-06-01	5.29	110000.00	DELIVERED
+75	UPS000075	5	3	3	2	2026-04-21	5.04	100000.00	DELIVERED
+76	UPS000076	9	3	5	4	2026-03-03	14.43	80000.00	DELIVERED
+77	UPS000077	10	2	7	6	2026-06-25	14.98	50000.00	DELIVERED
+78	UPS000078	6	1	2	4	2026-02-26	18.14	110000.00	DELIVERED
+79	UPS000079	10	3	4	4	2026-01-04	5.49	90000.00	DELIVERED
+80	UPS000080	5	3	5	1	2026-04-21	2.36	60000.00	DELIVERED
+81	UPS000081	2	2	3	7	2026-03-20	8.81	110000.00	DELIVERED
+82	UPS000082	8	3	6	5	2026-06-25	13.71	70000.00	DELIVERED
+83	UPS000083	3	2	5	8	2026-03-01	12.93	130000.00	DELIVERED
+84	UPS000084	7	3	4	6	2026-05-27	7.82	80000.00	DELIVERED
+85	UPS000085	9	3	5	3	2026-05-16	2.18	120000.00	DELIVERED
+86	UPS000086	10	1	5	1	2026-03-29	11.90	130000.00	DELIVERED
+87	UPS000087	5	1	6	7	2026-01-09	1.73	130000.00	DELIVERED
+88	UPS000088	2	3	1	7	2026-02-19	19.69	50000.00	DELIVERED
+89	UPS000089	4	1	2	6	2026-02-14	2.04	100000.00	DELIVERED
+90	UPS000090	6	3	1	5	2026-06-12	6.54	110000.00	DELIVERED
+91	UPS000091	7	1	5	2	2026-03-12	13.36	70000.00	DELIVERED
+92	UPS000092	2	3	8	7	2026-02-19	11.42	120000.00	DELIVERED
+93	UPS000093	5	1	4	6	2026-01-31	13.31	50000.00	DELIVERED
+94	UPS000094	5	2	8	6	2026-02-20	7.74	50000.00	DELIVERED
+95	UPS000095	3	3	7	7	2026-03-11	15.85	130000.00	DELIVERED
+96	UPS000096	11	3	1	4	2026-02-07	11.07	140000.00	DELIVERED
+97	UPS000097	6	3	2	8	2026-06-16	12.78	80000.00	DELIVERED
+98	UPS000098	6	2	8	4	2026-01-27	19.72	60000.00	DELIVERED
+99	UPS000099	7	1	5	7	2026-03-04	5.97	100000.00	DELIVERED
+100	UPS000100	8	1	4	7	2026-06-21	5.66	130000.00	DELIVERED
+101	UPS000101	7	3	6	1	2026-04-04	5.07	120000.00	DELIVERED
+102	UPS000102	8	1	8	6	2026-01-04	1.50	130000.00	DELIVERED
+103	UPS000103	2	1	2	1	2026-06-28	5.10	140000.00	DELIVERED
+104	UPS000104	5	2	3	4	2026-06-11	17.23	110000.00	DELIVERED
+105	UPS000105	3	1	7	3	2026-02-05	3.34	50000.00	DELIVERED
+106	UPS000106	1	1	1	4	2026-06-14	19.47	70000.00	DELIVERED
+107	UPS000107	4	2	5	1	2026-05-10	17.09	140000.00	DELIVERED
+108	UPS000108	5	2	1	1	2026-05-24	2.21	120000.00	DELIVERED
+109	UPS000109	9	1	7	1	2026-03-09	16.10	50000.00	DELIVERED
+110	UPS000110	7	1	4	3	2026-01-03	11.91	90000.00	DELIVERED
+111	UPS000111	11	1	7	4	2026-06-13	17.73	120000.00	DELIVERED
+112	UPS000112	2	3	8	5	2026-02-07	11.45	100000.00	DELIVERED
+113	UPS000113	1	2	6	8	2026-06-20	4.03	120000.00	DELIVERED
+114	UPS000114	10	1	2	7	2026-03-27	17.20	80000.00	DELIVERED
+115	UPS000115	11	3	6	3	2026-03-28	10.77	110000.00	DELIVERED
+116	UPS000116	3	2	4	4	2026-06-19	15.81	140000.00	DELIVERED
+117	UPS000117	9	1	2	4	2026-01-10	18.23	120000.00	DELIVERED
+118	UPS000118	6	1	5	8	2026-02-13	9.65	70000.00	DELIVERED
+119	UPS000119	4	2	2	6	2026-01-15	12.72	90000.00	DELIVERED
+120	UPS000120	2	1	4	2	2026-06-04	19.29	80000.00	DELIVERED
+121	UPS000121	10	2	6	3	2026-05-26	18.92	70000.00	DELIVERED
+122	UPS000122	5	3	1	5	2026-05-17	5.50	120000.00	DELIVERED
+123	UPS000123	3	3	1	3	2026-05-16	14.38	50000.00	DELIVERED
+124	UPS000124	10	2	2	4	2026-06-28	9.44	140000.00	DELIVERED
+125	UPS000125	3	1	5	4	2026-05-30	15.22	80000.00	DELIVERED
+126	UPS000126	8	3	1	5	2026-06-22	17.53	120000.00	DELIVERED
+127	UPS000127	4	1	8	4	2026-01-16	1.54	120000.00	DELIVERED
+128	UPS000128	5	2	2	3	2026-04-24	16.87	110000.00	DELIVERED
+129	UPS000129	5	3	3	6	2026-05-10	15.28	60000.00	DELIVERED
+130	UPS000130	3	3	7	4	2026-01-02	19.14	80000.00	DELIVERED
+131	UPS000131	9	2	8	7	2026-05-26	1.89	50000.00	DELIVERED
+132	UPS000132	7	1	5	3	2026-01-19	3.98	120000.00	DELIVERED
+133	UPS000133	6	2	6	2	2026-03-11	5.24	50000.00	DELIVERED
+134	UPS000134	5	3	7	7	2026-05-05	13.77	60000.00	DELIVERED
+135	UPS000135	8	2	3	5	2026-03-02	14.78	120000.00	DELIVERED
+136	UPS000136	7	3	3	8	2026-01-27	19.57	80000.00	DELIVERED
+137	UPS000137	2	3	3	5	2026-04-22	9.47	110000.00	DELIVERED
+138	UPS000138	11	1	6	6	2026-05-16	11.34	100000.00	DELIVERED
+139	UPS000139	10	1	4	6	2026-06-16	18.17	90000.00	DELIVERED
+140	UPS000140	9	2	7	6	2026-04-30	9.56	140000.00	DELIVERED
+141	UPS000141	6	1	7	1	2026-03-20	12.24	110000.00	DELIVERED
+142	UPS000142	6	1	1	1	2026-05-14	7.52	100000.00	DELIVERED
+143	UPS000143	7	3	1	7	2026-06-17	14.17	140000.00	DELIVERED
+144	UPS000144	6	1	7	1	2026-04-06	9.57	90000.00	DELIVERED
+145	UPS000145	7	2	4	4	2026-04-29	19.84	120000.00	DELIVERED
+146	UPS000146	2	1	1	5	2026-01-22	8.09	80000.00	DELIVERED
+147	UPS000147	9	2	8	2	2026-04-25	12.08	80000.00	DELIVERED
+148	UPS000148	1	2	4	5	2026-03-13	13.96	130000.00	DELIVERED
+149	UPS000149	3	3	6	3	2026-04-24	17.83	50000.00	DELIVERED
+150	UPS000150	2	3	8	5	2026-02-21	13.98	60000.00	DELIVERED
+151	UPS000151	2	3	5	3	2026-02-14	11.21	120000.00	DELIVERED
+152	UPS000152	7	1	8	8	2026-01-10	2.54	70000.00	DELIVERED
+153	UPS000153	9	3	5	2	2026-02-22	11.24	60000.00	DELIVERED
+154	UPS000154	6	1	7	7	2026-01-25	14.44	110000.00	DELIVERED
+155	UPS000155	10	1	7	8	2026-04-17	8.67	60000.00	DELIVERED
+156	UPS000156	8	2	2	5	2026-01-15	16.40	140000.00	DELIVERED
+157	UPS000157	5	1	8	6	2026-01-02	3.66	140000.00	DELIVERED
+158	UPS000158	10	1	1	2	2026-01-03	7.57	100000.00	DELIVERED
+159	UPS000159	1	3	1	8	2026-01-09	1.91	110000.00	DELIVERED
+160	UPS000160	10	3	3	6	2026-01-18	4.94	130000.00	DELIVERED
+161	UPS000161	7	3	5	5	2026-01-05	16.81	130000.00	DELIVERED
+162	UPS000162	8	2	7	4	2026-06-19	14.14	60000.00	DELIVERED
+163	UPS000163	11	2	2	1	2026-06-09	15.88	140000.00	DELIVERED
+164	UPS000164	6	2	7	8	2026-04-15	18.48	90000.00	DELIVERED
+165	UPS000165	1	1	5	4	2026-02-24	6.46	80000.00	DELIVERED
+166	UPS000166	2	3	2	3	2026-04-28	6.87	130000.00	DELIVERED
+167	UPS000167	5	3	8	2	2026-04-03	17.87	120000.00	DELIVERED
+168	UPS000168	10	3	5	4	2026-01-29	14.01	140000.00	DELIVERED
+169	UPS000169	7	2	8	7	2026-03-10	3.57	60000.00	DELIVERED
+170	UPS000170	7	2	4	2	2026-05-13	13.13	50000.00	DELIVERED
+171	UPS000171	4	2	1	1	2026-05-09	15.80	100000.00	DELIVERED
+172	UPS000172	10	2	3	6	2026-03-11	3.53	140000.00	DELIVERED
+173	UPS000173	4	2	5	7	2026-03-12	16.01	60000.00	DELIVERED
+174	UPS000174	1	1	2	1	2026-04-15	10.54	110000.00	DELIVERED
+175	UPS000175	6	3	1	5	2026-01-15	14.46	140000.00	DELIVERED
+176	UPS000176	2	2	7	5	2026-06-12	2.71	130000.00	DELIVERED
+177	UPS000177	5	3	2	5	2026-05-01	15.18	50000.00	DELIVERED
+178	UPS000178	11	2	4	5	2026-06-26	13.52	130000.00	DELIVERED
+179	UPS000179	5	2	7	1	2026-05-09	1.67	110000.00	DELIVERED
+180	UPS000180	4	3	7	8	2026-02-02	15.74	50000.00	DELIVERED
+181	UPS000181	11	3	2	7	2026-02-05	17.97	50000.00	DELIVERED
+182	UPS000182	4	1	1	6	2026-02-16	2.13	130000.00	DELIVERED
+183	UPS000183	9	1	6	3	2026-06-11	14.18	70000.00	DELIVERED
+184	UPS000184	2	2	4	7	2026-06-17	10.89	100000.00	DELIVERED
+185	UPS000185	8	2	4	6	2026-05-08	14.07	100000.00	DELIVERED
+186	UPS000186	7	1	8	4	2026-06-06	12.85	100000.00	DELIVERED
+187	UPS000187	4	1	4	1	2026-05-24	16.23	70000.00	DELIVERED
+188	UPS000188	1	1	2	7	2026-03-09	2.18	60000.00	DELIVERED
+189	UPS000189	3	3	7	2	2026-03-05	5.19	50000.00	DELIVERED
+190	UPS000190	6	2	2	2	2026-06-29	17.55	120000.00	DELIVERED
+191	UPS000191	10	1	1	8	2026-03-15	5.51	140000.00	DELIVERED
+192	UPS000192	10	1	8	8	2026-03-31	17.94	130000.00	DELIVERED
+193	UPS000193	5	2	7	5	2026-04-05	2.65	120000.00	DELIVERED
+194	UPS000194	9	3	6	3	2026-01-15	9.60	70000.00	DELIVERED
+195	UPS000195	8	2	3	6	2026-04-11	16.47	120000.00	DELIVERED
+196	UPS000196	3	3	7	5	2026-03-16	5.30	80000.00	DELIVERED
+197	UPS000197	2	3	4	5	2026-03-11	5.86	130000.00	DELIVERED
+198	UPS000198	9	2	1	5	2026-02-03	11.70	130000.00	DELIVERED
+199	UPS000199	7	1	5	7	2026-06-22	18.39	60000.00	DELIVERED
+200	UPS000200	10	3	1	8	2026-03-15	12.33	100000.00	DELIVERED
+201	UPS000201	1	3	6	6	2026-04-02	11.58	120000.00	DELIVERED
+202	UPS000202	11	1	1	3	2026-03-29	7.58	130000.00	DELIVERED
+203	UPS000203	8	1	5	4	2026-04-25	7.62	90000.00	DELIVERED
+204	UPS000204	9	3	2	3	2026-03-10	14.76	120000.00	DELIVERED
+205	UPS000205	2	1	7	5	2026-06-18	8.92	110000.00	DELIVERED
+206	UPS000206	4	3	3	5	2026-03-02	5.60	70000.00	DELIVERED
+207	UPS000207	1	3	2	2	2026-05-22	18.79	90000.00	DELIVERED
+208	UPS000208	4	1	7	3	2026-02-09	2.16	50000.00	DELIVERED
+209	UPS000209	11	1	2	3	2026-06-17	8.10	50000.00	DELIVERED
+210	UPS000210	3	1	6	4	2026-02-10	8.45	120000.00	DELIVERED
+211	UPS000211	11	2	7	4	2026-03-27	16.16	140000.00	DELIVERED
+212	UPS000212	8	1	2	2	2026-02-09	6.32	80000.00	DELIVERED
+213	UPS000213	7	3	3	2	2026-01-01	4.86	80000.00	DELIVERED
+214	UPS000214	11	1	6	2	2026-06-01	4.98	130000.00	DELIVERED
+215	UPS000215	5	3	3	5	2026-06-27	5.29	70000.00	DELIVERED
+216	UPS000216	6	2	8	2	2026-01-04	12.17	140000.00	DELIVERED
+217	UPS000217	8	1	6	2	2026-03-15	18.42	90000.00	DELIVERED
+218	UPS000218	5	1	6	5	2026-02-26	5.12	70000.00	DELIVERED
+219	UPS000219	9	3	3	2	2026-04-09	6.33	100000.00	DELIVERED
+220	UPS000220	9	3	4	1	2026-06-24	5.07	70000.00	DELIVERED
+221	UPS000221	6	3	4	3	2026-05-03	6.26	120000.00	DELIVERED
+222	UPS000222	5	2	2	7	2026-04-16	18.05	90000.00	DELIVERED
+223	UPS000223	8	1	7	7	2026-04-06	8.86	80000.00	DELIVERED
+224	UPS000224	7	3	4	3	2026-01-14	18.47	60000.00	DELIVERED
+225	UPS000225	11	3	5	4	2026-04-18	10.80	80000.00	DELIVERED
+226	UPS000226	8	2	4	2	2026-03-22	19.12	120000.00	DELIVERED
+227	UPS000227	6	3	1	7	2026-04-23	16.36	120000.00	DELIVERED
+228	UPS000228	7	3	4	1	2026-01-06	4.42	140000.00	DELIVERED
+229	UPS000229	8	3	4	1	2026-01-15	3.25	110000.00	DELIVERED
+230	UPS000230	7	1	7	3	2026-06-14	18.94	90000.00	DELIVERED
+231	UPS000231	9	3	4	6	2026-03-08	14.60	80000.00	DELIVERED
+232	UPS000232	3	1	6	1	2026-02-17	12.20	80000.00	DELIVERED
+233	UPS000233	8	2	3	3	2026-03-01	13.42	90000.00	DELIVERED
+234	UPS000234	2	2	1	6	2026-01-18	13.94	80000.00	DELIVERED
+235	UPS000235	7	2	4	1	2026-04-05	16.66	130000.00	DELIVERED
+236	UPS000236	5	1	3	1	2026-05-20	18.21	110000.00	DELIVERED
+237	UPS000237	10	1	2	7	2026-03-17	3.32	70000.00	DELIVERED
+238	UPS000238	9	3	8	7	2026-01-05	5.64	100000.00	DELIVERED
+239	UPS000239	2	3	3	5	2026-01-12	14.09	130000.00	DELIVERED
+240	UPS000240	1	2	4	2	2026-01-04	12.56	140000.00	DELIVERED
+241	UPS000241	8	1	7	6	2026-01-25	15.08	90000.00	DELIVERED
+242	UPS000242	7	2	6	5	2026-06-18	18.23	120000.00	DELIVERED
+243	UPS000243	3	1	2	7	2026-01-29	5.23	130000.00	DELIVERED
+244	UPS000244	3	1	3	5	2026-04-05	2.39	130000.00	DELIVERED
+245	UPS000245	1	2	5	5	2026-05-09	3.83	90000.00	DELIVERED
+246	UPS000246	6	1	8	3	2026-01-13	2.84	130000.00	DELIVERED
+247	UPS000247	10	2	8	4	2026-03-22	3.90	110000.00	DELIVERED
+248	UPS000248	8	2	6	2	2026-04-19	4.65	70000.00	DELIVERED
+249	UPS000249	3	2	3	8	2026-03-11	11.40	120000.00	DELIVERED
+250	UPS000250	11	1	5	4	2026-01-22	2.41	70000.00	DELIVERED
+251	UPS000251	4	3	5	5	2026-05-23	2.50	120000.00	DELIVERED
+252	UPS000252	5	2	6	4	2026-01-26	16.95	50000.00	DELIVERED
+253	UPS000253	3	2	1	8	2026-03-05	13.49	90000.00	DELIVERED
+254	UPS000254	4	2	3	5	2026-01-04	11.70	90000.00	DELIVERED
+255	UPS000255	8	2	3	6	2026-06-29	4.66	60000.00	DELIVERED
+256	UPS000256	6	2	2	6	2026-02-02	4.56	100000.00	DELIVERED
+257	UPS000257	5	3	1	1	2026-04-11	19.03	100000.00	DELIVERED
+258	UPS000258	8	3	2	6	2026-04-09	15.80	90000.00	DELIVERED
+259	UPS000259	2	2	5	2	2026-02-11	3.90	120000.00	DELIVERED
+260	UPS000260	2	3	3	6	2026-02-22	6.52	100000.00	DELIVERED
+261	UPS000261	1	2	8	6	2026-06-10	17.00	100000.00	DELIVERED
+262	UPS000262	7	3	2	7	2026-04-29	9.28	100000.00	DELIVERED
+263	UPS000263	5	2	5	8	2026-05-11	10.63	60000.00	DELIVERED
+264	UPS000264	5	3	4	2	2026-05-02	15.76	90000.00	DELIVERED
+265	UPS000265	2	2	6	1	2026-06-13	6.02	90000.00	DELIVERED
+266	UPS000266	1	1	2	5	2026-06-16	4.10	140000.00	DELIVERED
+267	UPS000267	7	2	4	8	2026-01-31	19.11	50000.00	DELIVERED
+268	UPS000268	8	1	8	3	2026-04-15	18.48	80000.00	DELIVERED
+269	UPS000269	6	3	8	2	2026-04-02	4.01	80000.00	DELIVERED
+270	UPS000270	8	1	8	4	2026-02-25	1.46	140000.00	DELIVERED
+271	UPS000271	5	3	4	1	2026-01-04	10.02	90000.00	DELIVERED
+272	UPS000272	7	1	8	4	2026-06-05	18.26	50000.00	DELIVERED
+273	UPS000273	5	2	2	2	2026-06-21	14.55	70000.00	DELIVERED
+274	UPS000274	2	3	5	6	2026-03-09	10.82	110000.00	DELIVERED
+275	UPS000275	10	1	4	8	2026-03-12	1.85	140000.00	DELIVERED
+276	UPS000276	9	2	7	4	2026-03-20	1.11	60000.00	DELIVERED
+277	UPS000277	7	3	4	2	2026-04-22	19.85	120000.00	DELIVERED
+278	UPS000278	8	2	1	4	2026-05-08	1.94	130000.00	DELIVERED
+279	UPS000279	5	3	7	1	2026-02-22	9.42	120000.00	DELIVERED
+280	UPS000280	5	1	6	8	2026-01-07	11.42	140000.00	DELIVERED
+281	UPS000281	1	3	6	5	2026-04-22	11.54	50000.00	DELIVERED
+282	UPS000282	7	3	3	5	2026-02-27	16.92	50000.00	DELIVERED
+283	UPS000283	10	2	4	1	2026-02-20	11.10	80000.00	DELIVERED
+284	UPS000284	2	2	3	3	2026-05-06	3.27	120000.00	DELIVERED
+285	UPS000285	11	3	5	8	2026-05-29	7.13	60000.00	DELIVERED
+286	UPS000286	7	2	1	6	2026-02-13	5.65	120000.00	DELIVERED
+287	UPS000287	1	1	8	3	2026-02-28	18.39	80000.00	DELIVERED
+288	UPS000288	10	3	4	1	2026-06-03	15.62	120000.00	DELIVERED
+289	UPS000289	4	2	6	2	2026-06-09	14.95	80000.00	DELIVERED
+290	UPS000290	10	3	4	8	2026-03-11	16.97	70000.00	DELIVERED
+291	UPS000291	3	2	7	2	2026-03-20	3.81	60000.00	DELIVERED
+292	UPS000292	9	1	3	7	2026-02-27	17.68	60000.00	DELIVERED
+293	UPS000293	6	3	4	6	2026-03-26	19.28	60000.00	DELIVERED
+294	UPS000294	4	3	2	3	2026-06-27	10.88	70000.00	DELIVERED
+295	UPS000295	3	1	7	2	2026-05-15	9.87	60000.00	DELIVERED
+296	UPS000296	1	1	8	5	2026-02-19	10.11	90000.00	DELIVERED
+297	UPS000297	10	1	2	3	2026-02-11	7.98	140000.00	DELIVERED
+298	UPS000298	8	3	3	8	2026-04-28	9.33	110000.00	DELIVERED
+299	UPS000299	1	3	6	6	2026-05-26	17.20	90000.00	DELIVERED
+300	UPS000300	5	2	1	2	2026-06-21	14.59	110000.00	DELIVERED
+301	UPS000301	1	3	4	6	2026-04-04	9.95	120000.00	DELIVERED
+302	UPS000302	7	3	1	2	2026-02-08	17.22	80000.00	DELIVERED
+303	UPS000303	2	2	3	6	2026-04-26	14.26	80000.00	DELIVERED
+304	UPS000304	1	1	1	1	2026-06-03	9.67	100000.00	DELIVERED
+305	UPS000305	7	3	1	6	2026-04-27	14.66	60000.00	DELIVERED
+306	UPS000306	4	1	1	4	2026-06-04	8.80	70000.00	DELIVERED
+307	UPS000307	5	3	6	7	2026-05-17	16.33	60000.00	DELIVERED
+308	UPS000308	8	1	5	7	2026-02-22	3.13	50000.00	DELIVERED
+309	UPS000309	10	1	1	1	2026-06-19	3.66	140000.00	DELIVERED
+310	UPS000310	3	1	8	8	2026-05-13	4.09	70000.00	DELIVERED
+311	UPS000311	10	2	1	7	2026-05-01	12.54	60000.00	DELIVERED
+312	UPS000312	10	2	5	3	2026-03-12	11.90	50000.00	DELIVERED
+313	UPS000313	3	2	5	2	2026-05-13	19.28	110000.00	DELIVERED
+314	UPS000314	4	3	6	3	2026-02-15	13.50	50000.00	DELIVERED
+315	UPS000315	1	1	2	2	2026-06-02	18.50	70000.00	DELIVERED
+316	UPS000316	6	1	7	8	2026-04-16	19.48	70000.00	DELIVERED
+317	UPS000317	9	2	7	4	2026-04-19	17.99	70000.00	DELIVERED
+318	UPS000318	10	2	8	8	2026-06-07	5.07	70000.00	DELIVERED
+319	UPS000319	1	2	8	2	2026-06-18	8.26	140000.00	DELIVERED
+320	UPS000320	10	3	5	3	2026-04-13	3.79	130000.00	DELIVERED
+321	UPS000321	1	3	1	6	2026-01-05	17.35	140000.00	DELIVERED
+322	UPS000322	8	1	3	1	2026-03-20	1.61	100000.00	DELIVERED
+323	UPS000323	6	2	8	4	2026-05-11	3.17	70000.00	DELIVERED
+324	UPS000324	1	2	2	3	2026-06-24	8.60	70000.00	DELIVERED
+325	UPS000325	2	2	5	4	2026-06-18	17.74	70000.00	DELIVERED
+326	UPS000326	9	1	2	7	2026-06-05	18.73	90000.00	DELIVERED
+327	UPS000327	5	3	4	2	2026-03-31	3.70	120000.00	DELIVERED
+328	UPS000328	2	2	4	7	2026-01-11	15.06	140000.00	DELIVERED
+329	UPS000329	9	3	3	1	2026-02-07	15.60	60000.00	DELIVERED
+330	UPS000330	10	2	2	7	2026-03-18	4.23	130000.00	DELIVERED
+331	UPS000331	7	1	8	1	2026-03-31	8.48	90000.00	DELIVERED
+332	UPS000332	11	3	2	7	2026-04-09	16.50	140000.00	DELIVERED
+333	UPS000333	5	2	2	1	2026-04-09	6.95	70000.00	DELIVERED
+334	UPS000334	9	1	1	1	2026-03-04	6.98	140000.00	DELIVERED
+335	UPS000335	5	1	8	2	2026-02-18	4.08	70000.00	DELIVERED
+336	UPS000336	1	1	2	7	2026-05-17	13.88	100000.00	DELIVERED
+337	UPS000337	10	2	7	1	2026-06-25	7.56	70000.00	DELIVERED
+338	UPS000338	3	2	4	2	2026-05-07	6.40	130000.00	DELIVERED
+339	UPS000339	3	2	6	6	2026-05-30	16.30	120000.00	DELIVERED
+340	UPS000340	9	3	4	6	2026-05-04	8.29	60000.00	DELIVERED
+341	UPS000341	5	3	8	8	2026-03-11	15.11	120000.00	DELIVERED
+342	UPS000342	8	2	1	7	2026-02-11	13.26	130000.00	DELIVERED
+343	UPS000343	10	1	5	4	2026-05-29	14.28	120000.00	DELIVERED
+344	UPS000344	2	3	3	6	2026-01-20	3.27	130000.00	DELIVERED
+345	UPS000345	9	1	8	4	2026-05-19	3.68	70000.00	DELIVERED
+346	UPS000346	2	1	7	1	2026-05-09	6.67	50000.00	DELIVERED
+347	UPS000347	11	1	2	4	2026-02-18	15.83	130000.00	DELIVERED
+348	UPS000348	7	3	2	6	2026-04-11	10.00	90000.00	DELIVERED
+349	UPS000349	1	1	8	3	2026-05-04	10.68	100000.00	DELIVERED
+350	UPS000350	7	1	7	6	2026-03-05	15.34	110000.00	DELIVERED
+351	UPS000351	1	3	2	2	2026-03-25	2.07	100000.00	DELIVERED
+352	UPS000352	3	1	1	8	2026-02-24	11.18	80000.00	DELIVERED
+353	UPS000353	3	2	2	3	2026-02-09	13.39	60000.00	DELIVERED
+354	UPS000354	7	3	6	7	2026-05-04	8.88	70000.00	DELIVERED
+355	UPS000355	10	2	4	6	2026-03-10	13.71	70000.00	DELIVERED
+356	UPS000356	1	2	7	6	2026-03-10	13.67	80000.00	DELIVERED
+357	UPS000357	11	1	2	4	2026-02-17	17.76	110000.00	DELIVERED
+358	UPS000358	10	3	5	2	2026-04-01	14.60	100000.00	DELIVERED
+359	UPS000359	4	3	8	2	2026-01-18	11.77	130000.00	DELIVERED
+360	UPS000360	11	2	3	3	2026-05-08	14.85	70000.00	DELIVERED
+361	UPS000361	7	3	6	5	2026-05-21	9.81	60000.00	DELIVERED
+362	UPS000362	1	1	6	5	2026-03-03	15.42	50000.00	DELIVERED
+363	UPS000363	9	1	6	6	2026-05-07	18.73	50000.00	DELIVERED
+364	UPS000364	10	3	7	5	2026-03-11	8.65	120000.00	DELIVERED
+365	UPS000365	11	2	7	4	2026-06-29	11.69	90000.00	DELIVERED
+366	UPS000366	1	2	6	2	2026-05-09	15.20	80000.00	DELIVERED
+367	UPS000367	9	1	3	5	2026-05-10	7.03	70000.00	DELIVERED
+368	UPS000368	5	3	2	2	2026-05-09	18.83	100000.00	DELIVERED
+369	UPS000369	8	1	1	4	2026-01-04	11.06	110000.00	DELIVERED
+370	UPS000370	2	3	2	1	2026-03-08	1.80	70000.00	DELIVERED
+371	UPS000371	1	3	8	2	2026-03-18	2.92	130000.00	DELIVERED
+372	UPS000372	2	2	2	6	2026-04-12	1.12	50000.00	DELIVERED
+373	UPS000373	3	2	6	5	2026-04-24	16.57	60000.00	DELIVERED
+374	UPS000374	2	2	8	8	2026-02-03	12.84	70000.00	DELIVERED
+375	UPS000375	10	2	8	3	2026-04-07	14.98	140000.00	DELIVERED
+376	UPS000376	5	2	8	6	2026-06-17	16.42	130000.00	DELIVERED
+377	UPS000377	5	2	4	8	2026-02-01	2.36	60000.00	DELIVERED
+378	UPS000378	9	2	8	6	2026-03-18	6.77	60000.00	DELIVERED
+379	UPS000379	6	1	2	3	2026-03-01	16.40	90000.00	DELIVERED
+380	UPS000380	8	3	4	4	2026-04-10	17.32	130000.00	DELIVERED
+381	UPS000381	2	3	8	7	2026-05-23	15.06	130000.00	DELIVERED
+382	UPS000382	6	3	6	6	2026-06-01	1.38	140000.00	DELIVERED
+383	UPS000383	11	3	8	8	2026-05-12	13.33	100000.00	DELIVERED
+384	UPS000384	10	3	1	8	2026-04-17	10.25	120000.00	DELIVERED
+385	UPS000385	5	3	4	6	2026-04-23	10.42	120000.00	DELIVERED
+386	UPS000386	7	2	4	2	2026-04-26	10.52	100000.00	DELIVERED
+387	UPS000387	4	2	7	3	2026-06-27	19.09	110000.00	DELIVERED
+388	UPS000388	7	3	7	3	2026-05-31	17.15	120000.00	DELIVERED
+389	UPS000389	5	2	5	8	2026-01-13	12.48	140000.00	DELIVERED
+390	UPS000390	11	1	7	8	2026-04-03	15.37	60000.00	DELIVERED
+391	UPS000391	10	3	3	4	2026-06-29	17.08	110000.00	DELIVERED
+392	UPS000392	5	3	8	5	2026-03-03	15.02	70000.00	DELIVERED
+393	UPS000393	3	3	7	4	2026-03-28	2.60	70000.00	DELIVERED
+394	UPS000394	1	1	6	3	2026-06-25	15.76	80000.00	DELIVERED
+395	UPS000395	3	2	8	3	2026-06-09	6.94	80000.00	DELIVERED
+396	UPS000396	9	1	6	1	2026-01-30	9.28	120000.00	DELIVERED
+397	UPS000397	6	3	1	8	2026-02-02	1.07	140000.00	DELIVERED
+398	UPS000398	3	2	7	5	2026-02-07	12.56	60000.00	DELIVERED
+399	UPS000399	9	3	5	5	2026-04-30	18.62	70000.00	DELIVERED
+400	UPS000400	10	2	3	3	2026-03-31	16.19	100000.00	DELIVERED
+401	UPS000401	8	1	6	2	2026-06-03	17.69	120000.00	DELIVERED
+402	UPS000402	4	1	6	2	2026-03-26	7.97	140000.00	DELIVERED
+403	UPS000403	8	1	2	4	2026-03-21	18.66	140000.00	DELIVERED
+404	UPS000404	10	2	8	7	2026-01-17	7.28	50000.00	DELIVERED
+405	UPS000405	7	3	4	4	2026-05-14	16.39	50000.00	DELIVERED
+406	UPS000406	8	2	6	6	2026-06-06	6.50	70000.00	DELIVERED
+407	UPS000407	1	3	3	1	2026-05-30	5.72	110000.00	DELIVERED
+408	UPS000408	9	3	2	2	2026-04-13	16.61	50000.00	DELIVERED
+409	UPS000409	9	1	5	7	2026-03-28	5.08	80000.00	DELIVERED
+410	UPS000410	6	3	6	6	2026-02-12	19.87	50000.00	DELIVERED
+411	UPS000411	8	1	6	3	2026-03-19	9.38	70000.00	DELIVERED
+412	UPS000412	3	2	7	6	2026-03-12	14.30	60000.00	DELIVERED
+413	UPS000413	8	3	7	1	2026-05-17	2.79	90000.00	DELIVERED
+414	UPS000414	9	2	1	4	2026-06-02	15.44	110000.00	DELIVERED
+415	UPS000415	9	3	8	8	2026-02-14	4.67	90000.00	DELIVERED
+416	UPS000416	1	1	8	4	2026-04-10	3.68	140000.00	DELIVERED
+417	UPS000417	5	3	8	7	2026-06-20	11.48	110000.00	DELIVERED
+418	UPS000418	10	1	2	6	2026-06-13	10.35	70000.00	DELIVERED
+419	UPS000419	4	3	3	8	2026-01-17	1.00	120000.00	DELIVERED
+420	UPS000420	3	1	8	4	2026-04-11	13.21	50000.00	DELIVERED
+421	UPS000421	10	2	3	1	2026-04-27	13.61	60000.00	DELIVERED
+422	UPS000422	2	2	6	5	2026-01-28	12.47	100000.00	DELIVERED
+423	UPS000423	10	1	7	7	2026-01-03	13.53	70000.00	DELIVERED
+424	UPS000424	1	3	4	4	2026-04-21	2.09	120000.00	DELIVERED
+425	UPS000425	11	1	2	7	2026-01-28	11.28	90000.00	DELIVERED
+426	UPS000426	10	1	3	3	2026-01-20	16.04	130000.00	DELIVERED
+427	UPS000427	10	3	4	1	2026-05-05	19.48	130000.00	DELIVERED
+428	UPS000428	6	3	3	1	2026-05-04	20.00	70000.00	DELIVERED
+429	UPS000429	11	1	2	1	2026-05-03	4.44	110000.00	DELIVERED
+430	UPS000430	1	2	3	5	2026-06-12	15.99	50000.00	DELIVERED
+431	UPS000431	2	3	2	4	2026-01-24	8.28	140000.00	DELIVERED
+432	UPS000432	9	2	7	6	2026-04-05	14.76	90000.00	DELIVERED
+433	UPS000433	10	2	6	2	2026-02-13	5.96	130000.00	DELIVERED
+434	UPS000434	7	2	8	6	2026-02-18	7.76	110000.00	DELIVERED
+435	UPS000435	9	3	3	1	2026-03-16	6.47	70000.00	DELIVERED
+436	UPS000436	8	2	2	3	2026-04-06	18.72	90000.00	DELIVERED
+437	UPS000437	5	1	8	4	2026-03-31	4.32	100000.00	DELIVERED
+438	UPS000438	10	1	1	6	2026-05-25	19.54	80000.00	DELIVERED
+439	UPS000439	11	1	1	3	2026-03-21	12.66	140000.00	DELIVERED
+440	UPS000440	7	1	4	5	2026-05-23	7.50	110000.00	DELIVERED
+441	UPS000441	6	2	5	6	2026-05-20	15.36	140000.00	DELIVERED
+442	UPS000442	4	1	1	5	2026-01-24	17.75	50000.00	DELIVERED
+443	UPS000443	8	2	7	2	2026-02-11	1.53	50000.00	DELIVERED
+444	UPS000444	9	3	7	3	2026-02-11	19.11	130000.00	DELIVERED
+445	UPS000445	4	3	6	4	2026-05-09	17.43	50000.00	DELIVERED
+446	UPS000446	1	1	1	7	2026-06-20	16.89	110000.00	DELIVERED
+447	UPS000447	2	1	2	8	2026-05-22	1.22	70000.00	DELIVERED
+448	UPS000448	2	3	8	1	2026-04-18	17.57	50000.00	DELIVERED
+449	UPS000449	6	3	4	3	2026-03-04	7.54	70000.00	DELIVERED
+450	UPS000450	3	1	6	2	2026-02-01	7.39	60000.00	DELIVERED
+451	UPS000451	7	3	8	8	2026-01-28	2.65	80000.00	DELIVERED
+452	UPS000452	10	1	1	8	2026-04-10	9.14	110000.00	DELIVERED
+453	UPS000453	11	3	1	4	2026-04-17	5.90	110000.00	DELIVERED
+454	UPS000454	8	1	5	6	2026-01-14	12.97	80000.00	DELIVERED
+455	UPS000455	9	3	1	7	2026-04-08	14.12	130000.00	DELIVERED
+456	UPS000456	11	2	8	6	2026-05-15	5.87	60000.00	DELIVERED
+457	UPS000457	3	1	8	2	2026-05-13	11.19	90000.00	DELIVERED
+458	UPS000458	11	3	2	6	2026-01-06	2.06	60000.00	DELIVERED
+459	UPS000459	1	1	7	3	2026-06-08	13.74	120000.00	DELIVERED
+460	UPS000460	10	1	8	6	2026-03-04	8.71	120000.00	DELIVERED
+461	UPS000461	7	2	1	6	2026-01-12	2.22	90000.00	DELIVERED
+462	UPS000462	7	2	6	2	2026-04-18	9.34	110000.00	DELIVERED
+463	UPS000463	5	1	7	7	2026-04-24	13.33	90000.00	DELIVERED
+464	UPS000464	8	1	2	1	2026-06-16	18.04	140000.00	DELIVERED
+465	UPS000465	1	3	5	4	2026-03-17	7.29	120000.00	DELIVERED
+466	UPS000466	11	1	1	4	2026-03-12	9.17	110000.00	DELIVERED
+467	UPS000467	10	1	6	3	2026-06-27	18.69	100000.00	DELIVERED
+468	UPS000468	8	3	3	8	2026-04-08	18.01	90000.00	DELIVERED
+469	UPS000469	5	3	8	3	2026-01-09	1.31	50000.00	DELIVERED
+470	UPS000470	7	3	6	7	2026-04-05	7.71	110000.00	DELIVERED
+471	UPS000471	11	1	4	6	2026-02-21	17.62	120000.00	DELIVERED
+472	UPS000472	4	2	5	1	2026-06-22	3.12	50000.00	DELIVERED
+473	UPS000473	2	1	4	7	2026-04-19	14.04	110000.00	DELIVERED
+474	UPS000474	4	1	4	7	2026-04-29	7.65	140000.00	DELIVERED
+475	UPS000475	7	3	6	8	2026-06-15	6.77	50000.00	DELIVERED
+476	UPS000476	7	1	1	4	2026-01-02	15.34	80000.00	DELIVERED
+477	UPS000477	8	2	5	2	2026-04-15	19.00	140000.00	DELIVERED
+478	UPS000478	10	2	6	7	2026-05-29	1.79	90000.00	DELIVERED
+479	UPS000479	1	3	1	7	2026-04-19	18.75	130000.00	DELIVERED
+480	UPS000480	6	2	7	5	2026-03-02	19.85	120000.00	DELIVERED
+481	UPS000481	8	3	1	1	2026-01-14	5.63	120000.00	DELIVERED
+482	UPS000482	2	3	3	3	2026-05-31	3.74	70000.00	DELIVERED
+483	UPS000483	4	3	1	5	2026-01-30	19.65	70000.00	DELIVERED
+484	UPS000484	6	2	4	4	2026-03-13	16.58	110000.00	DELIVERED
+485	UPS000485	1	3	2	3	2026-03-23	13.37	90000.00	DELIVERED
+486	UPS000486	5	2	3	6	2026-01-21	6.01	140000.00	DELIVERED
+487	UPS000487	8	3	5	6	2026-06-14	3.11	90000.00	DELIVERED
+488	UPS000488	3	1	4	1	2026-02-25	12.25	130000.00	DELIVERED
+489	UPS000489	7	3	1	1	2026-06-23	10.73	100000.00	DELIVERED
+490	UPS000490	7	3	3	1	2026-04-29	8.81	140000.00	DELIVERED
+491	UPS000491	8	1	3	7	2026-01-11	3.24	120000.00	DELIVERED
+492	UPS000492	6	2	1	7	2026-01-23	8.22	80000.00	DELIVERED
+493	UPS000493	2	2	6	3	2026-04-30	12.35	80000.00	DELIVERED
+494	UPS000494	11	1	5	6	2026-03-08	16.73	130000.00	DELIVERED
+495	UPS000495	6	2	6	2	2026-02-18	2.74	50000.00	DELIVERED
+496	UPS000496	5	1	6	2	2026-04-22	8.39	90000.00	DELIVERED
+497	UPS000497	8	1	4	1	2026-04-11	19.41	130000.00	DELIVERED
+498	UPS000498	2	2	3	5	2026-01-20	13.19	90000.00	DELIVERED
+499	UPS000499	11	2	8	7	2026-02-24	15.73	110000.00	DELIVERED
+500	UPS000500	8	1	3	3	2026-06-25	12.69	80000.00	DELIVERED
+501	UPS000501	11	1	8	5	2026-01-28	5.55	100000.00	DELIVERED
+502	UPS000502	3	1	5	2	2026-04-10	18.71	100000.00	DELIVERED
+503	UPS000503	9	3	1	1	2026-05-22	4.70	100000.00	DELIVERED
+504	UPS000504	10	2	4	3	2026-02-25	10.16	80000.00	DELIVERED
+505	UPS000505	9	3	1	7	2026-03-13	19.31	110000.00	DELIVERED
+506	UPS000506	2	1	1	2	2026-04-29	19.48	90000.00	DELIVERED
+507	UPS000507	1	3	4	6	2026-06-17	14.36	70000.00	DELIVERED
+508	UPS000508	6	2	6	2	2026-02-24	6.25	60000.00	DELIVERED
+509	UPS000509	1	3	8	3	2026-05-27	1.45	130000.00	DELIVERED
+510	UPS000510	9	3	5	3	2026-03-09	16.38	90000.00	DELIVERED
+511	UPS000511	6	3	8	2	2026-05-14	19.71	90000.00	DELIVERED
+512	UPS000512	8	2	1	1	2026-05-13	3.22	100000.00	DELIVERED
+513	UPS000513	10	1	7	8	2026-05-07	5.54	60000.00	DELIVERED
+514	UPS000514	2	1	4	8	2026-02-15	4.54	70000.00	DELIVERED
+515	UPS000515	6	2	4	8	2026-06-10	4.16	130000.00	DELIVERED
+516	UPS000516	3	3	1	4	2026-04-14	5.31	110000.00	DELIVERED
+517	UPS000517	8	2	8	8	2026-06-21	8.71	110000.00	DELIVERED
+518	UPS000518	6	2	5	6	2026-01-11	19.55	70000.00	DELIVERED
+519	UPS000519	3	3	6	4	2026-04-02	3.33	70000.00	DELIVERED
+520	UPS000520	4	3	4	1	2026-03-22	5.18	100000.00	DELIVERED
+521	UPS000521	1	3	6	1	2026-04-13	17.87	70000.00	DELIVERED
+522	UPS000522	6	3	5	2	2026-03-19	11.82	60000.00	DELIVERED
+523	UPS000523	5	1	4	2	2026-03-31	17.50	130000.00	DELIVERED
+524	UPS000524	1	1	5	8	2026-04-06	19.96	130000.00	DELIVERED
+525	UPS000525	4	3	1	5	2026-01-22	16.79	140000.00	DELIVERED
+526	UPS000526	7	3	5	5	2026-03-31	5.33	130000.00	DELIVERED
+527	UPS000527	10	2	7	1	2026-01-09	11.35	60000.00	DELIVERED
+528	UPS000528	8	2	5	4	2026-01-17	11.16	120000.00	DELIVERED
+529	UPS000529	11	2	2	3	2026-03-02	1.37	120000.00	DELIVERED
+530	UPS000530	10	1	7	4	2026-02-23	1.99	100000.00	DELIVERED
+531	UPS000531	2	2	4	3	2026-05-12	1.55	140000.00	DELIVERED
+532	UPS000532	1	2	8	6	2026-06-01	8.18	70000.00	DELIVERED
+533	UPS000533	2	3	8	6	2026-06-20	19.91	70000.00	DELIVERED
+534	UPS000534	7	2	5	2	2026-04-14	14.59	110000.00	DELIVERED
+535	UPS000535	10	3	7	2	2026-04-02	3.01	70000.00	DELIVERED
+536	UPS000536	1	1	4	8	2026-06-25	17.88	120000.00	DELIVERED
+537	UPS000537	7	1	3	4	2026-06-21	16.67	50000.00	DELIVERED
+538	UPS000538	7	2	4	3	2026-04-21	6.70	130000.00	DELIVERED
+539	UPS000539	8	1	1	8	2026-02-13	13.13	70000.00	DELIVERED
+540	UPS000540	4	1	6	6	2026-06-09	8.73	100000.00	DELIVERED
+541	UPS000541	2	2	5	5	2026-04-03	13.37	120000.00	DELIVERED
+542	UPS000542	6	3	6	2	2026-01-07	4.42	80000.00	DELIVERED
+543	UPS000543	2	3	5	2	2026-01-11	13.25	140000.00	DELIVERED
+544	UPS000544	3	2	3	5	2026-04-15	10.60	80000.00	DELIVERED
+545	UPS000545	4	1	3	1	2026-02-17	2.79	60000.00	DELIVERED
+546	UPS000546	10	1	3	7	2026-02-27	8.50	130000.00	DELIVERED
+547	UPS000547	10	2	3	4	2026-04-14	8.93	140000.00	DELIVERED
+548	UPS000548	7	2	4	5	2026-06-21	19.88	60000.00	DELIVERED
+549	UPS000549	7	1	4	4	2026-02-14	16.86	60000.00	DELIVERED
+550	UPS000550	10	1	8	1	2026-02-22	7.37	60000.00	DELIVERED
+551	UPS000551	6	1	7	5	2026-04-05	3.81	90000.00	DELIVERED
+552	UPS000552	6	3	6	1	2026-01-28	10.56	110000.00	DELIVERED
+553	UPS000553	11	1	8	5	2026-02-05	17.50	140000.00	DELIVERED
+554	UPS000554	11	3	8	5	2026-01-18	9.68	120000.00	DELIVERED
+555	UPS000555	11	3	2	7	2026-03-31	19.30	100000.00	DELIVERED
+556	UPS000556	4	2	5	8	2026-03-08	12.53	110000.00	DELIVERED
+557	UPS000557	9	1	2	8	2026-06-29	11.22	90000.00	DELIVERED
+558	UPS000558	5	3	8	3	2026-06-10	9.09	50000.00	DELIVERED
+559	UPS000559	8	2	1	2	2026-02-16	9.92	140000.00	DELIVERED
+560	UPS000560	11	2	5	6	2026-06-03	17.18	120000.00	DELIVERED
+561	UPS000561	4	2	4	4	2026-01-24	18.16	50000.00	DELIVERED
+562	UPS000562	8	3	4	8	2026-02-07	11.80	120000.00	DELIVERED
+563	UPS000563	3	3	5	5	2026-06-03	6.32	100000.00	DELIVERED
+564	UPS000564	10	2	1	2	2026-01-22	17.04	50000.00	DELIVERED
+565	UPS000565	10	3	1	6	2026-05-05	12.45	140000.00	DELIVERED
+566	UPS000566	9	2	7	2	2026-03-01	1.57	140000.00	DELIVERED
+567	UPS000567	3	1	3	8	2026-05-31	7.72	80000.00	DELIVERED
+568	UPS000568	9	2	6	5	2026-03-21	2.89	50000.00	DELIVERED
+569	UPS000569	10	2	7	4	2026-04-14	4.83	50000.00	DELIVERED
+570	UPS000570	11	2	6	6	2026-03-30	5.89	50000.00	DELIVERED
+571	UPS000571	5	1	3	2	2026-04-23	3.15	100000.00	DELIVERED
+572	UPS000572	11	1	7	3	2026-01-13	18.85	80000.00	DELIVERED
+573	UPS000573	3	3	1	5	2026-01-12	4.75	90000.00	DELIVERED
+574	UPS000574	2	2	3	6	2026-02-11	17.14	100000.00	DELIVERED
+575	UPS000575	8	2	2	3	2026-02-08	2.24	140000.00	DELIVERED
+576	UPS000576	4	2	2	3	2026-05-14	3.94	90000.00	DELIVERED
+577	UPS000577	5	2	8	2	2026-05-16	16.68	110000.00	DELIVERED
+578	UPS000578	5	2	4	3	2026-05-26	19.68	80000.00	DELIVERED
+579	UPS000579	4	2	1	5	2026-01-21	7.74	50000.00	DELIVERED
+580	UPS000580	4	1	8	6	2026-03-06	15.84	70000.00	DELIVERED
+581	UPS000581	4	1	3	3	2026-01-14	7.10	130000.00	DELIVERED
+582	UPS000582	4	1	3	8	2026-06-01	13.23	80000.00	DELIVERED
+583	UPS000583	8	1	3	5	2026-04-18	17.42	70000.00	DELIVERED
+584	UPS000584	8	1	5	6	2026-05-27	3.89	50000.00	DELIVERED
+585	UPS000585	7	3	7	2	2026-03-09	2.14	80000.00	DELIVERED
+586	UPS000586	5	1	1	1	2026-03-24	2.75	90000.00	DELIVERED
+587	UPS000587	8	3	7	2	2026-04-22	13.70	90000.00	DELIVERED
+588	UPS000588	11	2	7	7	2026-04-03	11.32	50000.00	DELIVERED
+589	UPS000589	6	3	5	7	2026-04-21	18.14	90000.00	DELIVERED
+590	UPS000590	6	3	2	7	2026-02-06	5.26	80000.00	DELIVERED
+591	UPS000591	7	3	5	6	2026-04-29	3.31	110000.00	DELIVERED
+592	UPS000592	8	3	2	4	2026-04-11	15.57	100000.00	DELIVERED
+593	UPS000593	3	2	8	4	2026-02-28	8.62	100000.00	DELIVERED
+594	UPS000594	2	2	3	4	2026-01-01	18.32	130000.00	DELIVERED
+595	UPS000595	3	3	3	3	2026-05-30	11.94	70000.00	DELIVERED
+596	UPS000596	8	2	8	5	2026-04-11	19.26	120000.00	DELIVERED
+597	UPS000597	5	1	5	3	2026-01-25	17.66	70000.00	DELIVERED
+598	UPS000598	9	3	4	8	2026-05-22	12.38	90000.00	DELIVERED
+599	UPS000599	5	1	8	4	2026-01-14	12.58	50000.00	DELIVERED
+600	UPS000600	6	3	6	5	2026-06-01	11.25	140000.00	DELIVERED
+601	UPS000601	4	2	6	3	2026-02-14	2.60	70000.00	DELIVERED
+602	UPS000602	5	2	2	4	2026-05-02	12.03	120000.00	DELIVERED
+603	UPS000603	8	2	3	4	2026-04-21	12.50	90000.00	DELIVERED
+604	UPS000604	2	3	1	7	2026-06-07	8.46	110000.00	DELIVERED
+605	UPS000605	5	1	5	8	2026-06-21	4.25	70000.00	DELIVERED
+606	UPS000606	6	2	8	2	2026-03-30	8.49	70000.00	DELIVERED
+607	UPS000607	4	3	2	8	2026-05-07	18.66	70000.00	DELIVERED
+608	UPS000608	2	3	5	5	2026-01-26	16.56	110000.00	DELIVERED
+609	UPS000609	10	1	6	4	2026-02-22	5.09	100000.00	DELIVERED
+610	UPS000610	11	1	8	1	2026-05-10	8.09	110000.00	DELIVERED
+611	UPS000611	3	1	6	3	2026-03-27	9.95	140000.00	DELIVERED
+612	UPS000612	9	1	8	1	2026-03-08	15.95	90000.00	DELIVERED
+613	UPS000613	8	1	7	3	2026-04-14	17.94	140000.00	DELIVERED
+614	UPS000614	3	3	5	4	2026-04-11	10.76	140000.00	DELIVERED
+615	UPS000615	10	2	4	8	2026-03-24	13.27	80000.00	DELIVERED
+616	UPS000616	1	1	6	5	2026-02-28	5.64	120000.00	DELIVERED
+617	UPS000617	1	3	8	5	2026-01-05	12.57	130000.00	DELIVERED
+618	UPS000618	3	3	3	2	2026-06-20	5.22	60000.00	DELIVERED
+619	UPS000619	4	3	1	4	2026-04-15	4.31	70000.00	DELIVERED
+620	UPS000620	6	3	1	3	2026-06-12	11.37	120000.00	DELIVERED
+621	UPS000621	3	1	3	4	2026-04-01	11.72	70000.00	DELIVERED
+622	UPS000622	9	1	2	4	2026-05-12	7.22	100000.00	DELIVERED
+623	UPS000623	11	3	8	1	2026-06-14	9.88	120000.00	DELIVERED
+624	UPS000624	11	1	4	1	2026-04-24	5.70	130000.00	DELIVERED
+625	UPS000625	3	3	1	5	2026-03-13	16.72	60000.00	DELIVERED
+626	UPS000626	8	1	1	7	2026-04-02	7.56	110000.00	DELIVERED
+627	UPS000627	6	1	4	3	2026-04-01	3.78	100000.00	DELIVERED
+628	UPS000628	8	1	5	4	2026-05-11	18.16	60000.00	DELIVERED
+629	UPS000629	4	2	2	4	2026-01-27	19.92	140000.00	DELIVERED
+630	UPS000630	9	1	1	5	2026-04-28	16.34	140000.00	DELIVERED
+631	UPS000631	2	3	2	6	2026-01-15	8.55	110000.00	DELIVERED
+632	UPS000632	7	1	8	6	2026-04-10	11.52	80000.00	DELIVERED
+633	UPS000633	10	3	4	8	2026-06-13	10.74	120000.00	DELIVERED
+634	UPS000634	10	3	6	1	2026-03-14	16.34	100000.00	DELIVERED
+635	UPS000635	6	3	2	3	2026-04-15	9.88	120000.00	DELIVERED
+636	UPS000636	10	3	8	2	2026-05-13	8.37	80000.00	DELIVERED
+637	UPS000637	3	2	3	7	2026-05-06	10.28	80000.00	DELIVERED
+638	UPS000638	8	3	8	4	2026-03-07	1.09	70000.00	DELIVERED
+639	UPS000639	5	3	7	2	2026-01-18	1.33	110000.00	DELIVERED
+640	UPS000640	11	1	3	5	2026-06-29	18.54	60000.00	DELIVERED
+641	UPS000641	7	2	8	1	2026-01-20	1.50	100000.00	DELIVERED
+642	UPS000642	1	2	5	4	2026-01-16	8.69	90000.00	DELIVERED
+643	UPS000643	4	1	6	3	2026-03-03	13.73	130000.00	DELIVERED
+644	UPS000644	3	3	2	3	2026-05-16	13.93	110000.00	DELIVERED
+645	UPS000645	1	3	3	4	2026-05-27	18.37	130000.00	DELIVERED
+646	UPS000646	7	2	5	6	2026-01-01	6.50	100000.00	DELIVERED
+647	UPS000647	10	1	3	7	2026-04-28	6.09	140000.00	DELIVERED
+648	UPS000648	2	1	1	4	2026-01-09	6.67	70000.00	DELIVERED
+649	UPS000649	10	3	7	2	2026-04-14	17.33	80000.00	DELIVERED
+650	UPS000650	5	1	2	2	2026-01-30	16.32	70000.00	DELIVERED
+651	UPS000651	9	3	4	8	2026-03-05	18.01	110000.00	DELIVERED
+652	UPS000652	4	1	3	4	2026-04-03	15.05	90000.00	DELIVERED
+653	UPS000653	1	2	2	7	2026-04-16	9.75	60000.00	DELIVERED
+654	UPS000654	5	2	7	3	2026-04-25	9.68	140000.00	DELIVERED
+655	UPS000655	4	3	1	7	2026-01-19	8.52	110000.00	DELIVERED
+656	UPS000656	1	3	1	5	2026-05-14	9.90	90000.00	DELIVERED
+657	UPS000657	7	2	6	4	2026-01-27	12.76	110000.00	DELIVERED
+658	UPS000658	1	1	8	1	2026-03-02	12.55	70000.00	DELIVERED
+659	UPS000659	11	3	7	8	2026-03-18	6.05	120000.00	DELIVERED
+660	UPS000660	10	1	2	5	2026-05-04	16.45	100000.00	DELIVERED
+661	UPS000661	11	3	2	6	2026-04-10	6.56	120000.00	DELIVERED
+662	UPS000662	8	2	6	8	2026-01-12	1.80	60000.00	DELIVERED
+663	UPS000663	10	3	6	5	2026-06-05	9.24	110000.00	DELIVERED
+664	UPS000664	6	2	6	8	2026-03-27	7.09	80000.00	DELIVERED
+665	UPS000665	4	2	3	5	2026-05-10	6.45	120000.00	DELIVERED
+666	UPS000666	7	3	6	2	2026-06-02	5.16	110000.00	DELIVERED
+667	UPS000667	9	1	6	6	2026-05-10	11.58	100000.00	DELIVERED
+668	UPS000668	3	2	7	6	2026-01-27	18.95	130000.00	DELIVERED
+669	UPS000669	8	2	1	4	2026-01-20	5.35	130000.00	DELIVERED
+670	UPS000670	6	2	3	7	2026-06-07	16.39	60000.00	DELIVERED
+671	UPS000671	2	3	3	5	2026-01-07	19.92	70000.00	DELIVERED
+672	UPS000672	1	3	4	6	2026-04-30	8.83	140000.00	DELIVERED
+673	UPS000673	7	3	7	2	2026-03-21	5.63	100000.00	DELIVERED
+674	UPS000674	2	2	8	2	2026-04-16	4.37	130000.00	DELIVERED
+675	UPS000675	11	3	6	8	2026-04-18	6.75	70000.00	DELIVERED
+676	UPS000676	10	1	7	7	2026-02-02	19.26	110000.00	DELIVERED
+677	UPS000677	4	1	2	2	2026-03-08	4.74	120000.00	DELIVERED
+678	UPS000678	7	3	4	8	2026-01-31	16.44	90000.00	DELIVERED
+679	UPS000679	3	1	7	7	2026-02-05	11.57	80000.00	DELIVERED
+680	UPS000680	1	1	2	2	2026-02-03	4.80	120000.00	DELIVERED
+681	UPS000681	7	2	6	6	2026-06-09	4.39	50000.00	DELIVERED
+682	UPS000682	4	2	3	6	2026-04-06	4.33	100000.00	DELIVERED
+683	UPS000683	6	1	7	8	2026-05-26	11.28	70000.00	DELIVERED
+684	UPS000684	10	1	6	4	2026-05-28	8.53	80000.00	DELIVERED
+685	UPS000685	7	3	8	2	2026-01-10	5.16	120000.00	DELIVERED
+686	UPS000686	6	1	7	2	2026-02-01	5.72	140000.00	DELIVERED
+687	UPS000687	8	1	1	4	2026-06-01	14.08	50000.00	DELIVERED
+688	UPS000688	8	2	5	4	2026-04-08	18.76	50000.00	DELIVERED
+689	UPS000689	5	1	2	3	2026-05-13	6.22	100000.00	DELIVERED
+690	UPS000690	8	1	3	1	2026-02-04	19.57	100000.00	DELIVERED
+691	UPS000691	6	1	2	2	2026-01-25	5.02	80000.00	DELIVERED
+692	UPS000692	10	2	7	3	2026-02-10	16.89	50000.00	DELIVERED
+693	UPS000693	8	1	5	3	2026-01-30	1.00	140000.00	DELIVERED
+694	UPS000694	1	3	8	7	2026-03-13	12.12	100000.00	DELIVERED
+695	UPS000695	11	3	4	7	2026-01-09	8.14	80000.00	DELIVERED
+696	UPS000696	6	1	6	4	2026-01-01	19.84	110000.00	DELIVERED
+697	UPS000697	3	2	8	8	2026-04-17	18.51	120000.00	DELIVERED
+698	UPS000698	6	2	8	2	2026-01-28	16.53	130000.00	DELIVERED
+699	UPS000699	11	1	6	3	2026-03-21	8.10	50000.00	DELIVERED
+700	UPS000700	9	1	6	2	2026-04-17	9.42	140000.00	DELIVERED
+701	UPS000701	5	2	2	1	2026-05-21	12.27	80000.00	IN_TRANSIT
+702	UPS000702	5	2	3	8	2026-06-04	9.11	90000.00	IN_TRANSIT
+703	UPS000703	11	2	4	6	2026-04-05	9.19	60000.00	IN_TRANSIT
+704	UPS000704	1	2	5	2	2026-05-31	2.65	110000.00	IN_TRANSIT
+705	UPS000705	1	1	2	8	2026-04-17	17.91	120000.00	IN_TRANSIT
+706	UPS000706	7	3	7	1	2026-06-19	18.89	120000.00	IN_TRANSIT
+707	UPS000707	11	3	3	5	2026-02-09	2.65	110000.00	IN_TRANSIT
+708	UPS000708	2	3	7	3	2026-06-15	1.91	50000.00	IN_TRANSIT
+709	UPS000709	1	3	2	6	2026-02-01	10.73	50000.00	IN_TRANSIT
+710	UPS000710	8	3	7	5	2026-06-09	13.82	140000.00	IN_TRANSIT
+711	UPS000711	5	1	4	3	2026-02-06	2.29	110000.00	IN_TRANSIT
+712	UPS000712	2	3	1	8	2026-01-24	10.01	70000.00	IN_TRANSIT
+713	UPS000713	4	2	5	8	2026-03-07	16.66	60000.00	IN_TRANSIT
+714	UPS000714	5	3	5	2	2026-02-17	1.46	60000.00	IN_TRANSIT
+715	UPS000715	4	2	6	1	2026-05-27	12.30	100000.00	IN_TRANSIT
+716	UPS000716	6	3	5	8	2026-06-24	13.88	70000.00	IN_TRANSIT
+717	UPS000717	2	1	1	6	2026-06-17	11.06	60000.00	IN_TRANSIT
+718	UPS000718	5	1	2	6	2026-04-06	9.40	110000.00	IN_TRANSIT
+719	UPS000719	5	3	5	3	2026-06-02	9.44	110000.00	IN_TRANSIT
+720	UPS000720	7	1	8	4	2026-01-16	3.77	110000.00	IN_TRANSIT
+721	UPS000721	4	3	7	3	2026-03-23	11.55	120000.00	IN_TRANSIT
+722	UPS000722	6	3	8	4	2026-01-24	2.63	60000.00	IN_TRANSIT
+723	UPS000723	7	1	6	4	2026-01-26	15.40	80000.00	IN_TRANSIT
+724	UPS000724	2	3	2	8	2026-04-15	1.08	90000.00	IN_TRANSIT
+725	UPS000725	9	1	3	7	2026-01-11	3.01	80000.00	IN_TRANSIT
+726	UPS000726	2	2	4	2	2026-04-16	14.31	90000.00	IN_TRANSIT
+727	UPS000727	10	2	7	2	2026-03-20	15.87	90000.00	IN_TRANSIT
+728	UPS000728	2	3	4	6	2026-04-18	19.57	60000.00	IN_TRANSIT
+729	UPS000729	5	2	2	3	2026-03-08	2.01	90000.00	IN_TRANSIT
+730	UPS000730	8	3	7	8	2026-02-07	1.86	130000.00	IN_TRANSIT
+731	UPS000731	1	1	3	3	2026-05-18	16.41	140000.00	IN_TRANSIT
+732	UPS000732	4	1	5	3	2026-06-18	6.73	50000.00	IN_TRANSIT
+733	UPS000733	7	3	5	8	2026-02-17	3.94	70000.00	IN_TRANSIT
+734	UPS000734	1	2	8	2	2026-03-08	1.90	70000.00	IN_TRANSIT
+735	UPS000735	7	2	1	4	2026-01-19	15.33	140000.00	IN_TRANSIT
+736	UPS000736	6	2	8	8	2026-03-11	13.37	120000.00	IN_TRANSIT
+737	UPS000737	4	1	3	5	2026-01-14	15.75	100000.00	IN_TRANSIT
+738	UPS000738	10	2	8	1	2026-01-13	7.08	80000.00	IN_TRANSIT
+739	UPS000739	11	1	5	8	2026-03-11	2.67	110000.00	IN_TRANSIT
+740	UPS000740	10	2	1	2	2026-06-26	14.49	80000.00	IN_TRANSIT
+741	UPS000741	4	2	8	5	2026-04-14	1.58	130000.00	IN_TRANSIT
+742	UPS000742	1	1	4	4	2026-04-04	17.39	50000.00	IN_TRANSIT
+743	UPS000743	9	3	3	6	2026-06-26	18.73	60000.00	IN_TRANSIT
+744	UPS000744	9	3	6	7	2026-05-31	3.18	60000.00	IN_TRANSIT
+745	UPS000745	10	1	2	8	2026-05-05	12.86	130000.00	IN_TRANSIT
+746	UPS000746	5	2	4	2	2026-05-23	18.59	140000.00	IN_TRANSIT
+747	UPS000747	10	2	2	7	2026-05-06	7.33	50000.00	IN_TRANSIT
+748	UPS000748	7	3	7	8	2026-03-26	14.99	140000.00	IN_TRANSIT
+749	UPS000749	5	2	3	2	2026-03-31	17.97	90000.00	IN_TRANSIT
+750	UPS000750	7	2	4	8	2026-02-25	8.28	100000.00	IN_TRANSIT
+751	UPS000751	9	2	6	6	2026-04-16	8.98	60000.00	IN_TRANSIT
+752	UPS000752	4	2	6	4	2026-02-07	10.95	130000.00	IN_TRANSIT
+753	UPS000753	2	2	6	8	2026-04-17	3.80	110000.00	IN_TRANSIT
+754	UPS000754	4	2	7	3	2026-01-12	4.05	80000.00	IN_TRANSIT
+755	UPS000755	5	3	8	2	2026-06-01	16.08	80000.00	IN_TRANSIT
+756	UPS000756	6	2	4	7	2026-02-05	6.00	80000.00	IN_TRANSIT
+757	UPS000757	3	1	7	2	2026-06-09	6.32	120000.00	IN_TRANSIT
+758	UPS000758	1	3	8	2	2026-05-24	11.44	140000.00	IN_TRANSIT
+759	UPS000759	2	1	6	7	2026-02-03	1.46	50000.00	IN_TRANSIT
+760	UPS000760	10	1	5	6	2026-02-11	8.38	50000.00	IN_TRANSIT
+761	UPS000761	2	3	7	5	2026-05-08	5.88	60000.00	IN_TRANSIT
+762	UPS000762	3	2	8	3	2026-05-05	18.68	100000.00	IN_TRANSIT
+763	UPS000763	9	1	7	7	2026-04-14	10.52	100000.00	IN_TRANSIT
+764	UPS000764	2	1	3	3	2026-03-25	7.00	130000.00	IN_TRANSIT
+765	UPS000765	6	3	6	4	2026-01-27	19.12	50000.00	IN_TRANSIT
+766	UPS000766	5	3	5	2	2026-03-03	10.25	110000.00	IN_TRANSIT
+767	UPS000767	10	1	2	4	2026-03-24	9.65	80000.00	IN_TRANSIT
+768	UPS000768	4	1	2	7	2026-05-27	5.50	60000.00	IN_TRANSIT
+769	UPS000769	6	2	1	8	2026-05-25	5.04	120000.00	IN_TRANSIT
+770	UPS000770	5	1	6	1	2026-02-08	8.74	70000.00	IN_TRANSIT
+771	UPS000771	4	3	6	6	2026-01-08	16.53	90000.00	IN_TRANSIT
+772	UPS000772	6	3	7	4	2026-02-13	13.55	70000.00	IN_TRANSIT
+773	UPS000773	1	2	3	2	2026-04-09	15.07	60000.00	IN_TRANSIT
+774	UPS000774	5	3	2	8	2026-06-19	16.32	70000.00	IN_TRANSIT
+775	UPS000775	5	3	6	4	2026-05-30	4.11	100000.00	IN_TRANSIT
+776	UPS000776	6	1	8	2	2026-04-21	18.45	60000.00	IN_TRANSIT
+777	UPS000777	11	3	2	1	2026-01-14	1.74	120000.00	IN_TRANSIT
+778	UPS000778	8	1	4	1	2026-06-21	1.75	60000.00	IN_TRANSIT
+779	UPS000779	11	2	4	5	2026-04-09	9.03	120000.00	IN_TRANSIT
+780	UPS000780	11	1	5	3	2026-05-02	10.88	70000.00	IN_TRANSIT
+781	UPS000781	5	3	7	8	2026-06-07	13.12	80000.00	IN_TRANSIT
+782	UPS000782	6	1	2	4	2026-04-06	14.81	140000.00	IN_TRANSIT
+783	UPS000783	10	3	8	1	2026-03-26	9.05	120000.00	IN_TRANSIT
+784	UPS000784	3	1	5	1	2026-04-30	12.21	110000.00	IN_TRANSIT
+785	UPS000785	3	2	8	1	2026-05-12	19.96	60000.00	IN_TRANSIT
+786	UPS000786	4	1	7	1	2026-06-22	15.64	120000.00	IN_TRANSIT
+787	UPS000787	9	1	6	4	2026-05-31	16.24	120000.00	IN_TRANSIT
+788	UPS000788	1	2	3	6	2026-04-18	8.25	110000.00	IN_TRANSIT
+789	UPS000789	3	2	4	2	2026-06-03	3.38	70000.00	IN_TRANSIT
+790	UPS000790	11	2	8	3	2026-06-26	5.24	110000.00	IN_TRANSIT
+791	UPS000791	5	1	5	5	2026-01-03	2.45	50000.00	IN_TRANSIT
+792	UPS000792	8	3	2	4	2026-04-04	2.22	120000.00	IN_TRANSIT
+793	UPS000793	11	3	7	6	2026-02-03	6.35	80000.00	IN_TRANSIT
+794	UPS000794	8	2	2	8	2026-04-20	4.94	120000.00	IN_TRANSIT
+795	UPS000795	8	2	8	2	2026-02-10	4.74	70000.00	IN_TRANSIT
+796	UPS000796	6	3	5	2	2026-06-18	12.17	50000.00	IN_TRANSIT
+797	UPS000797	10	1	3	5	2026-02-16	12.22	140000.00	IN_TRANSIT
+798	UPS000798	11	1	3	3	2026-04-15	16.86	130000.00	IN_TRANSIT
+799	UPS000799	1	3	4	2	2026-03-03	15.79	100000.00	IN_TRANSIT
+800	UPS000800	2	3	2	7	2026-01-11	11.02	110000.00	IN_TRANSIT
+801	UPS000801	1	2	5	2	2026-02-26	9.06	90000.00	IN_TRANSIT
+802	UPS000802	5	3	1	6	2026-02-25	12.86	70000.00	IN_TRANSIT
+803	UPS000803	10	2	2	4	2026-05-18	17.66	140000.00	IN_TRANSIT
+804	UPS000804	9	3	5	5	2026-04-12	16.69	60000.00	IN_TRANSIT
+805	UPS000805	11	1	5	5	2026-01-15	11.42	80000.00	IN_TRANSIT
+806	UPS000806	2	3	5	2	2026-04-20	18.12	60000.00	IN_TRANSIT
+807	UPS000807	7	2	2	8	2026-02-20	10.24	60000.00	IN_TRANSIT
+808	UPS000808	6	1	4	1	2026-01-03	15.69	120000.00	IN_TRANSIT
+809	UPS000809	5	2	2	4	2026-05-05	2.64	50000.00	IN_TRANSIT
+810	UPS000810	8	3	3	1	2026-02-19	9.80	130000.00	IN_TRANSIT
+811	UPS000811	9	2	7	7	2026-03-16	2.78	70000.00	IN_TRANSIT
+812	UPS000812	1	3	4	6	2026-02-12	15.48	120000.00	IN_TRANSIT
+813	UPS000813	3	2	1	2	2026-03-08	6.79	140000.00	IN_TRANSIT
+814	UPS000814	9	2	6	2	2026-06-16	13.35	70000.00	IN_TRANSIT
+815	UPS000815	8	2	3	5	2026-06-08	7.18	60000.00	IN_TRANSIT
+816	UPS000816	3	1	4	4	2026-03-13	14.74	120000.00	IN_TRANSIT
+817	UPS000817	5	2	6	8	2026-06-09	16.78	50000.00	IN_TRANSIT
+818	UPS000818	2	1	8	2	2026-04-20	11.20	90000.00	IN_TRANSIT
+819	UPS000819	10	2	8	4	2026-05-29	13.87	110000.00	IN_TRANSIT
+820	UPS000820	9	3	1	4	2026-06-09	10.22	100000.00	IN_TRANSIT
+821	UPS000821	4	3	7	6	2026-01-24	10.67	70000.00	IN_TRANSIT
+822	UPS000822	9	2	1	8	2026-04-15	6.50	130000.00	IN_TRANSIT
+823	UPS000823	11	2	6	2	2026-06-10	15.09	110000.00	IN_TRANSIT
+824	UPS000824	3	2	5	8	2026-02-10	17.57	120000.00	IN_TRANSIT
+825	UPS000825	7	1	1	1	2026-01-20	11.71	110000.00	IN_TRANSIT
+826	UPS000826	7	3	6	4	2026-04-16	5.88	80000.00	IN_TRANSIT
+827	UPS000827	5	3	5	3	2026-03-11	12.95	110000.00	IN_TRANSIT
+828	UPS000828	3	3	4	6	2026-05-19	19.96	90000.00	IN_TRANSIT
+829	UPS000829	2	2	7	4	2026-01-14	6.32	50000.00	IN_TRANSIT
+830	UPS000830	9	2	8	6	2026-02-24	5.22	70000.00	IN_TRANSIT
+831	UPS000831	8	3	6	7	2026-03-22	14.84	100000.00	IN_TRANSIT
+832	UPS000832	3	3	1	4	2026-04-28	7.84	140000.00	IN_TRANSIT
+833	UPS000833	11	1	1	1	2026-01-07	14.71	110000.00	IN_TRANSIT
+834	UPS000834	8	2	8	7	2026-05-03	2.85	60000.00	IN_TRANSIT
+835	UPS000835	7	2	3	7	2026-04-16	17.63	100000.00	IN_TRANSIT
+836	UPS000836	2	2	5	3	2026-03-22	3.72	140000.00	IN_TRANSIT
+837	UPS000837	10	1	7	7	2026-06-24	11.70	130000.00	IN_TRANSIT
+838	UPS000838	6	2	2	1	2026-05-02	10.78	80000.00	IN_TRANSIT
+839	UPS000839	7	2	8	7	2026-01-10	11.77	130000.00	IN_TRANSIT
+840	UPS000840	7	1	2	8	2026-02-23	12.31	90000.00	IN_TRANSIT
+841	UPS000841	9	3	4	3	2026-03-26	17.27	130000.00	IN_TRANSIT
+842	UPS000842	10	3	5	5	2026-03-14	9.10	90000.00	IN_TRANSIT
+843	UPS000843	7	2	4	4	2026-05-25	4.93	100000.00	IN_TRANSIT
+844	UPS000844	4	2	4	1	2026-02-13	10.28	90000.00	IN_TRANSIT
+845	UPS000845	5	3	8	5	2026-03-29	1.10	130000.00	IN_TRANSIT
+846	UPS000846	10	3	1	4	2026-03-01	7.69	80000.00	IN_TRANSIT
+847	UPS000847	7	1	5	2	2026-03-04	9.88	120000.00	IN_TRANSIT
+848	UPS000848	3	2	2	4	2026-04-05	9.98	60000.00	IN_TRANSIT
+849	UPS000849	11	1	3	3	2026-03-29	15.76	130000.00	IN_TRANSIT
+850	UPS000850	11	2	5	2	2026-04-13	13.77	140000.00	IN_TRANSIT
+851	UPS000851	10	3	7	8	2026-02-24	6.16	80000.00	IN_TRANSIT
+852	UPS000852	9	1	6	8	2026-01-08	3.48	90000.00	IN_TRANSIT
+853	UPS000853	5	1	1	3	2026-03-29	6.25	130000.00	IN_TRANSIT
+854	UPS000854	10	3	1	2	2026-02-26	12.66	120000.00	IN_TRANSIT
+855	UPS000855	9	2	6	1	2026-06-14	3.88	80000.00	IN_TRANSIT
+856	UPS000856	4	3	3	7	2026-01-03	12.57	60000.00	IN_TRANSIT
+857	UPS000857	8	2	4	8	2026-03-06	17.19	100000.00	IN_TRANSIT
+858	UPS000858	2	2	8	1	2026-02-19	14.23	80000.00	IN_TRANSIT
+859	UPS000859	11	2	3	2	2026-06-22	5.82	100000.00	IN_TRANSIT
+860	UPS000860	7	1	7	3	2026-05-23	1.65	110000.00	IN_TRANSIT
+861	UPS000861	2	3	2	1	2026-05-15	7.80	130000.00	IN_TRANSIT
+862	UPS000862	10	3	8	3	2026-05-28	14.13	100000.00	IN_TRANSIT
+863	UPS000863	3	1	4	3	2026-05-09	12.35	110000.00	IN_TRANSIT
+864	UPS000864	5	2	4	1	2026-02-05	15.54	60000.00	IN_TRANSIT
+865	UPS000865	1	1	5	5	2026-05-30	5.12	140000.00	IN_TRANSIT
+866	UPS000866	6	3	7	1	2026-03-11	3.76	50000.00	IN_TRANSIT
+867	UPS000867	4	3	2	3	2026-05-01	19.20	110000.00	IN_TRANSIT
+868	UPS000868	4	3	8	1	2026-03-12	19.72	130000.00	IN_TRANSIT
+869	UPS000869	6	2	2	4	2026-03-01	12.00	50000.00	IN_TRANSIT
+870	UPS000870	11	2	1	2	2026-02-16	10.52	50000.00	IN_TRANSIT
+871	UPS000871	10	1	6	2	2026-05-11	19.64	110000.00	IN_TRANSIT
+872	UPS000872	2	1	6	4	2026-02-22	2.01	80000.00	IN_TRANSIT
+873	UPS000873	2	2	7	3	2026-05-01	10.85	110000.00	IN_TRANSIT
+874	UPS000874	2	3	3	3	2026-05-31	17.58	100000.00	IN_TRANSIT
+875	UPS000875	1	1	8	1	2026-04-04	3.61	60000.00	IN_TRANSIT
+876	UPS000876	2	1	1	8	2026-04-21	19.06	130000.00	IN_TRANSIT
+877	UPS000877	6	2	4	6	2026-06-24	8.39	80000.00	IN_TRANSIT
+878	UPS000878	9	2	5	1	2026-05-08	16.74	120000.00	IN_TRANSIT
+879	UPS000879	4	2	6	8	2026-03-19	12.98	130000.00	IN_TRANSIT
+880	UPS000880	11	1	8	7	2026-03-30	17.11	140000.00	IN_TRANSIT
+881	UPS000881	1	1	7	5	2026-05-16	7.32	130000.00	IN_TRANSIT
+882	UPS000882	4	3	2	5	2026-06-09	17.76	60000.00	IN_TRANSIT
+883	UPS000883	2	3	5	1	2026-02-11	10.18	80000.00	IN_TRANSIT
+884	UPS000884	7	3	7	5	2026-06-09	8.00	140000.00	IN_TRANSIT
+885	UPS000885	4	3	8	4	2026-05-05	16.74	90000.00	IN_TRANSIT
+886	UPS000886	4	2	1	2	2026-04-08	5.85	130000.00	IN_TRANSIT
+887	UPS000887	2	1	1	8	2026-06-21	18.19	100000.00	IN_TRANSIT
+888	UPS000888	5	2	8	2	2026-02-19	8.38	60000.00	IN_TRANSIT
+889	UPS000889	7	2	5	5	2026-05-30	9.04	90000.00	IN_TRANSIT
+890	UPS000890	5	3	2	1	2026-05-06	3.14	110000.00	IN_TRANSIT
+891	UPS000891	2	3	7	4	2026-01-26	19.78	110000.00	IN_TRANSIT
+892	UPS000892	7	2	4	5	2026-06-15	5.67	140000.00	IN_TRANSIT
+893	UPS000893	3	2	3	5	2026-05-20	8.40	90000.00	IN_TRANSIT
+894	UPS000894	7	1	6	2	2026-02-11	18.83	110000.00	IN_TRANSIT
+895	UPS000895	9	1	6	6	2026-02-27	19.59	50000.00	IN_TRANSIT
+896	UPS000896	8	2	6	3	2026-06-18	4.04	100000.00	IN_TRANSIT
+897	UPS000897	10	1	6	7	2026-06-03	16.80	50000.00	IN_TRANSIT
+898	UPS000898	2	1	4	4	2026-06-04	4.21	90000.00	IN_TRANSIT
+899	UPS000899	4	1	5	4	2026-04-05	19.47	130000.00	IN_TRANSIT
+900	UPS000900	5	3	1	1	2026-02-18	2.47	80000.00	IN_TRANSIT
+901	UPS000901	4	1	8	3	2026-05-15	7.48	90000.00	CANCELLED
+902	UPS000902	11	3	3	4	2026-06-09	4.76	120000.00	CANCELLED
+903	UPS000903	2	1	5	8	2026-06-16	19.39	120000.00	CANCELLED
+904	UPS000904	9	3	2	1	2026-03-18	11.39	140000.00	CANCELLED
+905	UPS000905	2	1	7	1	2026-05-09	14.03	140000.00	CANCELLED
+906	UPS000906	11	1	7	3	2026-04-18	9.46	90000.00	CANCELLED
+907	UPS000907	4	1	2	2	2026-03-06	6.92	70000.00	CANCELLED
+908	UPS000908	9	3	7	8	2026-05-17	5.70	100000.00	CANCELLED
+909	UPS000909	8	1	4	5	2026-04-11	18.95	60000.00	CANCELLED
+910	UPS000910	3	2	7	1	2026-01-17	10.37	110000.00	CANCELLED
+911	UPS000911	9	1	7	1	2026-01-10	7.00	60000.00	CANCELLED
+912	UPS000912	6	3	7	6	2026-05-31	6.19	110000.00	CANCELLED
+913	UPS000913	6	2	4	3	2026-06-09	15.63	110000.00	CANCELLED
+914	UPS000914	3	3	7	1	2026-01-21	17.97	140000.00	CANCELLED
+915	UPS000915	5	1	3	7	2026-04-06	7.66	140000.00	CANCELLED
+916	UPS000916	6	3	7	4	2026-05-30	1.86	90000.00	CANCELLED
+917	UPS000917	2	3	5	3	2026-06-24	14.85	130000.00	CANCELLED
+918	UPS000918	10	2	3	8	2026-04-20	13.00	110000.00	CANCELLED
+919	UPS000919	3	1	1	5	2026-02-24	4.64	70000.00	CANCELLED
+920	UPS000920	4	2	3	3	2026-02-27	2.33	110000.00	CANCELLED
+921	UPS000921	1	1	6	5	2026-01-06	9.07	110000.00	CANCELLED
+922	UPS000922	3	1	1	8	2026-05-06	14.98	90000.00	CANCELLED
+923	UPS000923	6	1	8	4	2026-02-13	18.62	100000.00	CANCELLED
+924	UPS000924	2	3	8	3	2026-05-04	14.84	70000.00	CANCELLED
+925	UPS000925	6	3	6	5	2026-06-02	8.54	60000.00	CANCELLED
+926	UPS000926	10	3	8	5	2026-05-11	11.48	140000.00	CANCELLED
+927	UPS000927	7	3	4	6	2026-01-20	11.85	80000.00	CANCELLED
+928	UPS000928	8	1	2	7	2026-02-05	3.98	130000.00	CANCELLED
+929	UPS000929	1	2	5	3	2026-01-20	6.94	120000.00	CANCELLED
+930	UPS000930	3	2	1	5	2026-01-20	3.93	120000.00	CANCELLED
+931	UPS000931	6	1	8	2	2026-01-12	13.20	90000.00	CANCELLED
+932	UPS000932	7	3	8	2	2026-05-16	17.20	120000.00	CANCELLED
+933	UPS000933	3	2	7	5	2026-05-20	18.74	100000.00	CANCELLED
+934	UPS000934	5	3	7	3	2026-02-15	19.70	130000.00	CANCELLED
+935	UPS000935	3	2	4	4	2026-06-24	15.61	90000.00	CANCELLED
+936	UPS000936	2	2	8	6	2026-06-19	19.25	120000.00	CANCELLED
+937	UPS000937	4	1	7	5	2026-03-03	14.29	100000.00	CANCELLED
+938	UPS000938	3	1	7	6	2026-06-10	2.77	110000.00	CANCELLED
+939	UPS000939	1	3	8	6	2026-03-19	19.89	90000.00	CANCELLED
+940	UPS000940	10	3	2	1	2026-02-17	18.40	100000.00	CANCELLED
+941	UPS000941	11	3	5	2	2026-02-07	2.88	120000.00	CANCELLED
+942	UPS000942	7	3	7	3	2026-01-01	15.92	130000.00	CANCELLED
+943	UPS000943	4	1	6	8	2026-04-11	12.29	50000.00	CANCELLED
+944	UPS000944	3	1	5	7	2026-04-06	19.85	80000.00	CANCELLED
+945	UPS000945	10	1	3	7	2026-01-23	17.65	100000.00	CANCELLED
+946	UPS000946	3	2	8	8	2026-04-28	19.59	70000.00	CANCELLED
+947	UPS000947	6	2	6	8	2026-05-06	8.36	60000.00	CANCELLED
+948	UPS000948	10	3	8	4	2026-02-02	5.48	60000.00	CANCELLED
+949	UPS000949	2	2	4	3	2026-01-07	10.78	120000.00	CANCELLED
+950	UPS000950	2	3	7	6	2026-02-05	12.79	100000.00	CANCELLED
+951	UPS000951	1	1	7	6	2026-06-17	7.48	140000.00	CANCELLED
+952	UPS000952	1	3	2	6	2026-02-11	14.09	140000.00	CANCELLED
+953	UPS000953	11	3	2	8	2026-04-24	18.49	70000.00	CANCELLED
+954	UPS000954	5	3	4	4	2026-03-21	4.33	90000.00	CANCELLED
+955	UPS000955	5	1	4	4	2026-04-25	17.50	100000.00	CANCELLED
+956	UPS000956	5	3	8	5	2026-04-28	15.45	70000.00	CANCELLED
+957	UPS000957	3	2	7	1	2026-03-25	6.78	140000.00	CANCELLED
+958	UPS000958	3	3	8	7	2026-05-14	4.16	100000.00	CANCELLED
+959	UPS000959	11	2	4	4	2026-03-18	14.06	60000.00	CANCELLED
+960	UPS000960	6	2	7	7	2026-05-26	17.16	90000.00	CANCELLED
+961	UPS000961	7	3	4	6	2026-01-10	6.14	50000.00	CANCELLED
+962	UPS000962	2	2	8	5	2026-02-05	5.70	90000.00	CANCELLED
+963	UPS000963	8	3	6	7	2026-06-18	13.16	110000.00	CANCELLED
+964	UPS000964	6	3	8	7	2026-03-14	15.47	80000.00	CANCELLED
+965	UPS000965	11	2	2	3	2026-03-08	1.56	100000.00	CANCELLED
+966	UPS000966	7	3	2	2	2026-06-03	9.45	100000.00	CANCELLED
+967	UPS000967	3	2	2	2	2026-06-27	3.98	50000.00	CANCELLED
+968	UPS000968	7	2	1	3	2026-04-25	17.41	70000.00	CANCELLED
+969	UPS000969	7	3	3	6	2026-03-10	10.23	100000.00	CANCELLED
+970	UPS000970	3	2	2	2	2026-03-29	10.26	90000.00	CANCELLED
+971	UPS000971	1	3	2	4	2026-04-25	15.64	70000.00	CANCELLED
+972	UPS000972	7	1	6	5	2026-04-25	8.51	130000.00	CANCELLED
+973	UPS000973	8	3	7	3	2026-03-30	11.24	70000.00	CANCELLED
+974	UPS000974	8	2	1	4	2026-01-01	11.99	90000.00	CANCELLED
+975	UPS000975	10	1	5	2	2026-05-29	14.71	140000.00	CANCELLED
+976	UPS000976	6	3	8	7	2026-01-16	5.59	100000.00	CANCELLED
+977	UPS000977	5	1	5	5	2026-04-01	18.97	110000.00	CANCELLED
+978	UPS000978	9	2	7	8	2026-05-22	13.45	70000.00	CANCELLED
+979	UPS000979	1	2	7	5	2026-01-13	16.71	50000.00	CANCELLED
+980	UPS000980	8	3	4	1	2026-03-08	13.62	90000.00	CANCELLED
+981	UPS000981	5	1	3	1	2026-06-12	5.92	50000.00	CANCELLED
+982	UPS000982	1	1	3	7	2026-02-12	8.20	90000.00	CANCELLED
+983	UPS000983	10	2	8	3	2026-05-18	7.98	70000.00	CANCELLED
+984	UPS000984	4	2	2	3	2026-01-05	4.71	80000.00	CANCELLED
+985	UPS000985	9	3	2	7	2026-06-13	6.52	60000.00	CANCELLED
+986	UPS000986	10	1	7	6	2026-01-17	10.69	60000.00	CANCELLED
+987	UPS000987	1	3	5	1	2026-03-13	8.70	80000.00	CANCELLED
+988	UPS000988	4	2	6	5	2026-01-05	14.17	60000.00	CANCELLED
+989	UPS000989	9	2	4	3	2026-02-03	16.35	120000.00	CANCELLED
+990	UPS000990	4	2	6	3	2026-01-28	10.72	110000.00	CANCELLED
+991	UPS000991	9	2	2	3	2026-02-28	11.77	70000.00	CANCELLED
+992	UPS000992	3	2	8	5	2026-03-13	13.83	70000.00	CANCELLED
+993	UPS000993	7	3	6	1	2026-06-08	9.48	140000.00	CANCELLED
+994	UPS000994	3	3	5	8	2026-05-08	10.34	70000.00	CANCELLED
+995	UPS000995	10	3	3	7	2026-06-07	16.38	60000.00	CANCELLED
+996	UPS000996	11	1	8	6	2026-06-15	9.99	50000.00	CANCELLED
+997	UPS000997	1	1	8	7	2026-03-28	17.79	140000.00	CANCELLED
+998	UPS000998	9	1	8	7	2026-02-25	14.57	140000.00	CANCELLED
+999	UPS000999	8	2	2	2	2026-03-25	13.08	140000.00	CANCELLED
+1000	UPS001000	10	3	3	1	2026-02-21	5.25	110000.00	CANCELLED
+\.
+
+
+--
+-- TOC entry 3527 (class 0 OID 16625)
+-- Dependencies: 232
+-- Data for Name: tracking_events; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.tracking_events (tracking_id, shipment_id, location_id, event_time, tracking_status) FROM stdin;
+1	1	4	2026-01-12 08:00:00	PICKED_UP
+2	2	3	2026-05-05 08:00:00	PICKED_UP
+3	3	3	2026-04-23 08:00:00	PICKED_UP
+4	4	4	2026-01-29 08:00:00	PICKED_UP
+5	5	4	2026-02-16 08:00:00	PICKED_UP
+6	6	3	2026-02-20 08:00:00	PICKED_UP
+7	7	6	2026-05-27 08:00:00	PICKED_UP
+8	8	3	2026-03-10 08:00:00	PICKED_UP
+9	9	3	2026-05-27 08:00:00	PICKED_UP
+10	10	1	2026-03-18 08:00:00	PICKED_UP
+11	11	7	2026-06-24 08:00:00	PICKED_UP
+12	12	7	2026-02-27 08:00:00	PICKED_UP
+13	13	2	2026-04-20 08:00:00	PICKED_UP
+14	14	1	2026-04-15 08:00:00	PICKED_UP
+15	15	7	2026-06-09 08:00:00	PICKED_UP
+16	16	8	2026-01-25 08:00:00	PICKED_UP
+17	17	6	2026-02-24 08:00:00	PICKED_UP
+18	18	1	2026-01-16 08:00:00	PICKED_UP
+19	19	5	2026-03-16 08:00:00	PICKED_UP
+20	20	5	2026-01-30 08:00:00	PICKED_UP
+21	21	1	2026-05-05 08:00:00	PICKED_UP
+22	22	1	2026-04-10 08:00:00	PICKED_UP
+23	23	1	2026-04-13 08:00:00	PICKED_UP
+24	24	8	2026-06-05 08:00:00	PICKED_UP
+25	25	3	2026-05-11 08:00:00	PICKED_UP
+26	26	3	2026-06-02 08:00:00	PICKED_UP
+27	27	8	2026-01-16 08:00:00	PICKED_UP
+28	28	1	2026-05-02 08:00:00	PICKED_UP
+29	29	7	2026-03-10 08:00:00	PICKED_UP
+30	30	8	2026-03-13 08:00:00	PICKED_UP
+31	31	3	2026-04-13 08:00:00	PICKED_UP
+32	32	1	2026-05-04 08:00:00	PICKED_UP
+33	33	6	2026-03-09 08:00:00	PICKED_UP
+34	34	5	2026-05-21 08:00:00	PICKED_UP
+35	35	1	2026-01-29 08:00:00	PICKED_UP
+36	36	2	2026-04-15 08:00:00	PICKED_UP
+37	37	1	2026-04-14 08:00:00	PICKED_UP
+38	38	5	2026-02-10 08:00:00	PICKED_UP
+39	39	8	2026-04-02 08:00:00	PICKED_UP
+40	40	1	2026-01-13 08:00:00	PICKED_UP
+41	41	7	2026-01-30 08:00:00	PICKED_UP
+42	42	4	2026-03-16 08:00:00	PICKED_UP
+43	43	4	2026-02-01 08:00:00	PICKED_UP
+44	44	1	2026-04-16 08:00:00	PICKED_UP
+45	45	7	2026-02-04 08:00:00	PICKED_UP
+46	46	2	2026-06-14 08:00:00	PICKED_UP
+47	47	1	2026-04-09 08:00:00	PICKED_UP
+48	48	5	2026-05-12 08:00:00	PICKED_UP
+49	49	3	2026-02-11 08:00:00	PICKED_UP
+50	50	4	2026-05-08 08:00:00	PICKED_UP
+51	51	4	2026-02-14 08:00:00	PICKED_UP
+52	52	3	2026-04-02 08:00:00	PICKED_UP
+53	53	5	2026-05-01 08:00:00	PICKED_UP
+54	54	4	2026-03-22 08:00:00	PICKED_UP
+55	55	2	2026-01-21 08:00:00	PICKED_UP
+56	56	5	2026-04-22 08:00:00	PICKED_UP
+57	57	6	2026-02-09 08:00:00	PICKED_UP
+58	58	7	2026-01-27 08:00:00	PICKED_UP
+59	59	3	2026-02-05 08:00:00	PICKED_UP
+60	60	5	2026-04-24 08:00:00	PICKED_UP
+61	61	4	2026-03-11 08:00:00	PICKED_UP
+62	62	3	2026-06-26 08:00:00	PICKED_UP
+63	63	8	2026-05-21 08:00:00	PICKED_UP
+64	64	6	2026-06-09 08:00:00	PICKED_UP
+65	65	8	2026-06-27 08:00:00	PICKED_UP
+66	66	8	2026-06-20 08:00:00	PICKED_UP
+67	67	2	2026-03-22 08:00:00	PICKED_UP
+68	68	5	2026-03-10 08:00:00	PICKED_UP
+69	69	1	2026-04-16 08:00:00	PICKED_UP
+70	70	1	2026-01-26 08:00:00	PICKED_UP
+71	71	6	2026-04-21 08:00:00	PICKED_UP
+72	72	7	2026-01-30 08:00:00	PICKED_UP
+73	73	4	2026-02-04 08:00:00	PICKED_UP
+74	74	4	2026-06-01 08:00:00	PICKED_UP
+75	75	3	2026-04-21 08:00:00	PICKED_UP
+76	76	5	2026-03-03 08:00:00	PICKED_UP
+77	77	7	2026-06-25 08:00:00	PICKED_UP
+78	78	2	2026-02-26 08:00:00	PICKED_UP
+79	79	4	2026-01-04 08:00:00	PICKED_UP
+80	80	5	2026-04-21 08:00:00	PICKED_UP
+81	81	3	2026-03-20 08:00:00	PICKED_UP
+82	82	6	2026-06-25 08:00:00	PICKED_UP
+83	83	5	2026-03-01 08:00:00	PICKED_UP
+84	84	4	2026-05-27 08:00:00	PICKED_UP
+85	85	5	2026-05-16 08:00:00	PICKED_UP
+86	86	5	2026-03-29 08:00:00	PICKED_UP
+87	87	6	2026-01-09 08:00:00	PICKED_UP
+88	88	1	2026-02-19 08:00:00	PICKED_UP
+89	89	2	2026-02-14 08:00:00	PICKED_UP
+90	90	1	2026-06-12 08:00:00	PICKED_UP
+91	91	5	2026-03-12 08:00:00	PICKED_UP
+92	92	8	2026-02-19 08:00:00	PICKED_UP
+93	93	4	2026-01-31 08:00:00	PICKED_UP
+94	94	8	2026-02-20 08:00:00	PICKED_UP
+95	95	7	2026-03-11 08:00:00	PICKED_UP
+96	96	1	2026-02-07 08:00:00	PICKED_UP
+97	97	2	2026-06-16 08:00:00	PICKED_UP
+98	98	8	2026-01-27 08:00:00	PICKED_UP
+99	99	5	2026-03-04 08:00:00	PICKED_UP
+100	100	4	2026-06-21 08:00:00	PICKED_UP
+101	101	6	2026-04-04 08:00:00	PICKED_UP
+102	102	8	2026-01-04 08:00:00	PICKED_UP
+103	103	2	2026-06-28 08:00:00	PICKED_UP
+104	104	3	2026-06-11 08:00:00	PICKED_UP
+105	105	7	2026-02-05 08:00:00	PICKED_UP
+106	106	1	2026-06-14 08:00:00	PICKED_UP
+107	107	5	2026-05-10 08:00:00	PICKED_UP
+108	108	1	2026-05-24 08:00:00	PICKED_UP
+109	109	7	2026-03-09 08:00:00	PICKED_UP
+110	110	4	2026-01-03 08:00:00	PICKED_UP
+111	111	7	2026-06-13 08:00:00	PICKED_UP
+112	112	8	2026-02-07 08:00:00	PICKED_UP
+113	113	6	2026-06-20 08:00:00	PICKED_UP
+114	114	2	2026-03-27 08:00:00	PICKED_UP
+115	115	6	2026-03-28 08:00:00	PICKED_UP
+116	116	4	2026-06-19 08:00:00	PICKED_UP
+117	117	2	2026-01-10 08:00:00	PICKED_UP
+118	118	5	2026-02-13 08:00:00	PICKED_UP
+119	119	2	2026-01-15 08:00:00	PICKED_UP
+120	120	4	2026-06-04 08:00:00	PICKED_UP
+121	121	6	2026-05-26 08:00:00	PICKED_UP
+122	122	1	2026-05-17 08:00:00	PICKED_UP
+123	123	1	2026-05-16 08:00:00	PICKED_UP
+124	124	2	2026-06-28 08:00:00	PICKED_UP
+125	125	5	2026-05-30 08:00:00	PICKED_UP
+126	126	1	2026-06-22 08:00:00	PICKED_UP
+127	127	8	2026-01-16 08:00:00	PICKED_UP
+128	128	2	2026-04-24 08:00:00	PICKED_UP
+129	129	3	2026-05-10 08:00:00	PICKED_UP
+130	130	7	2026-01-02 08:00:00	PICKED_UP
+131	131	8	2026-05-26 08:00:00	PICKED_UP
+132	132	5	2026-01-19 08:00:00	PICKED_UP
+133	133	6	2026-03-11 08:00:00	PICKED_UP
+134	134	7	2026-05-05 08:00:00	PICKED_UP
+135	135	3	2026-03-02 08:00:00	PICKED_UP
+136	136	3	2026-01-27 08:00:00	PICKED_UP
+137	137	3	2026-04-22 08:00:00	PICKED_UP
+138	138	6	2026-05-16 08:00:00	PICKED_UP
+139	139	4	2026-06-16 08:00:00	PICKED_UP
+140	140	7	2026-04-30 08:00:00	PICKED_UP
+141	141	7	2026-03-20 08:00:00	PICKED_UP
+142	142	1	2026-05-14 08:00:00	PICKED_UP
+143	143	1	2026-06-17 08:00:00	PICKED_UP
+144	144	7	2026-04-06 08:00:00	PICKED_UP
+145	145	4	2026-04-29 08:00:00	PICKED_UP
+146	146	1	2026-01-22 08:00:00	PICKED_UP
+147	147	8	2026-04-25 08:00:00	PICKED_UP
+148	148	4	2026-03-13 08:00:00	PICKED_UP
+149	149	6	2026-04-24 08:00:00	PICKED_UP
+150	150	8	2026-02-21 08:00:00	PICKED_UP
+151	151	5	2026-02-14 08:00:00	PICKED_UP
+152	152	8	2026-01-10 08:00:00	PICKED_UP
+153	153	5	2026-02-22 08:00:00	PICKED_UP
+154	154	7	2026-01-25 08:00:00	PICKED_UP
+155	155	7	2026-04-17 08:00:00	PICKED_UP
+156	156	2	2026-01-15 08:00:00	PICKED_UP
+157	157	8	2026-01-02 08:00:00	PICKED_UP
+158	158	1	2026-01-03 08:00:00	PICKED_UP
+159	159	1	2026-01-09 08:00:00	PICKED_UP
+160	160	3	2026-01-18 08:00:00	PICKED_UP
+161	161	5	2026-01-05 08:00:00	PICKED_UP
+162	162	7	2026-06-19 08:00:00	PICKED_UP
+163	163	2	2026-06-09 08:00:00	PICKED_UP
+164	164	7	2026-04-15 08:00:00	PICKED_UP
+165	165	5	2026-02-24 08:00:00	PICKED_UP
+166	166	2	2026-04-28 08:00:00	PICKED_UP
+167	167	8	2026-04-03 08:00:00	PICKED_UP
+168	168	5	2026-01-29 08:00:00	PICKED_UP
+169	169	8	2026-03-10 08:00:00	PICKED_UP
+170	170	4	2026-05-13 08:00:00	PICKED_UP
+171	171	1	2026-05-09 08:00:00	PICKED_UP
+172	172	3	2026-03-11 08:00:00	PICKED_UP
+173	173	5	2026-03-12 08:00:00	PICKED_UP
+174	174	2	2026-04-15 08:00:00	PICKED_UP
+175	175	1	2026-01-15 08:00:00	PICKED_UP
+176	176	7	2026-06-12 08:00:00	PICKED_UP
+177	177	2	2026-05-01 08:00:00	PICKED_UP
+178	178	4	2026-06-26 08:00:00	PICKED_UP
+179	179	7	2026-05-09 08:00:00	PICKED_UP
+180	180	7	2026-02-02 08:00:00	PICKED_UP
+181	181	2	2026-02-05 08:00:00	PICKED_UP
+182	182	1	2026-02-16 08:00:00	PICKED_UP
+183	183	6	2026-06-11 08:00:00	PICKED_UP
+184	184	4	2026-06-17 08:00:00	PICKED_UP
+185	185	4	2026-05-08 08:00:00	PICKED_UP
+186	186	8	2026-06-06 08:00:00	PICKED_UP
+187	187	4	2026-05-24 08:00:00	PICKED_UP
+188	188	2	2026-03-09 08:00:00	PICKED_UP
+189	189	7	2026-03-05 08:00:00	PICKED_UP
+190	190	2	2026-06-29 08:00:00	PICKED_UP
+191	191	1	2026-03-15 08:00:00	PICKED_UP
+192	192	8	2026-03-31 08:00:00	PICKED_UP
+193	193	7	2026-04-05 08:00:00	PICKED_UP
+194	194	6	2026-01-15 08:00:00	PICKED_UP
+195	195	3	2026-04-11 08:00:00	PICKED_UP
+196	196	7	2026-03-16 08:00:00	PICKED_UP
+197	197	4	2026-03-11 08:00:00	PICKED_UP
+198	198	1	2026-02-03 08:00:00	PICKED_UP
+199	199	5	2026-06-22 08:00:00	PICKED_UP
+200	200	1	2026-03-15 08:00:00	PICKED_UP
+201	201	6	2026-04-02 08:00:00	PICKED_UP
+202	202	1	2026-03-29 08:00:00	PICKED_UP
+203	203	5	2026-04-25 08:00:00	PICKED_UP
+204	204	2	2026-03-10 08:00:00	PICKED_UP
+205	205	7	2026-06-18 08:00:00	PICKED_UP
+206	206	3	2026-03-02 08:00:00	PICKED_UP
+207	207	2	2026-05-22 08:00:00	PICKED_UP
+208	208	7	2026-02-09 08:00:00	PICKED_UP
+209	209	2	2026-06-17 08:00:00	PICKED_UP
+210	210	6	2026-02-10 08:00:00	PICKED_UP
+211	211	7	2026-03-27 08:00:00	PICKED_UP
+212	212	2	2026-02-09 08:00:00	PICKED_UP
+213	213	3	2026-01-01 08:00:00	PICKED_UP
+214	214	6	2026-06-01 08:00:00	PICKED_UP
+215	215	3	2026-06-27 08:00:00	PICKED_UP
+216	216	8	2026-01-04 08:00:00	PICKED_UP
+217	217	6	2026-03-15 08:00:00	PICKED_UP
+218	218	6	2026-02-26 08:00:00	PICKED_UP
+219	219	3	2026-04-09 08:00:00	PICKED_UP
+220	220	4	2026-06-24 08:00:00	PICKED_UP
+221	221	4	2026-05-03 08:00:00	PICKED_UP
+222	222	2	2026-04-16 08:00:00	PICKED_UP
+223	223	7	2026-04-06 08:00:00	PICKED_UP
+224	224	4	2026-01-14 08:00:00	PICKED_UP
+225	225	5	2026-04-18 08:00:00	PICKED_UP
+226	226	4	2026-03-22 08:00:00	PICKED_UP
+227	227	1	2026-04-23 08:00:00	PICKED_UP
+228	228	4	2026-01-06 08:00:00	PICKED_UP
+229	229	4	2026-01-15 08:00:00	PICKED_UP
+230	230	7	2026-06-14 08:00:00	PICKED_UP
+231	231	4	2026-03-08 08:00:00	PICKED_UP
+232	232	6	2026-02-17 08:00:00	PICKED_UP
+233	233	3	2026-03-01 08:00:00	PICKED_UP
+234	234	1	2026-01-18 08:00:00	PICKED_UP
+235	235	4	2026-04-05 08:00:00	PICKED_UP
+236	236	3	2026-05-20 08:00:00	PICKED_UP
+237	237	2	2026-03-17 08:00:00	PICKED_UP
+238	238	8	2026-01-05 08:00:00	PICKED_UP
+239	239	3	2026-01-12 08:00:00	PICKED_UP
+240	240	4	2026-01-04 08:00:00	PICKED_UP
+241	241	7	2026-01-25 08:00:00	PICKED_UP
+242	242	6	2026-06-18 08:00:00	PICKED_UP
+243	243	2	2026-01-29 08:00:00	PICKED_UP
+244	244	3	2026-04-05 08:00:00	PICKED_UP
+245	245	5	2026-05-09 08:00:00	PICKED_UP
+246	246	8	2026-01-13 08:00:00	PICKED_UP
+247	247	8	2026-03-22 08:00:00	PICKED_UP
+248	248	6	2026-04-19 08:00:00	PICKED_UP
+249	249	3	2026-03-11 08:00:00	PICKED_UP
+250	250	5	2026-01-22 08:00:00	PICKED_UP
+251	251	5	2026-05-23 08:00:00	PICKED_UP
+252	252	6	2026-01-26 08:00:00	PICKED_UP
+253	253	1	2026-03-05 08:00:00	PICKED_UP
+254	254	3	2026-01-04 08:00:00	PICKED_UP
+255	255	3	2026-06-29 08:00:00	PICKED_UP
+256	256	2	2026-02-02 08:00:00	PICKED_UP
+257	257	1	2026-04-11 08:00:00	PICKED_UP
+258	258	2	2026-04-09 08:00:00	PICKED_UP
+259	259	5	2026-02-11 08:00:00	PICKED_UP
+260	260	3	2026-02-22 08:00:00	PICKED_UP
+261	261	8	2026-06-10 08:00:00	PICKED_UP
+262	262	2	2026-04-29 08:00:00	PICKED_UP
+263	263	5	2026-05-11 08:00:00	PICKED_UP
+264	264	4	2026-05-02 08:00:00	PICKED_UP
+265	265	6	2026-06-13 08:00:00	PICKED_UP
+266	266	2	2026-06-16 08:00:00	PICKED_UP
+267	267	4	2026-01-31 08:00:00	PICKED_UP
+268	268	8	2026-04-15 08:00:00	PICKED_UP
+269	269	8	2026-04-02 08:00:00	PICKED_UP
+270	270	8	2026-02-25 08:00:00	PICKED_UP
+271	271	4	2026-01-04 08:00:00	PICKED_UP
+272	272	8	2026-06-05 08:00:00	PICKED_UP
+273	273	2	2026-06-21 08:00:00	PICKED_UP
+274	274	5	2026-03-09 08:00:00	PICKED_UP
+275	275	4	2026-03-12 08:00:00	PICKED_UP
+276	276	7	2026-03-20 08:00:00	PICKED_UP
+277	277	4	2026-04-22 08:00:00	PICKED_UP
+278	278	1	2026-05-08 08:00:00	PICKED_UP
+279	279	7	2026-02-22 08:00:00	PICKED_UP
+280	280	6	2026-01-07 08:00:00	PICKED_UP
+281	281	6	2026-04-22 08:00:00	PICKED_UP
+282	282	3	2026-02-27 08:00:00	PICKED_UP
+283	283	4	2026-02-20 08:00:00	PICKED_UP
+284	284	3	2026-05-06 08:00:00	PICKED_UP
+285	285	5	2026-05-29 08:00:00	PICKED_UP
+286	286	1	2026-02-13 08:00:00	PICKED_UP
+287	287	8	2026-02-28 08:00:00	PICKED_UP
+288	288	4	2026-06-03 08:00:00	PICKED_UP
+289	289	6	2026-06-09 08:00:00	PICKED_UP
+290	290	4	2026-03-11 08:00:00	PICKED_UP
+291	291	7	2026-03-20 08:00:00	PICKED_UP
+292	292	3	2026-02-27 08:00:00	PICKED_UP
+293	293	4	2026-03-26 08:00:00	PICKED_UP
+294	294	2	2026-06-27 08:00:00	PICKED_UP
+295	295	7	2026-05-15 08:00:00	PICKED_UP
+296	296	8	2026-02-19 08:00:00	PICKED_UP
+297	297	2	2026-02-11 08:00:00	PICKED_UP
+298	298	3	2026-04-28 08:00:00	PICKED_UP
+299	299	6	2026-05-26 08:00:00	PICKED_UP
+300	300	1	2026-06-21 08:00:00	PICKED_UP
+301	301	4	2026-04-04 08:00:00	PICKED_UP
+302	302	1	2026-02-08 08:00:00	PICKED_UP
+303	303	3	2026-04-26 08:00:00	PICKED_UP
+304	304	1	2026-06-03 08:00:00	PICKED_UP
+305	305	1	2026-04-27 08:00:00	PICKED_UP
+306	306	1	2026-06-04 08:00:00	PICKED_UP
+307	307	6	2026-05-17 08:00:00	PICKED_UP
+308	308	5	2026-02-22 08:00:00	PICKED_UP
+309	309	1	2026-06-19 08:00:00	PICKED_UP
+310	310	8	2026-05-13 08:00:00	PICKED_UP
+311	311	1	2026-05-01 08:00:00	PICKED_UP
+312	312	5	2026-03-12 08:00:00	PICKED_UP
+313	313	5	2026-05-13 08:00:00	PICKED_UP
+314	314	6	2026-02-15 08:00:00	PICKED_UP
+315	315	2	2026-06-02 08:00:00	PICKED_UP
+316	316	7	2026-04-16 08:00:00	PICKED_UP
+317	317	7	2026-04-19 08:00:00	PICKED_UP
+318	318	8	2026-06-07 08:00:00	PICKED_UP
+319	319	8	2026-06-18 08:00:00	PICKED_UP
+320	320	5	2026-04-13 08:00:00	PICKED_UP
+321	321	1	2026-01-05 08:00:00	PICKED_UP
+322	322	3	2026-03-20 08:00:00	PICKED_UP
+323	323	8	2026-05-11 08:00:00	PICKED_UP
+324	324	2	2026-06-24 08:00:00	PICKED_UP
+325	325	5	2026-06-18 08:00:00	PICKED_UP
+326	326	2	2026-06-05 08:00:00	PICKED_UP
+327	327	4	2026-03-31 08:00:00	PICKED_UP
+328	328	4	2026-01-11 08:00:00	PICKED_UP
+329	329	3	2026-02-07 08:00:00	PICKED_UP
+330	330	2	2026-03-18 08:00:00	PICKED_UP
+331	331	8	2026-03-31 08:00:00	PICKED_UP
+332	332	2	2026-04-09 08:00:00	PICKED_UP
+333	333	2	2026-04-09 08:00:00	PICKED_UP
+334	334	1	2026-03-04 08:00:00	PICKED_UP
+335	335	8	2026-02-18 08:00:00	PICKED_UP
+336	336	2	2026-05-17 08:00:00	PICKED_UP
+337	337	7	2026-06-25 08:00:00	PICKED_UP
+338	338	4	2026-05-07 08:00:00	PICKED_UP
+339	339	6	2026-05-30 08:00:00	PICKED_UP
+340	340	4	2026-05-04 08:00:00	PICKED_UP
+341	341	8	2026-03-11 08:00:00	PICKED_UP
+342	342	1	2026-02-11 08:00:00	PICKED_UP
+343	343	5	2026-05-29 08:00:00	PICKED_UP
+344	344	3	2026-01-20 08:00:00	PICKED_UP
+345	345	8	2026-05-19 08:00:00	PICKED_UP
+346	346	7	2026-05-09 08:00:00	PICKED_UP
+347	347	2	2026-02-18 08:00:00	PICKED_UP
+348	348	2	2026-04-11 08:00:00	PICKED_UP
+349	349	8	2026-05-04 08:00:00	PICKED_UP
+350	350	7	2026-03-05 08:00:00	PICKED_UP
+351	351	2	2026-03-25 08:00:00	PICKED_UP
+352	352	1	2026-02-24 08:00:00	PICKED_UP
+353	353	2	2026-02-09 08:00:00	PICKED_UP
+354	354	6	2026-05-04 08:00:00	PICKED_UP
+355	355	4	2026-03-10 08:00:00	PICKED_UP
+356	356	7	2026-03-10 08:00:00	PICKED_UP
+357	357	2	2026-02-17 08:00:00	PICKED_UP
+358	358	5	2026-04-01 08:00:00	PICKED_UP
+359	359	8	2026-01-18 08:00:00	PICKED_UP
+360	360	3	2026-05-08 08:00:00	PICKED_UP
+361	361	6	2026-05-21 08:00:00	PICKED_UP
+362	362	6	2026-03-03 08:00:00	PICKED_UP
+363	363	6	2026-05-07 08:00:00	PICKED_UP
+364	364	7	2026-03-11 08:00:00	PICKED_UP
+365	365	7	2026-06-29 08:00:00	PICKED_UP
+366	366	6	2026-05-09 08:00:00	PICKED_UP
+367	367	3	2026-05-10 08:00:00	PICKED_UP
+368	368	2	2026-05-09 08:00:00	PICKED_UP
+369	369	1	2026-01-04 08:00:00	PICKED_UP
+370	370	2	2026-03-08 08:00:00	PICKED_UP
+371	371	8	2026-03-18 08:00:00	PICKED_UP
+372	372	2	2026-04-12 08:00:00	PICKED_UP
+373	373	6	2026-04-24 08:00:00	PICKED_UP
+374	374	8	2026-02-03 08:00:00	PICKED_UP
+375	375	8	2026-04-07 08:00:00	PICKED_UP
+376	376	8	2026-06-17 08:00:00	PICKED_UP
+377	377	4	2026-02-01 08:00:00	PICKED_UP
+378	378	8	2026-03-18 08:00:00	PICKED_UP
+379	379	2	2026-03-01 08:00:00	PICKED_UP
+380	380	4	2026-04-10 08:00:00	PICKED_UP
+381	381	8	2026-05-23 08:00:00	PICKED_UP
+382	382	6	2026-06-01 08:00:00	PICKED_UP
+383	383	8	2026-05-12 08:00:00	PICKED_UP
+384	384	1	2026-04-17 08:00:00	PICKED_UP
+385	385	4	2026-04-23 08:00:00	PICKED_UP
+386	386	4	2026-04-26 08:00:00	PICKED_UP
+387	387	7	2026-06-27 08:00:00	PICKED_UP
+388	388	7	2026-05-31 08:00:00	PICKED_UP
+389	389	5	2026-01-13 08:00:00	PICKED_UP
+390	390	7	2026-04-03 08:00:00	PICKED_UP
+391	391	3	2026-06-29 08:00:00	PICKED_UP
+392	392	8	2026-03-03 08:00:00	PICKED_UP
+393	393	7	2026-03-28 08:00:00	PICKED_UP
+394	394	6	2026-06-25 08:00:00	PICKED_UP
+395	395	8	2026-06-09 08:00:00	PICKED_UP
+396	396	6	2026-01-30 08:00:00	PICKED_UP
+397	397	1	2026-02-02 08:00:00	PICKED_UP
+398	398	7	2026-02-07 08:00:00	PICKED_UP
+399	399	5	2026-04-30 08:00:00	PICKED_UP
+400	400	3	2026-03-31 08:00:00	PICKED_UP
+401	401	6	2026-06-03 08:00:00	PICKED_UP
+402	402	6	2026-03-26 08:00:00	PICKED_UP
+403	403	2	2026-03-21 08:00:00	PICKED_UP
+404	404	8	2026-01-17 08:00:00	PICKED_UP
+405	405	4	2026-05-14 08:00:00	PICKED_UP
+406	406	6	2026-06-06 08:00:00	PICKED_UP
+407	407	3	2026-05-30 08:00:00	PICKED_UP
+408	408	2	2026-04-13 08:00:00	PICKED_UP
+409	409	5	2026-03-28 08:00:00	PICKED_UP
+410	410	6	2026-02-12 08:00:00	PICKED_UP
+411	411	6	2026-03-19 08:00:00	PICKED_UP
+412	412	7	2026-03-12 08:00:00	PICKED_UP
+413	413	7	2026-05-17 08:00:00	PICKED_UP
+414	414	1	2026-06-02 08:00:00	PICKED_UP
+415	415	8	2026-02-14 08:00:00	PICKED_UP
+416	416	8	2026-04-10 08:00:00	PICKED_UP
+417	417	8	2026-06-20 08:00:00	PICKED_UP
+418	418	2	2026-06-13 08:00:00	PICKED_UP
+419	419	3	2026-01-17 08:00:00	PICKED_UP
+420	420	8	2026-04-11 08:00:00	PICKED_UP
+421	421	3	2026-04-27 08:00:00	PICKED_UP
+422	422	6	2026-01-28 08:00:00	PICKED_UP
+423	423	7	2026-01-03 08:00:00	PICKED_UP
+424	424	4	2026-04-21 08:00:00	PICKED_UP
+425	425	2	2026-01-28 08:00:00	PICKED_UP
+426	426	3	2026-01-20 08:00:00	PICKED_UP
+427	427	4	2026-05-05 08:00:00	PICKED_UP
+428	428	3	2026-05-04 08:00:00	PICKED_UP
+429	429	2	2026-05-03 08:00:00	PICKED_UP
+430	430	3	2026-06-12 08:00:00	PICKED_UP
+431	431	2	2026-01-24 08:00:00	PICKED_UP
+432	432	7	2026-04-05 08:00:00	PICKED_UP
+433	433	6	2026-02-13 08:00:00	PICKED_UP
+434	434	8	2026-02-18 08:00:00	PICKED_UP
+435	435	3	2026-03-16 08:00:00	PICKED_UP
+436	436	2	2026-04-06 08:00:00	PICKED_UP
+437	437	8	2026-03-31 08:00:00	PICKED_UP
+438	438	1	2026-05-25 08:00:00	PICKED_UP
+439	439	1	2026-03-21 08:00:00	PICKED_UP
+440	440	4	2026-05-23 08:00:00	PICKED_UP
+441	441	5	2026-05-20 08:00:00	PICKED_UP
+442	442	1	2026-01-24 08:00:00	PICKED_UP
+443	443	7	2026-02-11 08:00:00	PICKED_UP
+444	444	7	2026-02-11 08:00:00	PICKED_UP
+445	445	6	2026-05-09 08:00:00	PICKED_UP
+446	446	1	2026-06-20 08:00:00	PICKED_UP
+447	447	2	2026-05-22 08:00:00	PICKED_UP
+448	448	8	2026-04-18 08:00:00	PICKED_UP
+449	449	4	2026-03-04 08:00:00	PICKED_UP
+450	450	6	2026-02-01 08:00:00	PICKED_UP
+451	451	8	2026-01-28 08:00:00	PICKED_UP
+452	452	1	2026-04-10 08:00:00	PICKED_UP
+453	453	1	2026-04-17 08:00:00	PICKED_UP
+454	454	5	2026-01-14 08:00:00	PICKED_UP
+455	455	1	2026-04-08 08:00:00	PICKED_UP
+456	456	8	2026-05-15 08:00:00	PICKED_UP
+457	457	8	2026-05-13 08:00:00	PICKED_UP
+458	458	2	2026-01-06 08:00:00	PICKED_UP
+459	459	7	2026-06-08 08:00:00	PICKED_UP
+460	460	8	2026-03-04 08:00:00	PICKED_UP
+461	461	1	2026-01-12 08:00:00	PICKED_UP
+462	462	6	2026-04-18 08:00:00	PICKED_UP
+463	463	7	2026-04-24 08:00:00	PICKED_UP
+464	464	2	2026-06-16 08:00:00	PICKED_UP
+465	465	5	2026-03-17 08:00:00	PICKED_UP
+466	466	1	2026-03-12 08:00:00	PICKED_UP
+467	467	6	2026-06-27 08:00:00	PICKED_UP
+468	468	3	2026-04-08 08:00:00	PICKED_UP
+469	469	8	2026-01-09 08:00:00	PICKED_UP
+470	470	6	2026-04-05 08:00:00	PICKED_UP
+471	471	4	2026-02-21 08:00:00	PICKED_UP
+472	472	5	2026-06-22 08:00:00	PICKED_UP
+473	473	4	2026-04-19 08:00:00	PICKED_UP
+474	474	4	2026-04-29 08:00:00	PICKED_UP
+475	475	6	2026-06-15 08:00:00	PICKED_UP
+476	476	1	2026-01-02 08:00:00	PICKED_UP
+477	477	5	2026-04-15 08:00:00	PICKED_UP
+478	478	6	2026-05-29 08:00:00	PICKED_UP
+479	479	1	2026-04-19 08:00:00	PICKED_UP
+480	480	7	2026-03-02 08:00:00	PICKED_UP
+481	481	1	2026-01-14 08:00:00	PICKED_UP
+482	482	3	2026-05-31 08:00:00	PICKED_UP
+483	483	1	2026-01-30 08:00:00	PICKED_UP
+484	484	4	2026-03-13 08:00:00	PICKED_UP
+485	485	2	2026-03-23 08:00:00	PICKED_UP
+486	486	3	2026-01-21 08:00:00	PICKED_UP
+487	487	5	2026-06-14 08:00:00	PICKED_UP
+488	488	4	2026-02-25 08:00:00	PICKED_UP
+489	489	1	2026-06-23 08:00:00	PICKED_UP
+490	490	3	2026-04-29 08:00:00	PICKED_UP
+491	491	3	2026-01-11 08:00:00	PICKED_UP
+492	492	1	2026-01-23 08:00:00	PICKED_UP
+493	493	6	2026-04-30 08:00:00	PICKED_UP
+494	494	5	2026-03-08 08:00:00	PICKED_UP
+495	495	6	2026-02-18 08:00:00	PICKED_UP
+496	496	6	2026-04-22 08:00:00	PICKED_UP
+497	497	4	2026-04-11 08:00:00	PICKED_UP
+498	498	3	2026-01-20 08:00:00	PICKED_UP
+499	499	8	2026-02-24 08:00:00	PICKED_UP
+500	500	3	2026-06-25 08:00:00	PICKED_UP
+501	501	8	2026-01-28 08:00:00	PICKED_UP
+502	502	5	2026-04-10 08:00:00	PICKED_UP
+503	503	1	2026-05-22 08:00:00	PICKED_UP
+504	504	4	2026-02-25 08:00:00	PICKED_UP
+505	505	1	2026-03-13 08:00:00	PICKED_UP
+506	506	1	2026-04-29 08:00:00	PICKED_UP
+507	507	4	2026-06-17 08:00:00	PICKED_UP
+508	508	6	2026-02-24 08:00:00	PICKED_UP
+509	509	8	2026-05-27 08:00:00	PICKED_UP
+510	510	5	2026-03-09 08:00:00	PICKED_UP
+511	511	8	2026-05-14 08:00:00	PICKED_UP
+512	512	1	2026-05-13 08:00:00	PICKED_UP
+513	513	7	2026-05-07 08:00:00	PICKED_UP
+514	514	4	2026-02-15 08:00:00	PICKED_UP
+515	515	4	2026-06-10 08:00:00	PICKED_UP
+516	516	1	2026-04-14 08:00:00	PICKED_UP
+517	517	8	2026-06-21 08:00:00	PICKED_UP
+518	518	5	2026-01-11 08:00:00	PICKED_UP
+519	519	6	2026-04-02 08:00:00	PICKED_UP
+520	520	4	2026-03-22 08:00:00	PICKED_UP
+521	521	6	2026-04-13 08:00:00	PICKED_UP
+522	522	5	2026-03-19 08:00:00	PICKED_UP
+523	523	4	2026-03-31 08:00:00	PICKED_UP
+524	524	5	2026-04-06 08:00:00	PICKED_UP
+525	525	1	2026-01-22 08:00:00	PICKED_UP
+526	526	5	2026-03-31 08:00:00	PICKED_UP
+527	527	7	2026-01-09 08:00:00	PICKED_UP
+528	528	5	2026-01-17 08:00:00	PICKED_UP
+529	529	2	2026-03-02 08:00:00	PICKED_UP
+530	530	7	2026-02-23 08:00:00	PICKED_UP
+531	531	4	2026-05-12 08:00:00	PICKED_UP
+532	532	8	2026-06-01 08:00:00	PICKED_UP
+533	533	8	2026-06-20 08:00:00	PICKED_UP
+534	534	5	2026-04-14 08:00:00	PICKED_UP
+535	535	7	2026-04-02 08:00:00	PICKED_UP
+536	536	4	2026-06-25 08:00:00	PICKED_UP
+537	537	3	2026-06-21 08:00:00	PICKED_UP
+538	538	4	2026-04-21 08:00:00	PICKED_UP
+539	539	1	2026-02-13 08:00:00	PICKED_UP
+540	540	6	2026-06-09 08:00:00	PICKED_UP
+541	541	5	2026-04-03 08:00:00	PICKED_UP
+542	542	6	2026-01-07 08:00:00	PICKED_UP
+543	543	5	2026-01-11 08:00:00	PICKED_UP
+544	544	3	2026-04-15 08:00:00	PICKED_UP
+545	545	3	2026-02-17 08:00:00	PICKED_UP
+546	546	3	2026-02-27 08:00:00	PICKED_UP
+547	547	3	2026-04-14 08:00:00	PICKED_UP
+548	548	4	2026-06-21 08:00:00	PICKED_UP
+549	549	4	2026-02-14 08:00:00	PICKED_UP
+550	550	8	2026-02-22 08:00:00	PICKED_UP
+551	551	7	2026-04-05 08:00:00	PICKED_UP
+552	552	6	2026-01-28 08:00:00	PICKED_UP
+553	553	8	2026-02-05 08:00:00	PICKED_UP
+554	554	8	2026-01-18 08:00:00	PICKED_UP
+555	555	2	2026-03-31 08:00:00	PICKED_UP
+556	556	5	2026-03-08 08:00:00	PICKED_UP
+557	557	2	2026-06-29 08:00:00	PICKED_UP
+558	558	8	2026-06-10 08:00:00	PICKED_UP
+559	559	1	2026-02-16 08:00:00	PICKED_UP
+560	560	5	2026-06-03 08:00:00	PICKED_UP
+561	561	4	2026-01-24 08:00:00	PICKED_UP
+562	562	4	2026-02-07 08:00:00	PICKED_UP
+563	563	5	2026-06-03 08:00:00	PICKED_UP
+564	564	1	2026-01-22 08:00:00	PICKED_UP
+565	565	1	2026-05-05 08:00:00	PICKED_UP
+566	566	7	2026-03-01 08:00:00	PICKED_UP
+567	567	3	2026-05-31 08:00:00	PICKED_UP
+568	568	6	2026-03-21 08:00:00	PICKED_UP
+569	569	7	2026-04-14 08:00:00	PICKED_UP
+570	570	6	2026-03-30 08:00:00	PICKED_UP
+571	571	3	2026-04-23 08:00:00	PICKED_UP
+572	572	7	2026-01-13 08:00:00	PICKED_UP
+573	573	1	2026-01-12 08:00:00	PICKED_UP
+574	574	3	2026-02-11 08:00:00	PICKED_UP
+575	575	2	2026-02-08 08:00:00	PICKED_UP
+576	576	2	2026-05-14 08:00:00	PICKED_UP
+577	577	8	2026-05-16 08:00:00	PICKED_UP
+578	578	4	2026-05-26 08:00:00	PICKED_UP
+579	579	1	2026-01-21 08:00:00	PICKED_UP
+580	580	8	2026-03-06 08:00:00	PICKED_UP
+581	581	3	2026-01-14 08:00:00	PICKED_UP
+582	582	3	2026-06-01 08:00:00	PICKED_UP
+583	583	3	2026-04-18 08:00:00	PICKED_UP
+584	584	5	2026-05-27 08:00:00	PICKED_UP
+585	585	7	2026-03-09 08:00:00	PICKED_UP
+586	586	1	2026-03-24 08:00:00	PICKED_UP
+587	587	7	2026-04-22 08:00:00	PICKED_UP
+588	588	7	2026-04-03 08:00:00	PICKED_UP
+589	589	5	2026-04-21 08:00:00	PICKED_UP
+590	590	2	2026-02-06 08:00:00	PICKED_UP
+591	591	5	2026-04-29 08:00:00	PICKED_UP
+592	592	2	2026-04-11 08:00:00	PICKED_UP
+593	593	8	2026-02-28 08:00:00	PICKED_UP
+594	594	3	2026-01-01 08:00:00	PICKED_UP
+595	595	3	2026-05-30 08:00:00	PICKED_UP
+596	596	8	2026-04-11 08:00:00	PICKED_UP
+597	597	5	2026-01-25 08:00:00	PICKED_UP
+598	598	4	2026-05-22 08:00:00	PICKED_UP
+599	599	8	2026-01-14 08:00:00	PICKED_UP
+600	600	6	2026-06-01 08:00:00	PICKED_UP
+601	601	6	2026-02-14 08:00:00	PICKED_UP
+602	602	2	2026-05-02 08:00:00	PICKED_UP
+603	603	3	2026-04-21 08:00:00	PICKED_UP
+604	604	1	2026-06-07 08:00:00	PICKED_UP
+605	605	5	2026-06-21 08:00:00	PICKED_UP
+606	606	8	2026-03-30 08:00:00	PICKED_UP
+607	607	2	2026-05-07 08:00:00	PICKED_UP
+608	608	5	2026-01-26 08:00:00	PICKED_UP
+609	609	6	2026-02-22 08:00:00	PICKED_UP
+610	610	8	2026-05-10 08:00:00	PICKED_UP
+611	611	6	2026-03-27 08:00:00	PICKED_UP
+612	612	8	2026-03-08 08:00:00	PICKED_UP
+613	613	7	2026-04-14 08:00:00	PICKED_UP
+614	614	5	2026-04-11 08:00:00	PICKED_UP
+615	615	4	2026-03-24 08:00:00	PICKED_UP
+616	616	6	2026-02-28 08:00:00	PICKED_UP
+617	617	8	2026-01-05 08:00:00	PICKED_UP
+618	618	3	2026-06-20 08:00:00	PICKED_UP
+619	619	1	2026-04-15 08:00:00	PICKED_UP
+620	620	1	2026-06-12 08:00:00	PICKED_UP
+621	621	3	2026-04-01 08:00:00	PICKED_UP
+622	622	2	2026-05-12 08:00:00	PICKED_UP
+623	623	8	2026-06-14 08:00:00	PICKED_UP
+624	624	4	2026-04-24 08:00:00	PICKED_UP
+625	625	1	2026-03-13 08:00:00	PICKED_UP
+626	626	1	2026-04-02 08:00:00	PICKED_UP
+627	627	4	2026-04-01 08:00:00	PICKED_UP
+628	628	5	2026-05-11 08:00:00	PICKED_UP
+629	629	2	2026-01-27 08:00:00	PICKED_UP
+630	630	1	2026-04-28 08:00:00	PICKED_UP
+631	631	2	2026-01-15 08:00:00	PICKED_UP
+632	632	8	2026-04-10 08:00:00	PICKED_UP
+633	633	4	2026-06-13 08:00:00	PICKED_UP
+634	634	6	2026-03-14 08:00:00	PICKED_UP
+635	635	2	2026-04-15 08:00:00	PICKED_UP
+636	636	8	2026-05-13 08:00:00	PICKED_UP
+637	637	3	2026-05-06 08:00:00	PICKED_UP
+638	638	8	2026-03-07 08:00:00	PICKED_UP
+639	639	7	2026-01-18 08:00:00	PICKED_UP
+640	640	3	2026-06-29 08:00:00	PICKED_UP
+641	641	8	2026-01-20 08:00:00	PICKED_UP
+642	642	5	2026-01-16 08:00:00	PICKED_UP
+643	643	6	2026-03-03 08:00:00	PICKED_UP
+644	644	2	2026-05-16 08:00:00	PICKED_UP
+645	645	3	2026-05-27 08:00:00	PICKED_UP
+646	646	5	2026-01-01 08:00:00	PICKED_UP
+647	647	3	2026-04-28 08:00:00	PICKED_UP
+648	648	1	2026-01-09 08:00:00	PICKED_UP
+649	649	7	2026-04-14 08:00:00	PICKED_UP
+650	650	2	2026-01-30 08:00:00	PICKED_UP
+651	651	4	2026-03-05 08:00:00	PICKED_UP
+652	652	3	2026-04-03 08:00:00	PICKED_UP
+653	653	2	2026-04-16 08:00:00	PICKED_UP
+654	654	7	2026-04-25 08:00:00	PICKED_UP
+655	655	1	2026-01-19 08:00:00	PICKED_UP
+656	656	1	2026-05-14 08:00:00	PICKED_UP
+657	657	6	2026-01-27 08:00:00	PICKED_UP
+658	658	8	2026-03-02 08:00:00	PICKED_UP
+659	659	7	2026-03-18 08:00:00	PICKED_UP
+660	660	2	2026-05-04 08:00:00	PICKED_UP
+661	661	2	2026-04-10 08:00:00	PICKED_UP
+662	662	6	2026-01-12 08:00:00	PICKED_UP
+663	663	6	2026-06-05 08:00:00	PICKED_UP
+664	664	6	2026-03-27 08:00:00	PICKED_UP
+665	665	3	2026-05-10 08:00:00	PICKED_UP
+666	666	6	2026-06-02 08:00:00	PICKED_UP
+667	667	6	2026-05-10 08:00:00	PICKED_UP
+668	668	7	2026-01-27 08:00:00	PICKED_UP
+669	669	1	2026-01-20 08:00:00	PICKED_UP
+670	670	3	2026-06-07 08:00:00	PICKED_UP
+671	671	3	2026-01-07 08:00:00	PICKED_UP
+672	672	4	2026-04-30 08:00:00	PICKED_UP
+673	673	7	2026-03-21 08:00:00	PICKED_UP
+674	674	8	2026-04-16 08:00:00	PICKED_UP
+675	675	6	2026-04-18 08:00:00	PICKED_UP
+676	676	7	2026-02-02 08:00:00	PICKED_UP
+677	677	2	2026-03-08 08:00:00	PICKED_UP
+678	678	4	2026-01-31 08:00:00	PICKED_UP
+679	679	7	2026-02-05 08:00:00	PICKED_UP
+680	680	2	2026-02-03 08:00:00	PICKED_UP
+681	681	6	2026-06-09 08:00:00	PICKED_UP
+682	682	3	2026-04-06 08:00:00	PICKED_UP
+683	683	7	2026-05-26 08:00:00	PICKED_UP
+684	684	6	2026-05-28 08:00:00	PICKED_UP
+685	685	8	2026-01-10 08:00:00	PICKED_UP
+686	686	7	2026-02-01 08:00:00	PICKED_UP
+687	687	1	2026-06-01 08:00:00	PICKED_UP
+688	688	5	2026-04-08 08:00:00	PICKED_UP
+689	689	2	2026-05-13 08:00:00	PICKED_UP
+690	690	3	2026-02-04 08:00:00	PICKED_UP
+691	691	2	2026-01-25 08:00:00	PICKED_UP
+692	692	7	2026-02-10 08:00:00	PICKED_UP
+693	693	5	2026-01-30 08:00:00	PICKED_UP
+694	694	8	2026-03-13 08:00:00	PICKED_UP
+695	695	4	2026-01-09 08:00:00	PICKED_UP
+696	696	6	2026-01-01 08:00:00	PICKED_UP
+697	697	8	2026-04-17 08:00:00	PICKED_UP
+698	698	8	2026-01-28 08:00:00	PICKED_UP
+699	699	6	2026-03-21 08:00:00	PICKED_UP
+700	700	6	2026-04-17 08:00:00	PICKED_UP
+701	701	2	2026-05-21 08:00:00	PICKED_UP
+702	702	3	2026-06-04 08:00:00	PICKED_UP
+703	703	4	2026-04-05 08:00:00	PICKED_UP
+704	704	5	2026-05-31 08:00:00	PICKED_UP
+705	705	2	2026-04-17 08:00:00	PICKED_UP
+706	706	7	2026-06-19 08:00:00	PICKED_UP
+707	707	3	2026-02-09 08:00:00	PICKED_UP
+708	708	7	2026-06-15 08:00:00	PICKED_UP
+709	709	2	2026-02-01 08:00:00	PICKED_UP
+710	710	7	2026-06-09 08:00:00	PICKED_UP
+711	711	4	2026-02-06 08:00:00	PICKED_UP
+712	712	1	2026-01-24 08:00:00	PICKED_UP
+713	713	5	2026-03-07 08:00:00	PICKED_UP
+714	714	5	2026-02-17 08:00:00	PICKED_UP
+715	715	6	2026-05-27 08:00:00	PICKED_UP
+716	716	5	2026-06-24 08:00:00	PICKED_UP
+717	717	1	2026-06-17 08:00:00	PICKED_UP
+718	718	2	2026-04-06 08:00:00	PICKED_UP
+719	719	5	2026-06-02 08:00:00	PICKED_UP
+720	720	8	2026-01-16 08:00:00	PICKED_UP
+721	721	7	2026-03-23 08:00:00	PICKED_UP
+722	722	8	2026-01-24 08:00:00	PICKED_UP
+723	723	6	2026-01-26 08:00:00	PICKED_UP
+724	724	2	2026-04-15 08:00:00	PICKED_UP
+725	725	3	2026-01-11 08:00:00	PICKED_UP
+726	726	4	2026-04-16 08:00:00	PICKED_UP
+727	727	7	2026-03-20 08:00:00	PICKED_UP
+728	728	4	2026-04-18 08:00:00	PICKED_UP
+729	729	2	2026-03-08 08:00:00	PICKED_UP
+730	730	7	2026-02-07 08:00:00	PICKED_UP
+731	731	3	2026-05-18 08:00:00	PICKED_UP
+732	732	5	2026-06-18 08:00:00	PICKED_UP
+733	733	5	2026-02-17 08:00:00	PICKED_UP
+734	734	8	2026-03-08 08:00:00	PICKED_UP
+735	735	1	2026-01-19 08:00:00	PICKED_UP
+736	736	8	2026-03-11 08:00:00	PICKED_UP
+737	737	3	2026-01-14 08:00:00	PICKED_UP
+738	738	8	2026-01-13 08:00:00	PICKED_UP
+739	739	5	2026-03-11 08:00:00	PICKED_UP
+740	740	1	2026-06-26 08:00:00	PICKED_UP
+741	741	8	2026-04-14 08:00:00	PICKED_UP
+742	742	4	2026-04-04 08:00:00	PICKED_UP
+743	743	3	2026-06-26 08:00:00	PICKED_UP
+744	744	6	2026-05-31 08:00:00	PICKED_UP
+745	745	2	2026-05-05 08:00:00	PICKED_UP
+746	746	4	2026-05-23 08:00:00	PICKED_UP
+747	747	2	2026-05-06 08:00:00	PICKED_UP
+748	748	7	2026-03-26 08:00:00	PICKED_UP
+749	749	3	2026-03-31 08:00:00	PICKED_UP
+750	750	4	2026-02-25 08:00:00	PICKED_UP
+751	751	6	2026-04-16 08:00:00	PICKED_UP
+752	752	6	2026-02-07 08:00:00	PICKED_UP
+753	753	6	2026-04-17 08:00:00	PICKED_UP
+754	754	7	2026-01-12 08:00:00	PICKED_UP
+755	755	8	2026-06-01 08:00:00	PICKED_UP
+756	756	4	2026-02-05 08:00:00	PICKED_UP
+757	757	7	2026-06-09 08:00:00	PICKED_UP
+758	758	8	2026-05-24 08:00:00	PICKED_UP
+759	759	6	2026-02-03 08:00:00	PICKED_UP
+760	760	5	2026-02-11 08:00:00	PICKED_UP
+761	761	7	2026-05-08 08:00:00	PICKED_UP
+762	762	8	2026-05-05 08:00:00	PICKED_UP
+763	763	7	2026-04-14 08:00:00	PICKED_UP
+764	764	3	2026-03-25 08:00:00	PICKED_UP
+765	765	6	2026-01-27 08:00:00	PICKED_UP
+766	766	5	2026-03-03 08:00:00	PICKED_UP
+767	767	2	2026-03-24 08:00:00	PICKED_UP
+768	768	2	2026-05-27 08:00:00	PICKED_UP
+769	769	1	2026-05-25 08:00:00	PICKED_UP
+770	770	6	2026-02-08 08:00:00	PICKED_UP
+771	771	6	2026-01-08 08:00:00	PICKED_UP
+772	772	7	2026-02-13 08:00:00	PICKED_UP
+773	773	3	2026-04-09 08:00:00	PICKED_UP
+774	774	2	2026-06-19 08:00:00	PICKED_UP
+775	775	6	2026-05-30 08:00:00	PICKED_UP
+776	776	8	2026-04-21 08:00:00	PICKED_UP
+777	777	2	2026-01-14 08:00:00	PICKED_UP
+778	778	4	2026-06-21 08:00:00	PICKED_UP
+779	779	4	2026-04-09 08:00:00	PICKED_UP
+780	780	5	2026-05-02 08:00:00	PICKED_UP
+781	781	7	2026-06-07 08:00:00	PICKED_UP
+782	782	2	2026-04-06 08:00:00	PICKED_UP
+783	783	8	2026-03-26 08:00:00	PICKED_UP
+784	784	5	2026-04-30 08:00:00	PICKED_UP
+785	785	8	2026-05-12 08:00:00	PICKED_UP
+786	786	7	2026-06-22 08:00:00	PICKED_UP
+787	787	6	2026-05-31 08:00:00	PICKED_UP
+788	788	3	2026-04-18 08:00:00	PICKED_UP
+789	789	4	2026-06-03 08:00:00	PICKED_UP
+790	790	8	2026-06-26 08:00:00	PICKED_UP
+791	791	5	2026-01-03 08:00:00	PICKED_UP
+792	792	2	2026-04-04 08:00:00	PICKED_UP
+793	793	7	2026-02-03 08:00:00	PICKED_UP
+794	794	2	2026-04-20 08:00:00	PICKED_UP
+795	795	8	2026-02-10 08:00:00	PICKED_UP
+796	796	5	2026-06-18 08:00:00	PICKED_UP
+797	797	3	2026-02-16 08:00:00	PICKED_UP
+798	798	3	2026-04-15 08:00:00	PICKED_UP
+799	799	4	2026-03-03 08:00:00	PICKED_UP
+800	800	2	2026-01-11 08:00:00	PICKED_UP
+801	801	5	2026-02-26 08:00:00	PICKED_UP
+802	802	1	2026-02-25 08:00:00	PICKED_UP
+803	803	2	2026-05-18 08:00:00	PICKED_UP
+804	804	5	2026-04-12 08:00:00	PICKED_UP
+805	805	5	2026-01-15 08:00:00	PICKED_UP
+806	806	5	2026-04-20 08:00:00	PICKED_UP
+807	807	2	2026-02-20 08:00:00	PICKED_UP
+808	808	4	2026-01-03 08:00:00	PICKED_UP
+809	809	2	2026-05-05 08:00:00	PICKED_UP
+810	810	3	2026-02-19 08:00:00	PICKED_UP
+811	811	7	2026-03-16 08:00:00	PICKED_UP
+812	812	4	2026-02-12 08:00:00	PICKED_UP
+813	813	1	2026-03-08 08:00:00	PICKED_UP
+814	814	6	2026-06-16 08:00:00	PICKED_UP
+815	815	3	2026-06-08 08:00:00	PICKED_UP
+816	816	4	2026-03-13 08:00:00	PICKED_UP
+817	817	6	2026-06-09 08:00:00	PICKED_UP
+818	818	8	2026-04-20 08:00:00	PICKED_UP
+819	819	8	2026-05-29 08:00:00	PICKED_UP
+820	820	1	2026-06-09 08:00:00	PICKED_UP
+821	821	7	2026-01-24 08:00:00	PICKED_UP
+822	822	1	2026-04-15 08:00:00	PICKED_UP
+823	823	6	2026-06-10 08:00:00	PICKED_UP
+824	824	5	2026-02-10 08:00:00	PICKED_UP
+825	825	1	2026-01-20 08:00:00	PICKED_UP
+826	826	6	2026-04-16 08:00:00	PICKED_UP
+827	827	5	2026-03-11 08:00:00	PICKED_UP
+828	828	4	2026-05-19 08:00:00	PICKED_UP
+829	829	7	2026-01-14 08:00:00	PICKED_UP
+830	830	8	2026-02-24 08:00:00	PICKED_UP
+831	831	6	2026-03-22 08:00:00	PICKED_UP
+832	832	1	2026-04-28 08:00:00	PICKED_UP
+833	833	1	2026-01-07 08:00:00	PICKED_UP
+834	834	8	2026-05-03 08:00:00	PICKED_UP
+835	835	3	2026-04-16 08:00:00	PICKED_UP
+836	836	5	2026-03-22 08:00:00	PICKED_UP
+837	837	7	2026-06-24 08:00:00	PICKED_UP
+838	838	2	2026-05-02 08:00:00	PICKED_UP
+839	839	8	2026-01-10 08:00:00	PICKED_UP
+840	840	2	2026-02-23 08:00:00	PICKED_UP
+841	841	4	2026-03-26 08:00:00	PICKED_UP
+842	842	5	2026-03-14 08:00:00	PICKED_UP
+843	843	4	2026-05-25 08:00:00	PICKED_UP
+844	844	4	2026-02-13 08:00:00	PICKED_UP
+845	845	8	2026-03-29 08:00:00	PICKED_UP
+846	846	1	2026-03-01 08:00:00	PICKED_UP
+847	847	5	2026-03-04 08:00:00	PICKED_UP
+848	848	2	2026-04-05 08:00:00	PICKED_UP
+849	849	3	2026-03-29 08:00:00	PICKED_UP
+850	850	5	2026-04-13 08:00:00	PICKED_UP
+851	851	7	2026-02-24 08:00:00	PICKED_UP
+852	852	6	2026-01-08 08:00:00	PICKED_UP
+853	853	1	2026-03-29 08:00:00	PICKED_UP
+854	854	1	2026-02-26 08:00:00	PICKED_UP
+855	855	6	2026-06-14 08:00:00	PICKED_UP
+856	856	3	2026-01-03 08:00:00	PICKED_UP
+857	857	4	2026-03-06 08:00:00	PICKED_UP
+858	858	8	2026-02-19 08:00:00	PICKED_UP
+859	859	3	2026-06-22 08:00:00	PICKED_UP
+860	860	7	2026-05-23 08:00:00	PICKED_UP
+861	861	2	2026-05-15 08:00:00	PICKED_UP
+862	862	8	2026-05-28 08:00:00	PICKED_UP
+863	863	4	2026-05-09 08:00:00	PICKED_UP
+864	864	4	2026-02-05 08:00:00	PICKED_UP
+865	865	5	2026-05-30 08:00:00	PICKED_UP
+866	866	7	2026-03-11 08:00:00	PICKED_UP
+867	867	2	2026-05-01 08:00:00	PICKED_UP
+868	868	8	2026-03-12 08:00:00	PICKED_UP
+869	869	2	2026-03-01 08:00:00	PICKED_UP
+870	870	1	2026-02-16 08:00:00	PICKED_UP
+871	871	6	2026-05-11 08:00:00	PICKED_UP
+872	872	6	2026-02-22 08:00:00	PICKED_UP
+873	873	7	2026-05-01 08:00:00	PICKED_UP
+874	874	3	2026-05-31 08:00:00	PICKED_UP
+875	875	8	2026-04-04 08:00:00	PICKED_UP
+876	876	1	2026-04-21 08:00:00	PICKED_UP
+877	877	4	2026-06-24 08:00:00	PICKED_UP
+878	878	5	2026-05-08 08:00:00	PICKED_UP
+879	879	6	2026-03-19 08:00:00	PICKED_UP
+880	880	8	2026-03-30 08:00:00	PICKED_UP
+881	881	7	2026-05-16 08:00:00	PICKED_UP
+882	882	2	2026-06-09 08:00:00	PICKED_UP
+883	883	5	2026-02-11 08:00:00	PICKED_UP
+884	884	7	2026-06-09 08:00:00	PICKED_UP
+885	885	8	2026-05-05 08:00:00	PICKED_UP
+886	886	1	2026-04-08 08:00:00	PICKED_UP
+887	887	1	2026-06-21 08:00:00	PICKED_UP
+888	888	8	2026-02-19 08:00:00	PICKED_UP
+889	889	5	2026-05-30 08:00:00	PICKED_UP
+890	890	2	2026-05-06 08:00:00	PICKED_UP
+891	891	7	2026-01-26 08:00:00	PICKED_UP
+892	892	4	2026-06-15 08:00:00	PICKED_UP
+893	893	3	2026-05-20 08:00:00	PICKED_UP
+894	894	6	2026-02-11 08:00:00	PICKED_UP
+895	895	6	2026-02-27 08:00:00	PICKED_UP
+896	896	6	2026-06-18 08:00:00	PICKED_UP
+897	897	6	2026-06-03 08:00:00	PICKED_UP
+898	898	4	2026-06-04 08:00:00	PICKED_UP
+899	899	5	2026-04-05 08:00:00	PICKED_UP
+900	900	1	2026-02-18 08:00:00	PICKED_UP
+901	901	8	2026-05-15 08:00:00	PICKED_UP
+902	902	3	2026-06-09 08:00:00	PICKED_UP
+903	903	5	2026-06-16 08:00:00	PICKED_UP
+904	904	2	2026-03-18 08:00:00	PICKED_UP
+905	905	7	2026-05-09 08:00:00	PICKED_UP
+906	906	7	2026-04-18 08:00:00	PICKED_UP
+907	907	2	2026-03-06 08:00:00	PICKED_UP
+908	908	7	2026-05-17 08:00:00	PICKED_UP
+909	909	4	2026-04-11 08:00:00	PICKED_UP
+910	910	7	2026-01-17 08:00:00	PICKED_UP
+911	911	7	2026-01-10 08:00:00	PICKED_UP
+912	912	7	2026-05-31 08:00:00	PICKED_UP
+913	913	4	2026-06-09 08:00:00	PICKED_UP
+914	914	7	2026-01-21 08:00:00	PICKED_UP
+915	915	3	2026-04-06 08:00:00	PICKED_UP
+916	916	7	2026-05-30 08:00:00	PICKED_UP
+917	917	5	2026-06-24 08:00:00	PICKED_UP
+918	918	3	2026-04-20 08:00:00	PICKED_UP
+919	919	1	2026-02-24 08:00:00	PICKED_UP
+920	920	3	2026-02-27 08:00:00	PICKED_UP
+921	921	6	2026-01-06 08:00:00	PICKED_UP
+922	922	1	2026-05-06 08:00:00	PICKED_UP
+923	923	8	2026-02-13 08:00:00	PICKED_UP
+924	924	8	2026-05-04 08:00:00	PICKED_UP
+925	925	6	2026-06-02 08:00:00	PICKED_UP
+926	926	8	2026-05-11 08:00:00	PICKED_UP
+927	927	4	2026-01-20 08:00:00	PICKED_UP
+928	928	2	2026-02-05 08:00:00	PICKED_UP
+929	929	5	2026-01-20 08:00:00	PICKED_UP
+930	930	1	2026-01-20 08:00:00	PICKED_UP
+931	931	8	2026-01-12 08:00:00	PICKED_UP
+932	932	8	2026-05-16 08:00:00	PICKED_UP
+933	933	7	2026-05-20 08:00:00	PICKED_UP
+934	934	7	2026-02-15 08:00:00	PICKED_UP
+935	935	4	2026-06-24 08:00:00	PICKED_UP
+936	936	8	2026-06-19 08:00:00	PICKED_UP
+937	937	7	2026-03-03 08:00:00	PICKED_UP
+938	938	7	2026-06-10 08:00:00	PICKED_UP
+939	939	8	2026-03-19 08:00:00	PICKED_UP
+940	940	2	2026-02-17 08:00:00	PICKED_UP
+941	941	5	2026-02-07 08:00:00	PICKED_UP
+942	942	7	2026-01-01 08:00:00	PICKED_UP
+943	943	6	2026-04-11 08:00:00	PICKED_UP
+944	944	5	2026-04-06 08:00:00	PICKED_UP
+945	945	3	2026-01-23 08:00:00	PICKED_UP
+946	946	8	2026-04-28 08:00:00	PICKED_UP
+947	947	6	2026-05-06 08:00:00	PICKED_UP
+948	948	8	2026-02-02 08:00:00	PICKED_UP
+949	949	4	2026-01-07 08:00:00	PICKED_UP
+950	950	7	2026-02-05 08:00:00	PICKED_UP
+951	951	7	2026-06-17 08:00:00	PICKED_UP
+952	952	2	2026-02-11 08:00:00	PICKED_UP
+953	953	2	2026-04-24 08:00:00	PICKED_UP
+954	954	4	2026-03-21 08:00:00	PICKED_UP
+955	955	4	2026-04-25 08:00:00	PICKED_UP
+956	956	8	2026-04-28 08:00:00	PICKED_UP
+957	957	7	2026-03-25 08:00:00	PICKED_UP
+958	958	8	2026-05-14 08:00:00	PICKED_UP
+959	959	4	2026-03-18 08:00:00	PICKED_UP
+960	960	7	2026-05-26 08:00:00	PICKED_UP
+961	961	4	2026-01-10 08:00:00	PICKED_UP
+962	962	8	2026-02-05 08:00:00	PICKED_UP
+963	963	6	2026-06-18 08:00:00	PICKED_UP
+964	964	8	2026-03-14 08:00:00	PICKED_UP
+965	965	2	2026-03-08 08:00:00	PICKED_UP
+966	966	2	2026-06-03 08:00:00	PICKED_UP
+967	967	2	2026-06-27 08:00:00	PICKED_UP
+968	968	1	2026-04-25 08:00:00	PICKED_UP
+969	969	3	2026-03-10 08:00:00	PICKED_UP
+970	970	2	2026-03-29 08:00:00	PICKED_UP
+971	971	2	2026-04-25 08:00:00	PICKED_UP
+972	972	6	2026-04-25 08:00:00	PICKED_UP
+973	973	7	2026-03-30 08:00:00	PICKED_UP
+974	974	1	2026-01-01 08:00:00	PICKED_UP
+975	975	5	2026-05-29 08:00:00	PICKED_UP
+976	976	8	2026-01-16 08:00:00	PICKED_UP
+977	977	5	2026-04-01 08:00:00	PICKED_UP
+978	978	7	2026-05-22 08:00:00	PICKED_UP
+979	979	7	2026-01-13 08:00:00	PICKED_UP
+980	980	4	2026-03-08 08:00:00	PICKED_UP
+981	981	3	2026-06-12 08:00:00	PICKED_UP
+982	982	3	2026-02-12 08:00:00	PICKED_UP
+983	983	8	2026-05-18 08:00:00	PICKED_UP
+984	984	2	2026-01-05 08:00:00	PICKED_UP
+985	985	2	2026-06-13 08:00:00	PICKED_UP
+986	986	7	2026-01-17 08:00:00	PICKED_UP
+987	987	5	2026-03-13 08:00:00	PICKED_UP
+988	988	6	2026-01-05 08:00:00	PICKED_UP
+989	989	4	2026-02-03 08:00:00	PICKED_UP
+990	990	6	2026-01-28 08:00:00	PICKED_UP
+991	991	2	2026-02-28 08:00:00	PICKED_UP
+992	992	8	2026-03-13 08:00:00	PICKED_UP
+993	993	6	2026-06-08 08:00:00	PICKED_UP
+994	994	5	2026-05-08 08:00:00	PICKED_UP
+995	995	3	2026-06-07 08:00:00	PICKED_UP
+996	996	8	2026-06-15 08:00:00	PICKED_UP
+997	997	8	2026-03-28 08:00:00	PICKED_UP
+998	998	8	2026-02-25 08:00:00	PICKED_UP
+999	999	2	2026-03-25 08:00:00	PICKED_UP
+1000	1000	3	2026-02-21 08:00:00	PICKED_UP
+1001	1	4	2026-01-13 00:00:00	IN_TRANSIT
+1002	2	1	2026-05-06 00:00:00	IN_TRANSIT
+1003	3	1	2026-04-24 00:00:00	IN_TRANSIT
+1004	4	8	2026-01-30 00:00:00	IN_TRANSIT
+1005	5	3	2026-02-17 00:00:00	IN_TRANSIT
+1006	6	5	2026-02-21 00:00:00	IN_TRANSIT
+1007	7	2	2026-05-28 00:00:00	IN_TRANSIT
+1008	8	1	2026-03-11 00:00:00	IN_TRANSIT
+1009	9	3	2026-05-28 00:00:00	IN_TRANSIT
+1010	10	2	2026-03-19 00:00:00	IN_TRANSIT
+1011	11	7	2026-06-25 00:00:00	IN_TRANSIT
+1012	12	4	2026-02-28 00:00:00	IN_TRANSIT
+1013	13	4	2026-04-21 00:00:00	IN_TRANSIT
+1014	14	6	2026-04-16 00:00:00	IN_TRANSIT
+1015	15	7	2026-06-10 00:00:00	IN_TRANSIT
+1016	16	3	2026-01-26 00:00:00	IN_TRANSIT
+1017	17	2	2026-02-25 00:00:00	IN_TRANSIT
+1018	18	4	2026-01-17 00:00:00	IN_TRANSIT
+1019	19	7	2026-03-17 00:00:00	IN_TRANSIT
+1020	20	5	2026-01-31 00:00:00	IN_TRANSIT
+1021	21	8	2026-05-06 00:00:00	IN_TRANSIT
+1022	22	2	2026-04-11 00:00:00	IN_TRANSIT
+1023	23	4	2026-04-14 00:00:00	IN_TRANSIT
+1024	24	5	2026-06-06 00:00:00	IN_TRANSIT
+1025	25	8	2026-05-12 00:00:00	IN_TRANSIT
+1026	26	5	2026-06-03 00:00:00	IN_TRANSIT
+1027	27	4	2026-01-17 00:00:00	IN_TRANSIT
+1028	28	4	2026-05-03 00:00:00	IN_TRANSIT
+1029	29	5	2026-03-11 00:00:00	IN_TRANSIT
+1030	30	4	2026-03-14 00:00:00	IN_TRANSIT
+1031	31	3	2026-04-14 00:00:00	IN_TRANSIT
+1032	32	2	2026-05-05 00:00:00	IN_TRANSIT
+1033	33	7	2026-03-10 00:00:00	IN_TRANSIT
+1034	34	5	2026-05-22 00:00:00	IN_TRANSIT
+1035	35	2	2026-01-30 00:00:00	IN_TRANSIT
+1036	36	2	2026-04-16 00:00:00	IN_TRANSIT
+1037	37	6	2026-04-15 00:00:00	IN_TRANSIT
+1038	38	6	2026-02-11 00:00:00	IN_TRANSIT
+1039	39	3	2026-04-03 00:00:00	IN_TRANSIT
+1040	40	4	2026-01-14 00:00:00	IN_TRANSIT
+1041	41	2	2026-01-31 00:00:00	IN_TRANSIT
+1042	42	4	2026-03-17 00:00:00	IN_TRANSIT
+1043	43	5	2026-02-02 00:00:00	IN_TRANSIT
+1044	44	4	2026-04-17 00:00:00	IN_TRANSIT
+1045	45	2	2026-02-05 00:00:00	IN_TRANSIT
+1046	46	8	2026-06-15 00:00:00	IN_TRANSIT
+1047	47	6	2026-04-10 00:00:00	IN_TRANSIT
+1048	48	6	2026-05-13 00:00:00	IN_TRANSIT
+1049	49	8	2026-02-12 00:00:00	IN_TRANSIT
+1050	50	1	2026-05-09 00:00:00	IN_TRANSIT
+1051	51	5	2026-02-15 00:00:00	IN_TRANSIT
+1052	52	1	2026-04-03 00:00:00	IN_TRANSIT
+1053	53	8	2026-05-02 00:00:00	IN_TRANSIT
+1054	54	7	2026-03-23 00:00:00	IN_TRANSIT
+1055	55	5	2026-01-22 00:00:00	IN_TRANSIT
+1056	56	5	2026-04-23 00:00:00	IN_TRANSIT
+1057	57	5	2026-02-10 00:00:00	IN_TRANSIT
+1058	58	6	2026-01-28 00:00:00	IN_TRANSIT
+1059	59	3	2026-02-06 00:00:00	IN_TRANSIT
+1060	60	6	2026-04-25 00:00:00	IN_TRANSIT
+1061	61	4	2026-03-12 00:00:00	IN_TRANSIT
+1062	62	1	2026-06-27 00:00:00	IN_TRANSIT
+1063	63	2	2026-05-22 00:00:00	IN_TRANSIT
+1064	64	2	2026-06-10 00:00:00	IN_TRANSIT
+1065	65	8	2026-06-28 00:00:00	IN_TRANSIT
+1066	66	6	2026-06-21 00:00:00	IN_TRANSIT
+1067	67	3	2026-03-23 00:00:00	IN_TRANSIT
+1068	68	2	2026-03-11 00:00:00	IN_TRANSIT
+1069	69	1	2026-04-17 00:00:00	IN_TRANSIT
+1070	70	4	2026-01-27 00:00:00	IN_TRANSIT
+1071	71	6	2026-04-22 00:00:00	IN_TRANSIT
+1072	72	7	2026-01-31 00:00:00	IN_TRANSIT
+1073	73	7	2026-02-05 00:00:00	IN_TRANSIT
+1074	74	2	2026-06-02 00:00:00	IN_TRANSIT
+1075	75	7	2026-04-22 00:00:00	IN_TRANSIT
+1076	76	1	2026-03-04 00:00:00	IN_TRANSIT
+1077	77	5	2026-06-26 00:00:00	IN_TRANSIT
+1078	78	3	2026-02-27 00:00:00	IN_TRANSIT
+1079	79	5	2026-01-05 00:00:00	IN_TRANSIT
+1080	80	7	2026-04-22 00:00:00	IN_TRANSIT
+1081	81	3	2026-03-21 00:00:00	IN_TRANSIT
+1082	82	5	2026-06-26 00:00:00	IN_TRANSIT
+1083	83	2	2026-03-02 00:00:00	IN_TRANSIT
+1084	84	1	2026-05-28 00:00:00	IN_TRANSIT
+1085	85	2	2026-05-17 00:00:00	IN_TRANSIT
+1086	86	3	2026-03-30 00:00:00	IN_TRANSIT
+1087	87	4	2026-01-10 00:00:00	IN_TRANSIT
+1088	88	8	2026-02-20 00:00:00	IN_TRANSIT
+1089	89	2	2026-02-15 00:00:00	IN_TRANSIT
+1090	90	2	2026-06-13 00:00:00	IN_TRANSIT
+1091	91	3	2026-03-13 00:00:00	IN_TRANSIT
+1092	92	4	2026-02-20 00:00:00	IN_TRANSIT
+1093	93	8	2026-02-01 00:00:00	IN_TRANSIT
+1094	94	5	2026-02-21 00:00:00	IN_TRANSIT
+1095	95	6	2026-03-12 00:00:00	IN_TRANSIT
+1096	96	3	2026-02-08 00:00:00	IN_TRANSIT
+1097	97	3	2026-06-17 00:00:00	IN_TRANSIT
+1098	98	4	2026-01-28 00:00:00	IN_TRANSIT
+1099	99	1	2026-03-05 00:00:00	IN_TRANSIT
+1100	100	1	2026-06-22 00:00:00	IN_TRANSIT
+1101	101	3	2026-04-05 00:00:00	IN_TRANSIT
+1102	102	1	2026-01-05 00:00:00	IN_TRANSIT
+1103	103	4	2026-06-29 00:00:00	IN_TRANSIT
+1104	104	1	2026-06-12 00:00:00	IN_TRANSIT
+1105	105	3	2026-02-06 00:00:00	IN_TRANSIT
+1106	106	6	2026-06-15 00:00:00	IN_TRANSIT
+1107	107	5	2026-05-11 00:00:00	IN_TRANSIT
+1108	108	2	2026-05-25 00:00:00	IN_TRANSIT
+1109	109	7	2026-03-10 00:00:00	IN_TRANSIT
+1110	110	7	2026-01-04 00:00:00	IN_TRANSIT
+1111	111	5	2026-06-14 00:00:00	IN_TRANSIT
+1112	112	5	2026-02-08 00:00:00	IN_TRANSIT
+1113	113	6	2026-06-21 00:00:00	IN_TRANSIT
+1114	114	1	2026-03-28 00:00:00	IN_TRANSIT
+1115	115	7	2026-03-29 00:00:00	IN_TRANSIT
+1116	116	7	2026-06-20 00:00:00	IN_TRANSIT
+1117	117	2	2026-01-11 00:00:00	IN_TRANSIT
+1118	118	7	2026-02-14 00:00:00	IN_TRANSIT
+1119	119	5	2026-01-16 00:00:00	IN_TRANSIT
+1120	120	2	2026-06-05 00:00:00	IN_TRANSIT
+1121	121	8	2026-05-27 00:00:00	IN_TRANSIT
+1122	122	1	2026-05-18 00:00:00	IN_TRANSIT
+1123	123	3	2026-05-17 00:00:00	IN_TRANSIT
+1124	124	2	2026-06-29 00:00:00	IN_TRANSIT
+1125	125	2	2026-05-31 00:00:00	IN_TRANSIT
+1126	126	2	2026-06-23 00:00:00	IN_TRANSIT
+1127	127	2	2026-01-17 00:00:00	IN_TRANSIT
+1128	128	3	2026-04-25 00:00:00	IN_TRANSIT
+1129	129	4	2026-05-11 00:00:00	IN_TRANSIT
+1130	130	7	2026-01-03 00:00:00	IN_TRANSIT
+1131	131	6	2026-05-27 00:00:00	IN_TRANSIT
+1132	132	7	2026-01-20 00:00:00	IN_TRANSIT
+1133	133	2	2026-03-12 00:00:00	IN_TRANSIT
+1134	134	1	2026-05-06 00:00:00	IN_TRANSIT
+1135	135	2	2026-03-03 00:00:00	IN_TRANSIT
+1136	136	1	2026-01-28 00:00:00	IN_TRANSIT
+1137	137	4	2026-04-23 00:00:00	IN_TRANSIT
+1138	138	5	2026-05-17 00:00:00	IN_TRANSIT
+1139	139	6	2026-06-17 00:00:00	IN_TRANSIT
+1140	140	4	2026-05-01 00:00:00	IN_TRANSIT
+1141	141	7	2026-03-21 00:00:00	IN_TRANSIT
+1142	142	5	2026-05-15 00:00:00	IN_TRANSIT
+1143	143	3	2026-06-18 00:00:00	IN_TRANSIT
+1144	144	3	2026-04-07 00:00:00	IN_TRANSIT
+1145	145	3	2026-04-30 00:00:00	IN_TRANSIT
+1146	146	4	2026-01-23 00:00:00	IN_TRANSIT
+1147	147	6	2026-04-26 00:00:00	IN_TRANSIT
+1148	148	4	2026-03-14 00:00:00	IN_TRANSIT
+1149	149	7	2026-04-25 00:00:00	IN_TRANSIT
+1150	150	5	2026-02-22 00:00:00	IN_TRANSIT
+1151	151	4	2026-02-15 00:00:00	IN_TRANSIT
+1152	152	4	2026-01-11 00:00:00	IN_TRANSIT
+1153	153	3	2026-02-23 00:00:00	IN_TRANSIT
+1154	154	8	2026-01-26 00:00:00	IN_TRANSIT
+1155	155	3	2026-04-18 00:00:00	IN_TRANSIT
+1156	156	3	2026-01-16 00:00:00	IN_TRANSIT
+1157	157	4	2026-01-03 00:00:00	IN_TRANSIT
+1158	158	1	2026-01-04 00:00:00	IN_TRANSIT
+1159	159	4	2026-01-10 00:00:00	IN_TRANSIT
+1160	160	7	2026-01-19 00:00:00	IN_TRANSIT
+1161	161	1	2026-01-06 00:00:00	IN_TRANSIT
+1162	162	4	2026-06-20 00:00:00	IN_TRANSIT
+1163	163	3	2026-06-10 00:00:00	IN_TRANSIT
+1164	164	1	2026-04-16 00:00:00	IN_TRANSIT
+1165	165	4	2026-02-25 00:00:00	IN_TRANSIT
+1166	166	8	2026-04-29 00:00:00	IN_TRANSIT
+1167	167	6	2026-04-04 00:00:00	IN_TRANSIT
+1168	168	1	2026-01-30 00:00:00	IN_TRANSIT
+1169	169	3	2026-03-11 00:00:00	IN_TRANSIT
+1170	170	7	2026-05-14 00:00:00	IN_TRANSIT
+1171	171	3	2026-05-10 00:00:00	IN_TRANSIT
+1172	172	7	2026-03-12 00:00:00	IN_TRANSIT
+1173	173	5	2026-03-13 00:00:00	IN_TRANSIT
+1174	174	6	2026-04-16 00:00:00	IN_TRANSIT
+1175	175	3	2026-01-16 00:00:00	IN_TRANSIT
+1176	176	5	2026-06-13 00:00:00	IN_TRANSIT
+1177	177	4	2026-05-02 00:00:00	IN_TRANSIT
+1178	178	8	2026-06-27 00:00:00	IN_TRANSIT
+1179	179	1	2026-05-10 00:00:00	IN_TRANSIT
+1180	180	5	2026-02-03 00:00:00	IN_TRANSIT
+1181	181	3	2026-02-06 00:00:00	IN_TRANSIT
+1182	182	6	2026-02-17 00:00:00	IN_TRANSIT
+1183	183	7	2026-06-12 00:00:00	IN_TRANSIT
+1184	184	8	2026-06-18 00:00:00	IN_TRANSIT
+1185	185	2	2026-05-09 00:00:00	IN_TRANSIT
+1186	186	2	2026-06-07 00:00:00	IN_TRANSIT
+1187	187	4	2026-05-25 00:00:00	IN_TRANSIT
+1188	188	6	2026-03-10 00:00:00	IN_TRANSIT
+1189	189	3	2026-03-06 00:00:00	IN_TRANSIT
+1190	190	3	2026-06-30 00:00:00	IN_TRANSIT
+1191	191	8	2026-03-16 00:00:00	IN_TRANSIT
+1192	192	4	2026-04-01 00:00:00	IN_TRANSIT
+1193	193	2	2026-04-06 00:00:00	IN_TRANSIT
+1194	194	5	2026-01-16 00:00:00	IN_TRANSIT
+1195	195	5	2026-04-12 00:00:00	IN_TRANSIT
+1196	196	6	2026-03-17 00:00:00	IN_TRANSIT
+1197	197	1	2026-03-12 00:00:00	IN_TRANSIT
+1198	198	5	2026-02-04 00:00:00	IN_TRANSIT
+1199	199	7	2026-06-23 00:00:00	IN_TRANSIT
+1200	200	8	2026-03-16 00:00:00	IN_TRANSIT
+1201	201	1	2026-04-03 00:00:00	IN_TRANSIT
+1202	202	2	2026-03-30 00:00:00	IN_TRANSIT
+1203	203	1	2026-04-26 00:00:00	IN_TRANSIT
+1204	204	4	2026-03-11 00:00:00	IN_TRANSIT
+1205	205	3	2026-06-19 00:00:00	IN_TRANSIT
+1206	206	3	2026-03-03 00:00:00	IN_TRANSIT
+1207	207	8	2026-05-23 00:00:00	IN_TRANSIT
+1208	208	5	2026-02-10 00:00:00	IN_TRANSIT
+1209	209	2	2026-06-18 00:00:00	IN_TRANSIT
+1210	210	7	2026-02-11 00:00:00	IN_TRANSIT
+1211	211	3	2026-03-28 00:00:00	IN_TRANSIT
+1212	212	8	2026-02-10 00:00:00	IN_TRANSIT
+1213	213	8	2026-01-02 00:00:00	IN_TRANSIT
+1214	214	7	2026-06-02 00:00:00	IN_TRANSIT
+1215	215	6	2026-06-28 00:00:00	IN_TRANSIT
+1216	216	7	2026-01-05 00:00:00	IN_TRANSIT
+1217	217	3	2026-03-16 00:00:00	IN_TRANSIT
+1218	218	2	2026-02-27 00:00:00	IN_TRANSIT
+1219	219	4	2026-04-10 00:00:00	IN_TRANSIT
+1220	220	6	2026-06-25 00:00:00	IN_TRANSIT
+1221	221	8	2026-05-04 00:00:00	IN_TRANSIT
+1222	222	7	2026-04-17 00:00:00	IN_TRANSIT
+1223	223	3	2026-04-07 00:00:00	IN_TRANSIT
+1224	224	3	2026-01-15 00:00:00	IN_TRANSIT
+1225	225	5	2026-04-19 00:00:00	IN_TRANSIT
+1226	226	8	2026-03-23 00:00:00	IN_TRANSIT
+1227	227	5	2026-04-24 00:00:00	IN_TRANSIT
+1228	228	8	2026-01-07 00:00:00	IN_TRANSIT
+1229	229	2	2026-01-16 00:00:00	IN_TRANSIT
+1230	230	8	2026-06-15 00:00:00	IN_TRANSIT
+1231	231	1	2026-03-09 00:00:00	IN_TRANSIT
+1232	232	8	2026-02-18 00:00:00	IN_TRANSIT
+1233	233	1	2026-03-02 00:00:00	IN_TRANSIT
+1234	234	4	2026-01-19 00:00:00	IN_TRANSIT
+1235	235	2	2026-04-06 00:00:00	IN_TRANSIT
+1236	236	3	2026-05-21 00:00:00	IN_TRANSIT
+1237	237	8	2026-03-18 00:00:00	IN_TRANSIT
+1238	238	3	2026-01-06 00:00:00	IN_TRANSIT
+1239	239	4	2026-01-13 00:00:00	IN_TRANSIT
+1240	240	2	2026-01-05 00:00:00	IN_TRANSIT
+1241	241	7	2026-01-26 00:00:00	IN_TRANSIT
+1242	242	4	2026-06-19 00:00:00	IN_TRANSIT
+1243	243	7	2026-01-30 00:00:00	IN_TRANSIT
+1244	244	7	2026-04-06 00:00:00	IN_TRANSIT
+1245	245	1	2026-05-10 00:00:00	IN_TRANSIT
+1246	246	2	2026-01-14 00:00:00	IN_TRANSIT
+1247	247	1	2026-03-23 00:00:00	IN_TRANSIT
+1248	248	3	2026-04-20 00:00:00	IN_TRANSIT
+1249	249	3	2026-03-12 00:00:00	IN_TRANSIT
+1250	250	5	2026-01-23 00:00:00	IN_TRANSIT
+1251	251	6	2026-05-24 00:00:00	IN_TRANSIT
+1252	252	5	2026-01-27 00:00:00	IN_TRANSIT
+1253	253	1	2026-03-06 00:00:00	IN_TRANSIT
+1254	254	8	2026-01-05 00:00:00	IN_TRANSIT
+1255	255	7	2026-06-30 00:00:00	IN_TRANSIT
+1256	256	7	2026-02-03 00:00:00	IN_TRANSIT
+1257	257	2	2026-04-12 00:00:00	IN_TRANSIT
+1258	258	3	2026-04-10 00:00:00	IN_TRANSIT
+1259	259	8	2026-02-12 00:00:00	IN_TRANSIT
+1260	260	7	2026-02-23 00:00:00	IN_TRANSIT
+1261	261	5	2026-06-11 00:00:00	IN_TRANSIT
+1262	262	5	2026-04-30 00:00:00	IN_TRANSIT
+1263	263	3	2026-05-12 00:00:00	IN_TRANSIT
+1264	264	6	2026-05-03 00:00:00	IN_TRANSIT
+1265	265	2	2026-06-14 00:00:00	IN_TRANSIT
+1266	266	3	2026-06-17 00:00:00	IN_TRANSIT
+1267	267	2	2026-02-01 00:00:00	IN_TRANSIT
+1268	268	6	2026-04-16 00:00:00	IN_TRANSIT
+1269	269	5	2026-04-03 00:00:00	IN_TRANSIT
+1270	270	7	2026-02-26 00:00:00	IN_TRANSIT
+1271	271	5	2026-01-05 00:00:00	IN_TRANSIT
+1272	272	7	2026-06-06 00:00:00	IN_TRANSIT
+1273	273	5	2026-06-22 00:00:00	IN_TRANSIT
+1274	274	7	2026-03-10 00:00:00	IN_TRANSIT
+1275	275	2	2026-03-13 00:00:00	IN_TRANSIT
+1276	276	7	2026-03-21 00:00:00	IN_TRANSIT
+1277	277	7	2026-04-23 00:00:00	IN_TRANSIT
+1278	278	2	2026-05-09 00:00:00	IN_TRANSIT
+1279	279	5	2026-02-23 00:00:00	IN_TRANSIT
+1280	280	2	2026-01-08 00:00:00	IN_TRANSIT
+1281	281	8	2026-04-23 00:00:00	IN_TRANSIT
+1282	282	1	2026-02-28 00:00:00	IN_TRANSIT
+1283	283	1	2026-02-21 00:00:00	IN_TRANSIT
+1284	284	2	2026-05-07 00:00:00	IN_TRANSIT
+1285	285	4	2026-05-30 00:00:00	IN_TRANSIT
+1286	286	4	2026-02-14 00:00:00	IN_TRANSIT
+1287	287	4	2026-03-01 00:00:00	IN_TRANSIT
+1288	288	2	2026-06-04 00:00:00	IN_TRANSIT
+1289	289	3	2026-06-10 00:00:00	IN_TRANSIT
+1290	290	3	2026-03-12 00:00:00	IN_TRANSIT
+1291	291	5	2026-03-21 00:00:00	IN_TRANSIT
+1292	292	3	2026-02-28 00:00:00	IN_TRANSIT
+1293	293	2	2026-03-27 00:00:00	IN_TRANSIT
+1294	294	7	2026-06-28 00:00:00	IN_TRANSIT
+1295	295	1	2026-05-16 00:00:00	IN_TRANSIT
+1296	296	4	2026-02-20 00:00:00	IN_TRANSIT
+1297	297	6	2026-02-12 00:00:00	IN_TRANSIT
+1298	298	3	2026-04-29 00:00:00	IN_TRANSIT
+1299	299	5	2026-05-27 00:00:00	IN_TRANSIT
+1300	300	3	2026-06-22 00:00:00	IN_TRANSIT
+1301	301	5	2026-04-05 00:00:00	IN_TRANSIT
+1302	302	1	2026-02-09 00:00:00	IN_TRANSIT
+1303	303	2	2026-04-27 00:00:00	IN_TRANSIT
+1304	304	2	2026-06-04 00:00:00	IN_TRANSIT
+1305	305	5	2026-04-28 00:00:00	IN_TRANSIT
+1306	306	4	2026-06-05 00:00:00	IN_TRANSIT
+1307	307	6	2026-05-18 00:00:00	IN_TRANSIT
+1308	308	8	2026-02-23 00:00:00	IN_TRANSIT
+1309	309	8	2026-06-20 00:00:00	IN_TRANSIT
+1310	310	2	2026-05-14 00:00:00	IN_TRANSIT
+1311	311	4	2026-05-02 00:00:00	IN_TRANSIT
+1312	312	2	2026-03-13 00:00:00	IN_TRANSIT
+1313	313	8	2026-05-14 00:00:00	IN_TRANSIT
+1314	314	5	2026-02-16 00:00:00	IN_TRANSIT
+1315	315	8	2026-06-03 00:00:00	IN_TRANSIT
+1316	316	6	2026-04-17 00:00:00	IN_TRANSIT
+1317	317	7	2026-04-20 00:00:00	IN_TRANSIT
+1318	318	3	2026-06-08 00:00:00	IN_TRANSIT
+1319	319	6	2026-06-19 00:00:00	IN_TRANSIT
+1320	320	5	2026-04-14 00:00:00	IN_TRANSIT
+1321	321	3	2026-01-06 00:00:00	IN_TRANSIT
+1322	322	7	2026-03-21 00:00:00	IN_TRANSIT
+1323	323	1	2026-05-12 00:00:00	IN_TRANSIT
+1324	324	6	2026-06-25 00:00:00	IN_TRANSIT
+1325	325	7	2026-06-19 00:00:00	IN_TRANSIT
+1326	326	5	2026-06-06 00:00:00	IN_TRANSIT
+1327	327	6	2026-04-01 00:00:00	IN_TRANSIT
+1328	328	7	2026-01-12 00:00:00	IN_TRANSIT
+1329	329	7	2026-02-08 00:00:00	IN_TRANSIT
+1330	330	1	2026-03-19 00:00:00	IN_TRANSIT
+1331	331	2	2026-04-01 00:00:00	IN_TRANSIT
+1332	332	4	2026-04-10 00:00:00	IN_TRANSIT
+1333	333	8	2026-04-10 00:00:00	IN_TRANSIT
+1334	334	2	2026-03-05 00:00:00	IN_TRANSIT
+1335	335	2	2026-02-19 00:00:00	IN_TRANSIT
+1336	336	8	2026-05-18 00:00:00	IN_TRANSIT
+1337	337	2	2026-06-26 00:00:00	IN_TRANSIT
+1338	338	5	2026-05-08 00:00:00	IN_TRANSIT
+1339	339	2	2026-05-31 00:00:00	IN_TRANSIT
+1340	340	4	2026-05-05 00:00:00	IN_TRANSIT
+1341	341	6	2026-03-12 00:00:00	IN_TRANSIT
+1342	342	5	2026-02-12 00:00:00	IN_TRANSIT
+1343	343	1	2026-05-30 00:00:00	IN_TRANSIT
+1344	344	2	2026-01-21 00:00:00	IN_TRANSIT
+1345	345	2	2026-05-20 00:00:00	IN_TRANSIT
+1346	346	8	2026-05-10 00:00:00	IN_TRANSIT
+1347	347	1	2026-02-19 00:00:00	IN_TRANSIT
+1348	348	6	2026-04-12 00:00:00	IN_TRANSIT
+1349	349	8	2026-05-05 00:00:00	IN_TRANSIT
+1350	350	7	2026-03-06 00:00:00	IN_TRANSIT
+1351	351	3	2026-03-26 00:00:00	IN_TRANSIT
+1352	352	4	2026-02-25 00:00:00	IN_TRANSIT
+1353	353	3	2026-02-10 00:00:00	IN_TRANSIT
+1354	354	8	2026-05-05 00:00:00	IN_TRANSIT
+1355	355	2	2026-03-11 00:00:00	IN_TRANSIT
+1356	356	4	2026-03-11 00:00:00	IN_TRANSIT
+1357	357	4	2026-02-18 00:00:00	IN_TRANSIT
+1358	358	8	2026-04-02 00:00:00	IN_TRANSIT
+1359	359	8	2026-01-19 00:00:00	IN_TRANSIT
+1360	360	4	2026-05-09 00:00:00	IN_TRANSIT
+1361	361	1	2026-05-22 00:00:00	IN_TRANSIT
+1362	362	3	2026-03-04 00:00:00	IN_TRANSIT
+1363	363	7	2026-05-08 00:00:00	IN_TRANSIT
+1364	364	8	2026-03-12 00:00:00	IN_TRANSIT
+1365	365	1	2026-06-30 00:00:00	IN_TRANSIT
+1366	366	2	2026-05-10 00:00:00	IN_TRANSIT
+1367	367	3	2026-05-11 00:00:00	IN_TRANSIT
+1368	368	4	2026-05-10 00:00:00	IN_TRANSIT
+1369	369	4	2026-01-05 00:00:00	IN_TRANSIT
+1370	370	1	2026-03-09 00:00:00	IN_TRANSIT
+1371	371	8	2026-03-19 00:00:00	IN_TRANSIT
+1372	372	6	2026-04-13 00:00:00	IN_TRANSIT
+1373	373	2	2026-04-25 00:00:00	IN_TRANSIT
+1374	374	4	2026-02-04 00:00:00	IN_TRANSIT
+1375	375	4	2026-04-08 00:00:00	IN_TRANSIT
+1376	376	6	2026-06-18 00:00:00	IN_TRANSIT
+1377	377	7	2026-02-02 00:00:00	IN_TRANSIT
+1378	378	5	2026-03-19 00:00:00	IN_TRANSIT
+1379	379	7	2026-03-02 00:00:00	IN_TRANSIT
+1380	380	4	2026-04-11 00:00:00	IN_TRANSIT
+1381	381	1	2026-05-24 00:00:00	IN_TRANSIT
+1382	382	5	2026-06-02 00:00:00	IN_TRANSIT
+1383	383	1	2026-05-13 00:00:00	IN_TRANSIT
+1384	384	4	2026-04-18 00:00:00	IN_TRANSIT
+1385	385	5	2026-04-24 00:00:00	IN_TRANSIT
+1386	386	2	2026-04-27 00:00:00	IN_TRANSIT
+1387	387	4	2026-06-28 00:00:00	IN_TRANSIT
+1388	388	4	2026-06-01 00:00:00	IN_TRANSIT
+1389	389	3	2026-01-14 00:00:00	IN_TRANSIT
+1390	390	5	2026-04-04 00:00:00	IN_TRANSIT
+1391	391	8	2026-06-30 00:00:00	IN_TRANSIT
+1392	392	7	2026-03-04 00:00:00	IN_TRANSIT
+1393	393	2	2026-03-29 00:00:00	IN_TRANSIT
+1394	394	2	2026-06-26 00:00:00	IN_TRANSIT
+1395	395	7	2026-06-10 00:00:00	IN_TRANSIT
+1396	396	1	2026-01-31 00:00:00	IN_TRANSIT
+1397	397	3	2026-02-03 00:00:00	IN_TRANSIT
+1398	398	8	2026-02-08 00:00:00	IN_TRANSIT
+1399	399	1	2026-05-01 00:00:00	IN_TRANSIT
+1400	400	6	2026-04-01 00:00:00	IN_TRANSIT
+1401	401	7	2026-06-04 00:00:00	IN_TRANSIT
+1402	402	5	2026-03-27 00:00:00	IN_TRANSIT
+1403	403	3	2026-03-22 00:00:00	IN_TRANSIT
+1404	404	6	2026-01-18 00:00:00	IN_TRANSIT
+1405	405	7	2026-05-15 00:00:00	IN_TRANSIT
+1406	406	1	2026-06-07 00:00:00	IN_TRANSIT
+1407	407	7	2026-05-31 00:00:00	IN_TRANSIT
+1408	408	7	2026-04-14 00:00:00	IN_TRANSIT
+1409	409	3	2026-03-29 00:00:00	IN_TRANSIT
+1410	410	1	2026-02-13 00:00:00	IN_TRANSIT
+1411	411	4	2026-03-20 00:00:00	IN_TRANSIT
+1412	412	7	2026-03-13 00:00:00	IN_TRANSIT
+1413	413	4	2026-05-18 00:00:00	IN_TRANSIT
+1414	414	2	2026-06-03 00:00:00	IN_TRANSIT
+1415	415	7	2026-02-15 00:00:00	IN_TRANSIT
+1416	416	2	2026-04-11 00:00:00	IN_TRANSIT
+1417	417	4	2026-06-21 00:00:00	IN_TRANSIT
+1418	418	6	2026-06-14 00:00:00	IN_TRANSIT
+1419	419	7	2026-01-18 00:00:00	IN_TRANSIT
+1420	420	4	2026-04-12 00:00:00	IN_TRANSIT
+1421	421	8	2026-04-28 00:00:00	IN_TRANSIT
+1422	422	5	2026-01-29 00:00:00	IN_TRANSIT
+1423	423	4	2026-01-04 00:00:00	IN_TRANSIT
+1424	424	2	2026-04-22 00:00:00	IN_TRANSIT
+1425	425	4	2026-01-29 00:00:00	IN_TRANSIT
+1426	426	1	2026-01-21 00:00:00	IN_TRANSIT
+1427	427	7	2026-05-06 00:00:00	IN_TRANSIT
+1428	428	8	2026-05-05 00:00:00	IN_TRANSIT
+1429	429	6	2026-05-04 00:00:00	IN_TRANSIT
+1430	430	1	2026-06-13 00:00:00	IN_TRANSIT
+1431	431	6	2026-01-25 00:00:00	IN_TRANSIT
+1432	432	7	2026-04-06 00:00:00	IN_TRANSIT
+1433	433	5	2026-02-14 00:00:00	IN_TRANSIT
+1434	434	4	2026-02-19 00:00:00	IN_TRANSIT
+1435	435	8	2026-03-17 00:00:00	IN_TRANSIT
+1436	436	6	2026-04-07 00:00:00	IN_TRANSIT
+1437	437	5	2026-04-01 00:00:00	IN_TRANSIT
+1438	438	6	2026-05-26 00:00:00	IN_TRANSIT
+1439	439	1	2026-03-22 00:00:00	IN_TRANSIT
+1440	440	1	2026-05-24 00:00:00	IN_TRANSIT
+1441	441	5	2026-05-21 00:00:00	IN_TRANSIT
+1442	442	2	2026-01-25 00:00:00	IN_TRANSIT
+1443	443	5	2026-02-12 00:00:00	IN_TRANSIT
+1444	444	5	2026-02-12 00:00:00	IN_TRANSIT
+1445	445	4	2026-05-10 00:00:00	IN_TRANSIT
+1446	446	3	2026-06-21 00:00:00	IN_TRANSIT
+1447	447	7	2026-05-23 00:00:00	IN_TRANSIT
+1448	448	7	2026-04-19 00:00:00	IN_TRANSIT
+1449	449	4	2026-03-05 00:00:00	IN_TRANSIT
+1450	450	3	2026-02-02 00:00:00	IN_TRANSIT
+1451	451	4	2026-01-29 00:00:00	IN_TRANSIT
+1452	452	1	2026-04-11 00:00:00	IN_TRANSIT
+1453	453	1	2026-04-18 00:00:00	IN_TRANSIT
+1454	454	6	2026-01-15 00:00:00	IN_TRANSIT
+1455	455	3	2026-04-09 00:00:00	IN_TRANSIT
+1456	456	4	2026-05-16 00:00:00	IN_TRANSIT
+1457	457	7	2026-05-14 00:00:00	IN_TRANSIT
+1458	458	5	2026-01-07 00:00:00	IN_TRANSIT
+1459	459	5	2026-06-09 00:00:00	IN_TRANSIT
+1460	460	6	2026-03-05 00:00:00	IN_TRANSIT
+1461	461	7	2026-01-13 00:00:00	IN_TRANSIT
+1462	462	2	2026-04-19 00:00:00	IN_TRANSIT
+1463	463	6	2026-04-25 00:00:00	IN_TRANSIT
+1464	464	1	2026-06-17 00:00:00	IN_TRANSIT
+1465	465	4	2026-03-18 00:00:00	IN_TRANSIT
+1466	466	6	2026-03-13 00:00:00	IN_TRANSIT
+1467	467	8	2026-06-28 00:00:00	IN_TRANSIT
+1468	468	3	2026-04-09 00:00:00	IN_TRANSIT
+1469	469	6	2026-01-10 00:00:00	IN_TRANSIT
+1470	470	7	2026-04-06 00:00:00	IN_TRANSIT
+1471	471	5	2026-02-22 00:00:00	IN_TRANSIT
+1472	472	3	2026-06-23 00:00:00	IN_TRANSIT
+1473	473	7	2026-04-20 00:00:00	IN_TRANSIT
+1474	474	2	2026-04-30 00:00:00	IN_TRANSIT
+1475	475	4	2026-06-16 00:00:00	IN_TRANSIT
+1476	476	6	2026-01-03 00:00:00	IN_TRANSIT
+1477	477	6	2026-04-16 00:00:00	IN_TRANSIT
+1478	478	1	2026-05-30 00:00:00	IN_TRANSIT
+1479	479	7	2026-04-20 00:00:00	IN_TRANSIT
+1480	480	1	2026-03-03 00:00:00	IN_TRANSIT
+1481	481	1	2026-01-15 00:00:00	IN_TRANSIT
+1482	482	2	2026-06-01 00:00:00	IN_TRANSIT
+1483	483	4	2026-01-31 00:00:00	IN_TRANSIT
+1484	484	8	2026-03-14 00:00:00	IN_TRANSIT
+1485	485	5	2026-03-24 00:00:00	IN_TRANSIT
+1486	486	7	2026-01-22 00:00:00	IN_TRANSIT
+1487	487	7	2026-06-15 00:00:00	IN_TRANSIT
+1488	488	5	2026-02-26 00:00:00	IN_TRANSIT
+1489	489	3	2026-06-24 00:00:00	IN_TRANSIT
+1490	490	7	2026-04-30 00:00:00	IN_TRANSIT
+1491	491	6	2026-01-12 00:00:00	IN_TRANSIT
+1492	492	3	2026-01-24 00:00:00	IN_TRANSIT
+1493	493	5	2026-05-01 00:00:00	IN_TRANSIT
+1494	494	5	2026-03-09 00:00:00	IN_TRANSIT
+1495	495	6	2026-02-19 00:00:00	IN_TRANSIT
+1496	496	5	2026-04-23 00:00:00	IN_TRANSIT
+1497	497	5	2026-04-12 00:00:00	IN_TRANSIT
+1498	498	6	2026-01-21 00:00:00	IN_TRANSIT
+1499	499	5	2026-02-25 00:00:00	IN_TRANSIT
+1500	500	6	2026-06-26 00:00:00	IN_TRANSIT
+1501	501	8	2026-01-29 00:00:00	IN_TRANSIT
+1502	502	5	2026-04-11 00:00:00	IN_TRANSIT
+1503	503	1	2026-05-23 00:00:00	IN_TRANSIT
+1504	504	3	2026-02-26 00:00:00	IN_TRANSIT
+1505	505	7	2026-03-14 00:00:00	IN_TRANSIT
+1506	506	3	2026-04-30 00:00:00	IN_TRANSIT
+1507	507	7	2026-06-18 00:00:00	IN_TRANSIT
+1508	508	4	2026-02-25 00:00:00	IN_TRANSIT
+1509	509	5	2026-05-28 00:00:00	IN_TRANSIT
+1510	510	4	2026-03-10 00:00:00	IN_TRANSIT
+1511	511	1	2026-05-15 00:00:00	IN_TRANSIT
+1512	512	4	2026-05-14 00:00:00	IN_TRANSIT
+1513	513	8	2026-05-08 00:00:00	IN_TRANSIT
+1514	514	3	2026-02-16 00:00:00	IN_TRANSIT
+1515	515	8	2026-06-11 00:00:00	IN_TRANSIT
+1516	516	5	2026-04-15 00:00:00	IN_TRANSIT
+1517	517	7	2026-06-22 00:00:00	IN_TRANSIT
+1518	518	5	2026-01-12 00:00:00	IN_TRANSIT
+1519	519	8	2026-04-03 00:00:00	IN_TRANSIT
+1520	520	7	2026-03-23 00:00:00	IN_TRANSIT
+1521	521	4	2026-04-14 00:00:00	IN_TRANSIT
+1522	522	6	2026-03-20 00:00:00	IN_TRANSIT
+1523	523	8	2026-04-01 00:00:00	IN_TRANSIT
+1524	524	8	2026-04-07 00:00:00	IN_TRANSIT
+1525	525	6	2026-01-23 00:00:00	IN_TRANSIT
+1526	526	8	2026-04-01 00:00:00	IN_TRANSIT
+1527	527	7	2026-01-10 00:00:00	IN_TRANSIT
+1528	528	4	2026-01-18 00:00:00	IN_TRANSIT
+1529	529	7	2026-03-03 00:00:00	IN_TRANSIT
+1530	530	7	2026-02-24 00:00:00	IN_TRANSIT
+1531	531	2	2026-05-13 00:00:00	IN_TRANSIT
+1532	532	3	2026-06-02 00:00:00	IN_TRANSIT
+1533	533	7	2026-06-21 00:00:00	IN_TRANSIT
+1534	534	8	2026-04-15 00:00:00	IN_TRANSIT
+1535	535	7	2026-04-03 00:00:00	IN_TRANSIT
+1536	536	2	2026-06-26 00:00:00	IN_TRANSIT
+1537	537	8	2026-06-22 00:00:00	IN_TRANSIT
+1538	538	2	2026-04-22 00:00:00	IN_TRANSIT
+1539	539	7	2026-02-14 00:00:00	IN_TRANSIT
+1540	540	8	2026-06-10 00:00:00	IN_TRANSIT
+1541	541	5	2026-04-04 00:00:00	IN_TRANSIT
+1542	542	1	2026-01-08 00:00:00	IN_TRANSIT
+1543	543	4	2026-01-12 00:00:00	IN_TRANSIT
+1544	544	2	2026-04-16 00:00:00	IN_TRANSIT
+1545	545	4	2026-02-18 00:00:00	IN_TRANSIT
+1546	546	4	2026-02-28 00:00:00	IN_TRANSIT
+1547	547	1	2026-04-15 00:00:00	IN_TRANSIT
+1548	548	3	2026-06-22 00:00:00	IN_TRANSIT
+1549	549	2	2026-02-15 00:00:00	IN_TRANSIT
+1550	550	7	2026-02-23 00:00:00	IN_TRANSIT
+1551	551	1	2026-04-06 00:00:00	IN_TRANSIT
+1552	552	8	2026-01-29 00:00:00	IN_TRANSIT
+1553	553	2	2026-02-06 00:00:00	IN_TRANSIT
+1554	554	5	2026-01-19 00:00:00	IN_TRANSIT
+1555	555	5	2026-04-01 00:00:00	IN_TRANSIT
+1556	556	1	2026-03-09 00:00:00	IN_TRANSIT
+1557	557	2	2026-06-30 00:00:00	IN_TRANSIT
+1558	558	4	2026-06-11 00:00:00	IN_TRANSIT
+1559	559	3	2026-02-17 00:00:00	IN_TRANSIT
+1560	560	4	2026-06-04 00:00:00	IN_TRANSIT
+1561	561	7	2026-01-25 00:00:00	IN_TRANSIT
+1562	562	1	2026-02-08 00:00:00	IN_TRANSIT
+1563	563	3	2026-06-04 00:00:00	IN_TRANSIT
+1564	564	3	2026-01-23 00:00:00	IN_TRANSIT
+1565	565	8	2026-05-06 00:00:00	IN_TRANSIT
+1566	566	1	2026-03-02 00:00:00	IN_TRANSIT
+1567	567	2	2026-06-01 00:00:00	IN_TRANSIT
+1568	568	5	2026-03-22 00:00:00	IN_TRANSIT
+1569	569	1	2026-04-15 00:00:00	IN_TRANSIT
+1570	570	7	2026-03-31 00:00:00	IN_TRANSIT
+1571	571	4	2026-04-24 00:00:00	IN_TRANSIT
+1572	572	2	2026-01-14 00:00:00	IN_TRANSIT
+1573	573	3	2026-01-13 00:00:00	IN_TRANSIT
+1574	574	4	2026-02-12 00:00:00	IN_TRANSIT
+1575	575	1	2026-02-09 00:00:00	IN_TRANSIT
+1576	576	8	2026-05-15 00:00:00	IN_TRANSIT
+1577	577	8	2026-05-17 00:00:00	IN_TRANSIT
+1578	578	4	2026-05-27 00:00:00	IN_TRANSIT
+1579	579	1	2026-01-22 00:00:00	IN_TRANSIT
+1580	580	1	2026-03-07 00:00:00	IN_TRANSIT
+1581	581	3	2026-01-15 00:00:00	IN_TRANSIT
+1582	582	3	2026-06-02 00:00:00	IN_TRANSIT
+1583	583	8	2026-04-19 00:00:00	IN_TRANSIT
+1584	584	7	2026-05-28 00:00:00	IN_TRANSIT
+1585	585	5	2026-03-10 00:00:00	IN_TRANSIT
+1586	586	7	2026-03-25 00:00:00	IN_TRANSIT
+1587	587	5	2026-04-23 00:00:00	IN_TRANSIT
+1588	588	3	2026-04-04 00:00:00	IN_TRANSIT
+1589	589	7	2026-04-22 00:00:00	IN_TRANSIT
+1590	590	3	2026-02-07 00:00:00	IN_TRANSIT
+1591	591	6	2026-04-30 00:00:00	IN_TRANSIT
+1592	592	3	2026-04-12 00:00:00	IN_TRANSIT
+1593	593	2	2026-03-01 00:00:00	IN_TRANSIT
+1594	594	7	2026-01-02 00:00:00	IN_TRANSIT
+1595	595	1	2026-05-31 00:00:00	IN_TRANSIT
+1596	596	6	2026-04-12 00:00:00	IN_TRANSIT
+1597	597	6	2026-01-26 00:00:00	IN_TRANSIT
+1598	598	7	2026-05-23 00:00:00	IN_TRANSIT
+1599	599	7	2026-01-15 00:00:00	IN_TRANSIT
+1600	600	5	2026-06-02 00:00:00	IN_TRANSIT
+1601	601	6	2026-02-15 00:00:00	IN_TRANSIT
+1602	602	7	2026-05-03 00:00:00	IN_TRANSIT
+1603	603	4	2026-04-22 00:00:00	IN_TRANSIT
+1604	604	8	2026-06-08 00:00:00	IN_TRANSIT
+1605	605	1	2026-06-22 00:00:00	IN_TRANSIT
+1606	606	1	2026-03-31 00:00:00	IN_TRANSIT
+1607	607	4	2026-05-08 00:00:00	IN_TRANSIT
+1608	608	5	2026-01-27 00:00:00	IN_TRANSIT
+1609	609	8	2026-02-23 00:00:00	IN_TRANSIT
+1610	610	1	2026-05-11 00:00:00	IN_TRANSIT
+1611	611	8	2026-03-28 00:00:00	IN_TRANSIT
+1612	612	7	2026-03-09 00:00:00	IN_TRANSIT
+1613	613	6	2026-04-15 00:00:00	IN_TRANSIT
+1614	614	7	2026-04-12 00:00:00	IN_TRANSIT
+1615	615	7	2026-03-25 00:00:00	IN_TRANSIT
+1616	616	5	2026-03-01 00:00:00	IN_TRANSIT
+1617	617	8	2026-01-06 00:00:00	IN_TRANSIT
+1618	618	3	2026-06-21 00:00:00	IN_TRANSIT
+1619	619	4	2026-04-16 00:00:00	IN_TRANSIT
+1620	620	7	2026-06-13 00:00:00	IN_TRANSIT
+1621	621	1	2026-04-02 00:00:00	IN_TRANSIT
+1622	622	2	2026-05-13 00:00:00	IN_TRANSIT
+1623	623	2	2026-06-15 00:00:00	IN_TRANSIT
+1624	624	3	2026-04-25 00:00:00	IN_TRANSIT
+1625	625	8	2026-03-14 00:00:00	IN_TRANSIT
+1626	626	8	2026-04-03 00:00:00	IN_TRANSIT
+1627	627	3	2026-04-02 00:00:00	IN_TRANSIT
+1628	628	5	2026-05-12 00:00:00	IN_TRANSIT
+1629	629	1	2026-01-28 00:00:00	IN_TRANSIT
+1630	630	8	2026-04-29 00:00:00	IN_TRANSIT
+1631	631	3	2026-01-16 00:00:00	IN_TRANSIT
+1632	632	8	2026-04-11 00:00:00	IN_TRANSIT
+1633	633	5	2026-06-14 00:00:00	IN_TRANSIT
+1634	634	7	2026-03-15 00:00:00	IN_TRANSIT
+1635	635	7	2026-04-16 00:00:00	IN_TRANSIT
+1636	636	2	2026-05-14 00:00:00	IN_TRANSIT
+1637	637	5	2026-05-07 00:00:00	IN_TRANSIT
+1638	638	7	2026-03-08 00:00:00	IN_TRANSIT
+1639	639	4	2026-01-19 00:00:00	IN_TRANSIT
+1640	640	8	2026-06-30 00:00:00	IN_TRANSIT
+1641	641	2	2026-01-21 00:00:00	IN_TRANSIT
+1642	642	7	2026-01-17 00:00:00	IN_TRANSIT
+1643	643	8	2026-03-04 00:00:00	IN_TRANSIT
+1644	644	8	2026-05-17 00:00:00	IN_TRANSIT
+1645	645	3	2026-05-28 00:00:00	IN_TRANSIT
+1646	646	8	2026-01-02 00:00:00	IN_TRANSIT
+1647	647	6	2026-04-29 00:00:00	IN_TRANSIT
+1648	648	7	2026-01-10 00:00:00	IN_TRANSIT
+1649	649	7	2026-04-15 00:00:00	IN_TRANSIT
+1650	650	6	2026-01-31 00:00:00	IN_TRANSIT
+1651	651	6	2026-03-06 00:00:00	IN_TRANSIT
+1652	652	1	2026-04-04 00:00:00	IN_TRANSIT
+1653	653	3	2026-04-17 00:00:00	IN_TRANSIT
+1654	654	5	2026-04-26 00:00:00	IN_TRANSIT
+1655	655	8	2026-01-20 00:00:00	IN_TRANSIT
+1656	656	7	2026-05-15 00:00:00	IN_TRANSIT
+1657	657	6	2026-01-28 00:00:00	IN_TRANSIT
+1658	658	5	2026-03-03 00:00:00	IN_TRANSIT
+1659	659	4	2026-03-19 00:00:00	IN_TRANSIT
+1660	660	6	2026-05-05 00:00:00	IN_TRANSIT
+1661	661	8	2026-04-11 00:00:00	IN_TRANSIT
+1662	662	3	2026-01-13 00:00:00	IN_TRANSIT
+1663	663	6	2026-06-06 00:00:00	IN_TRANSIT
+1664	664	4	2026-03-28 00:00:00	IN_TRANSIT
+1665	665	4	2026-05-11 00:00:00	IN_TRANSIT
+1666	666	2	2026-06-03 00:00:00	IN_TRANSIT
+1667	667	6	2026-05-11 00:00:00	IN_TRANSIT
+1668	668	7	2026-01-28 00:00:00	IN_TRANSIT
+1669	669	7	2026-01-21 00:00:00	IN_TRANSIT
+1670	670	1	2026-06-08 00:00:00	IN_TRANSIT
+1671	671	3	2026-01-08 00:00:00	IN_TRANSIT
+1672	672	4	2026-05-01 00:00:00	IN_TRANSIT
+1673	673	7	2026-03-22 00:00:00	IN_TRANSIT
+1674	674	2	2026-04-17 00:00:00	IN_TRANSIT
+1675	675	1	2026-04-19 00:00:00	IN_TRANSIT
+1676	676	5	2026-02-03 00:00:00	IN_TRANSIT
+1677	677	3	2026-03-09 00:00:00	IN_TRANSIT
+1678	678	6	2026-02-01 00:00:00	IN_TRANSIT
+1679	679	3	2026-02-06 00:00:00	IN_TRANSIT
+1680	680	6	2026-02-04 00:00:00	IN_TRANSIT
+1681	681	3	2026-06-10 00:00:00	IN_TRANSIT
+1682	682	4	2026-04-07 00:00:00	IN_TRANSIT
+1683	683	8	2026-05-27 00:00:00	IN_TRANSIT
+1684	684	1	2026-05-29 00:00:00	IN_TRANSIT
+1685	685	6	2026-01-11 00:00:00	IN_TRANSIT
+1686	686	5	2026-02-02 00:00:00	IN_TRANSIT
+1687	687	2	2026-06-02 00:00:00	IN_TRANSIT
+1688	688	2	2026-04-09 00:00:00	IN_TRANSIT
+1689	689	4	2026-05-14 00:00:00	IN_TRANSIT
+1690	690	3	2026-02-05 00:00:00	IN_TRANSIT
+1691	691	5	2026-01-26 00:00:00	IN_TRANSIT
+1692	692	3	2026-02-11 00:00:00	IN_TRANSIT
+1693	693	7	2026-01-31 00:00:00	IN_TRANSIT
+1694	694	5	2026-03-14 00:00:00	IN_TRANSIT
+1695	695	6	2026-01-10 00:00:00	IN_TRANSIT
+1696	696	4	2026-01-02 00:00:00	IN_TRANSIT
+1697	697	6	2026-04-18 00:00:00	IN_TRANSIT
+1698	698	6	2026-01-29 00:00:00	IN_TRANSIT
+1699	699	5	2026-03-22 00:00:00	IN_TRANSIT
+1700	700	6	2026-04-18 00:00:00	IN_TRANSIT
+1701	701	5	2026-05-22 00:00:00	IN_TRANSIT
+1702	702	5	2026-06-05 00:00:00	IN_TRANSIT
+1703	703	8	2026-04-06 00:00:00	IN_TRANSIT
+1704	704	5	2026-06-01 00:00:00	IN_TRANSIT
+1705	705	5	2026-04-18 00:00:00	IN_TRANSIT
+1706	706	3	2026-06-20 00:00:00	IN_TRANSIT
+1707	707	3	2026-02-10 00:00:00	IN_TRANSIT
+1708	708	8	2026-06-16 00:00:00	IN_TRANSIT
+1709	709	1	2026-02-02 00:00:00	IN_TRANSIT
+1710	710	3	2026-06-10 00:00:00	IN_TRANSIT
+1711	711	8	2026-02-07 00:00:00	IN_TRANSIT
+1712	712	1	2026-01-25 00:00:00	IN_TRANSIT
+1713	713	8	2026-03-08 00:00:00	IN_TRANSIT
+1714	714	6	2026-02-18 00:00:00	IN_TRANSIT
+1715	715	8	2026-05-28 00:00:00	IN_TRANSIT
+1716	716	4	2026-06-25 00:00:00	IN_TRANSIT
+1717	717	4	2026-06-18 00:00:00	IN_TRANSIT
+1718	718	5	2026-04-07 00:00:00	IN_TRANSIT
+1719	719	8	2026-06-03 00:00:00	IN_TRANSIT
+1720	720	1	2026-01-17 00:00:00	IN_TRANSIT
+1721	721	7	2026-03-24 00:00:00	IN_TRANSIT
+1722	722	2	2026-01-25 00:00:00	IN_TRANSIT
+1723	723	4	2026-01-27 00:00:00	IN_TRANSIT
+1724	724	5	2026-04-16 00:00:00	IN_TRANSIT
+1725	725	2	2026-01-12 00:00:00	IN_TRANSIT
+1726	726	8	2026-04-17 00:00:00	IN_TRANSIT
+1727	727	5	2026-03-21 00:00:00	IN_TRANSIT
+1728	728	8	2026-04-19 00:00:00	IN_TRANSIT
+1729	729	8	2026-03-09 00:00:00	IN_TRANSIT
+1730	730	5	2026-02-08 00:00:00	IN_TRANSIT
+1731	731	3	2026-05-19 00:00:00	IN_TRANSIT
+1732	732	4	2026-06-19 00:00:00	IN_TRANSIT
+1733	733	7	2026-02-18 00:00:00	IN_TRANSIT
+1734	734	6	2026-03-09 00:00:00	IN_TRANSIT
+1735	735	5	2026-01-20 00:00:00	IN_TRANSIT
+1736	736	2	2026-03-12 00:00:00	IN_TRANSIT
+1737	737	3	2026-01-15 00:00:00	IN_TRANSIT
+1738	738	5	2026-01-14 00:00:00	IN_TRANSIT
+1739	739	6	2026-03-12 00:00:00	IN_TRANSIT
+1740	740	4	2026-06-27 00:00:00	IN_TRANSIT
+1741	741	5	2026-04-15 00:00:00	IN_TRANSIT
+1742	742	3	2026-04-05 00:00:00	IN_TRANSIT
+1743	743	7	2026-06-27 00:00:00	IN_TRANSIT
+1744	744	5	2026-06-01 00:00:00	IN_TRANSIT
+1745	745	7	2026-05-06 00:00:00	IN_TRANSIT
+1746	746	1	2026-05-24 00:00:00	IN_TRANSIT
+1747	747	5	2026-05-07 00:00:00	IN_TRANSIT
+1748	748	3	2026-03-27 00:00:00	IN_TRANSIT
+1749	749	8	2026-04-01 00:00:00	IN_TRANSIT
+1750	750	6	2026-02-26 00:00:00	IN_TRANSIT
+1751	751	3	2026-04-17 00:00:00	IN_TRANSIT
+1752	752	4	2026-02-08 00:00:00	IN_TRANSIT
+1753	753	3	2026-04-18 00:00:00	IN_TRANSIT
+1754	754	6	2026-01-13 00:00:00	IN_TRANSIT
+1755	755	6	2026-06-02 00:00:00	IN_TRANSIT
+1756	756	1	2026-02-06 00:00:00	IN_TRANSIT
+1757	757	3	2026-06-10 00:00:00	IN_TRANSIT
+1758	758	7	2026-05-25 00:00:00	IN_TRANSIT
+1759	759	6	2026-02-04 00:00:00	IN_TRANSIT
+1760	760	6	2026-02-12 00:00:00	IN_TRANSIT
+1761	761	6	2026-05-09 00:00:00	IN_TRANSIT
+1762	762	8	2026-05-06 00:00:00	IN_TRANSIT
+1763	763	7	2026-04-15 00:00:00	IN_TRANSIT
+1764	764	6	2026-03-26 00:00:00	IN_TRANSIT
+1765	765	4	2026-01-28 00:00:00	IN_TRANSIT
+1766	766	4	2026-03-04 00:00:00	IN_TRANSIT
+1767	767	5	2026-03-25 00:00:00	IN_TRANSIT
+1768	768	1	2026-05-28 00:00:00	IN_TRANSIT
+1769	769	4	2026-05-26 00:00:00	IN_TRANSIT
+1770	770	8	2026-02-09 00:00:00	IN_TRANSIT
+1771	771	6	2026-01-09 00:00:00	IN_TRANSIT
+1772	772	1	2026-02-14 00:00:00	IN_TRANSIT
+1773	773	3	2026-04-10 00:00:00	IN_TRANSIT
+1774	774	1	2026-06-20 00:00:00	IN_TRANSIT
+1775	775	6	2026-05-31 00:00:00	IN_TRANSIT
+1776	776	1	2026-04-22 00:00:00	IN_TRANSIT
+1777	777	7	2026-01-15 00:00:00	IN_TRANSIT
+1778	778	7	2026-06-22 00:00:00	IN_TRANSIT
+1779	779	8	2026-04-10 00:00:00	IN_TRANSIT
+1780	780	3	2026-05-03 00:00:00	IN_TRANSIT
+1781	781	3	2026-06-08 00:00:00	IN_TRANSIT
+1782	782	6	2026-04-07 00:00:00	IN_TRANSIT
+1783	783	1	2026-03-27 00:00:00	IN_TRANSIT
+1784	784	4	2026-05-01 00:00:00	IN_TRANSIT
+1785	785	5	2026-05-13 00:00:00	IN_TRANSIT
+1786	786	4	2026-06-23 00:00:00	IN_TRANSIT
+1787	787	4	2026-06-01 00:00:00	IN_TRANSIT
+1788	788	3	2026-04-19 00:00:00	IN_TRANSIT
+1789	789	4	2026-06-04 00:00:00	IN_TRANSIT
+1790	790	5	2026-06-27 00:00:00	IN_TRANSIT
+1791	791	7	2026-01-04 00:00:00	IN_TRANSIT
+1792	792	5	2026-04-05 00:00:00	IN_TRANSIT
+1793	793	4	2026-02-04 00:00:00	IN_TRANSIT
+1794	794	6	2026-04-21 00:00:00	IN_TRANSIT
+1795	795	8	2026-02-11 00:00:00	IN_TRANSIT
+1796	796	6	2026-06-19 00:00:00	IN_TRANSIT
+1797	797	7	2026-02-17 00:00:00	IN_TRANSIT
+1798	798	5	2026-04-16 00:00:00	IN_TRANSIT
+1799	799	5	2026-03-04 00:00:00	IN_TRANSIT
+1800	800	3	2026-01-12 00:00:00	IN_TRANSIT
+1801	801	8	2026-02-27 00:00:00	IN_TRANSIT
+1802	802	3	2026-02-26 00:00:00	IN_TRANSIT
+1803	803	2	2026-05-19 00:00:00	IN_TRANSIT
+1804	804	7	2026-04-13 00:00:00	IN_TRANSIT
+1805	805	3	2026-01-16 00:00:00	IN_TRANSIT
+1806	806	3	2026-04-21 00:00:00	IN_TRANSIT
+1807	807	5	2026-02-21 00:00:00	IN_TRANSIT
+1808	808	8	2026-01-04 00:00:00	IN_TRANSIT
+1809	809	7	2026-05-06 00:00:00	IN_TRANSIT
+1810	810	7	2026-02-20 00:00:00	IN_TRANSIT
+1811	811	8	2026-03-17 00:00:00	IN_TRANSIT
+1812	812	6	2026-02-13 00:00:00	IN_TRANSIT
+1813	813	3	2026-03-09 00:00:00	IN_TRANSIT
+1814	814	3	2026-06-17 00:00:00	IN_TRANSIT
+1815	815	7	2026-06-09 00:00:00	IN_TRANSIT
+1816	816	5	2026-03-14 00:00:00	IN_TRANSIT
+1817	817	5	2026-06-10 00:00:00	IN_TRANSIT
+1818	818	1	2026-04-21 00:00:00	IN_TRANSIT
+1819	819	2	2026-05-30 00:00:00	IN_TRANSIT
+1820	820	1	2026-06-10 00:00:00	IN_TRANSIT
+1821	821	6	2026-01-25 00:00:00	IN_TRANSIT
+1822	822	6	2026-04-16 00:00:00	IN_TRANSIT
+1823	823	8	2026-06-11 00:00:00	IN_TRANSIT
+1824	824	7	2026-02-11 00:00:00	IN_TRANSIT
+1825	825	6	2026-01-21 00:00:00	IN_TRANSIT
+1826	826	1	2026-04-17 00:00:00	IN_TRANSIT
+1827	827	4	2026-03-12 00:00:00	IN_TRANSIT
+1828	828	6	2026-05-20 00:00:00	IN_TRANSIT
+1829	829	7	2026-01-15 00:00:00	IN_TRANSIT
+1830	830	3	2026-02-25 00:00:00	IN_TRANSIT
+1831	831	4	2026-03-23 00:00:00	IN_TRANSIT
+1832	832	2	2026-04-29 00:00:00	IN_TRANSIT
+1833	833	4	2026-01-08 00:00:00	IN_TRANSIT
+1834	834	3	2026-05-04 00:00:00	IN_TRANSIT
+1835	835	1	2026-04-17 00:00:00	IN_TRANSIT
+1836	836	7	2026-03-23 00:00:00	IN_TRANSIT
+1837	837	7	2026-06-25 00:00:00	IN_TRANSIT
+1838	838	4	2026-05-03 00:00:00	IN_TRANSIT
+1839	839	5	2026-01-11 00:00:00	IN_TRANSIT
+1840	840	8	2026-02-24 00:00:00	IN_TRANSIT
+1841	841	2	2026-03-27 00:00:00	IN_TRANSIT
+1842	842	4	2026-03-15 00:00:00	IN_TRANSIT
+1843	843	5	2026-05-26 00:00:00	IN_TRANSIT
+1844	844	4	2026-02-14 00:00:00	IN_TRANSIT
+1845	845	2	2026-03-30 00:00:00	IN_TRANSIT
+1846	846	7	2026-03-02 00:00:00	IN_TRANSIT
+1847	847	3	2026-03-05 00:00:00	IN_TRANSIT
+1848	848	2	2026-04-06 00:00:00	IN_TRANSIT
+1849	849	4	2026-03-30 00:00:00	IN_TRANSIT
+1850	850	4	2026-04-14 00:00:00	IN_TRANSIT
+1851	851	7	2026-02-25 00:00:00	IN_TRANSIT
+1852	852	1	2026-01-09 00:00:00	IN_TRANSIT
+1853	853	3	2026-03-30 00:00:00	IN_TRANSIT
+1854	854	1	2026-02-27 00:00:00	IN_TRANSIT
+1855	855	2	2026-06-15 00:00:00	IN_TRANSIT
+1856	856	3	2026-01-04 00:00:00	IN_TRANSIT
+1857	857	5	2026-03-07 00:00:00	IN_TRANSIT
+1858	858	8	2026-02-20 00:00:00	IN_TRANSIT
+1859	859	6	2026-06-23 00:00:00	IN_TRANSIT
+1860	860	6	2026-05-24 00:00:00	IN_TRANSIT
+1861	861	7	2026-05-16 00:00:00	IN_TRANSIT
+1862	862	3	2026-05-29 00:00:00	IN_TRANSIT
+1863	863	5	2026-05-10 00:00:00	IN_TRANSIT
+1864	864	5	2026-02-06 00:00:00	IN_TRANSIT
+1865	865	7	2026-05-31 00:00:00	IN_TRANSIT
+1866	866	7	2026-03-12 00:00:00	IN_TRANSIT
+1867	867	2	2026-05-02 00:00:00	IN_TRANSIT
+1868	868	4	2026-03-13 00:00:00	IN_TRANSIT
+1869	869	3	2026-03-02 00:00:00	IN_TRANSIT
+1870	870	2	2026-02-17 00:00:00	IN_TRANSIT
+1871	871	3	2026-05-12 00:00:00	IN_TRANSIT
+1872	872	8	2026-02-23 00:00:00	IN_TRANSIT
+1873	873	6	2026-05-02 00:00:00	IN_TRANSIT
+1874	874	8	2026-06-01 00:00:00	IN_TRANSIT
+1875	875	8	2026-04-05 00:00:00	IN_TRANSIT
+1876	876	1	2026-04-22 00:00:00	IN_TRANSIT
+1877	877	8	2026-06-25 00:00:00	IN_TRANSIT
+1878	878	8	2026-05-09 00:00:00	IN_TRANSIT
+1879	879	7	2026-03-20 00:00:00	IN_TRANSIT
+1880	880	5	2026-03-31 00:00:00	IN_TRANSIT
+1881	881	4	2026-05-17 00:00:00	IN_TRANSIT
+1882	882	4	2026-06-10 00:00:00	IN_TRANSIT
+1883	883	7	2026-02-12 00:00:00	IN_TRANSIT
+1884	884	4	2026-06-10 00:00:00	IN_TRANSIT
+1885	885	8	2026-05-06 00:00:00	IN_TRANSIT
+1886	886	7	2026-04-09 00:00:00	IN_TRANSIT
+1887	887	4	2026-06-22 00:00:00	IN_TRANSIT
+1888	888	2	2026-02-20 00:00:00	IN_TRANSIT
+1889	889	2	2026-05-31 00:00:00	IN_TRANSIT
+1890	890	1	2026-05-07 00:00:00	IN_TRANSIT
+1891	891	3	2026-01-27 00:00:00	IN_TRANSIT
+1892	892	7	2026-06-16 00:00:00	IN_TRANSIT
+1893	893	8	2026-05-21 00:00:00	IN_TRANSIT
+1894	894	3	2026-02-12 00:00:00	IN_TRANSIT
+1895	895	8	2026-02-28 00:00:00	IN_TRANSIT
+1896	896	7	2026-06-19 00:00:00	IN_TRANSIT
+1897	897	5	2026-06-04 00:00:00	IN_TRANSIT
+1898	898	8	2026-06-05 00:00:00	IN_TRANSIT
+1899	899	8	2026-04-06 00:00:00	IN_TRANSIT
+1900	900	4	2026-02-19 00:00:00	IN_TRANSIT
+1901	901	7	2026-05-16 00:00:00	IN_TRANSIT
+1902	902	1	2026-06-10 00:00:00	IN_TRANSIT
+1903	903	1	2026-06-17 00:00:00	IN_TRANSIT
+1904	904	5	2026-03-19 00:00:00	IN_TRANSIT
+1905	905	5	2026-05-10 00:00:00	IN_TRANSIT
+1906	906	4	2026-04-19 00:00:00	IN_TRANSIT
+1907	907	7	2026-03-07 00:00:00	IN_TRANSIT
+1908	908	5	2026-05-18 00:00:00	IN_TRANSIT
+1909	909	3	2026-04-12 00:00:00	IN_TRANSIT
+1910	910	8	2026-01-18 00:00:00	IN_TRANSIT
+1911	911	7	2026-01-11 00:00:00	IN_TRANSIT
+1912	912	3	2026-06-01 00:00:00	IN_TRANSIT
+1913	913	2	2026-06-10 00:00:00	IN_TRANSIT
+1914	914	4	2026-01-22 00:00:00	IN_TRANSIT
+1915	915	8	2026-04-07 00:00:00	IN_TRANSIT
+1916	916	7	2026-05-31 00:00:00	IN_TRANSIT
+1917	917	6	2026-06-25 00:00:00	IN_TRANSIT
+1918	918	7	2026-04-21 00:00:00	IN_TRANSIT
+1919	919	2	2026-02-25 00:00:00	IN_TRANSIT
+1920	920	2	2026-02-28 00:00:00	IN_TRANSIT
+1921	921	1	2026-01-07 00:00:00	IN_TRANSIT
+1922	922	6	2026-05-07 00:00:00	IN_TRANSIT
+1923	923	6	2026-02-14 00:00:00	IN_TRANSIT
+1924	924	4	2026-05-05 00:00:00	IN_TRANSIT
+1925	925	5	2026-06-03 00:00:00	IN_TRANSIT
+1926	926	8	2026-05-12 00:00:00	IN_TRANSIT
+1927	927	6	2026-01-21 00:00:00	IN_TRANSIT
+1928	928	8	2026-02-06 00:00:00	IN_TRANSIT
+1929	929	2	2026-01-21 00:00:00	IN_TRANSIT
+1930	930	3	2026-01-21 00:00:00	IN_TRANSIT
+1931	931	4	2026-01-13 00:00:00	IN_TRANSIT
+1932	932	4	2026-05-17 00:00:00	IN_TRANSIT
+1933	933	4	2026-05-21 00:00:00	IN_TRANSIT
+1934	934	3	2026-02-16 00:00:00	IN_TRANSIT
+1935	935	7	2026-06-25 00:00:00	IN_TRANSIT
+1936	936	4	2026-06-20 00:00:00	IN_TRANSIT
+1937	937	1	2026-03-04 00:00:00	IN_TRANSIT
+1938	938	4	2026-06-11 00:00:00	IN_TRANSIT
+1939	939	4	2026-03-20 00:00:00	IN_TRANSIT
+1940	940	7	2026-02-18 00:00:00	IN_TRANSIT
+1941	941	2	2026-02-08 00:00:00	IN_TRANSIT
+1942	942	1	2026-01-02 00:00:00	IN_TRANSIT
+1943	943	2	2026-04-12 00:00:00	IN_TRANSIT
+1944	944	8	2026-04-07 00:00:00	IN_TRANSIT
+1945	945	7	2026-01-24 00:00:00	IN_TRANSIT
+1946	946	7	2026-04-29 00:00:00	IN_TRANSIT
+1947	947	5	2026-05-07 00:00:00	IN_TRANSIT
+1948	948	7	2026-02-03 00:00:00	IN_TRANSIT
+1949	949	7	2026-01-08 00:00:00	IN_TRANSIT
+1950	950	7	2026-02-06 00:00:00	IN_TRANSIT
+1951	951	4	2026-06-18 00:00:00	IN_TRANSIT
+1952	952	3	2026-02-12 00:00:00	IN_TRANSIT
+1953	953	8	2026-04-25 00:00:00	IN_TRANSIT
+1954	954	8	2026-03-22 00:00:00	IN_TRANSIT
+1955	955	6	2026-04-26 00:00:00	IN_TRANSIT
+1956	956	4	2026-04-29 00:00:00	IN_TRANSIT
+1957	957	8	2026-03-26 00:00:00	IN_TRANSIT
+1958	958	5	2026-05-15 00:00:00	IN_TRANSIT
+1959	959	8	2026-03-19 00:00:00	IN_TRANSIT
+1960	960	5	2026-05-27 00:00:00	IN_TRANSIT
+1961	961	8	2026-01-11 00:00:00	IN_TRANSIT
+1962	962	7	2026-02-06 00:00:00	IN_TRANSIT
+1963	963	8	2026-06-19 00:00:00	IN_TRANSIT
+1964	964	7	2026-03-15 00:00:00	IN_TRANSIT
+1965	965	7	2026-03-09 00:00:00	IN_TRANSIT
+1966	966	8	2026-06-04 00:00:00	IN_TRANSIT
+1967	967	4	2026-06-28 00:00:00	IN_TRANSIT
+1968	968	8	2026-04-26 00:00:00	IN_TRANSIT
+1969	969	6	2026-03-11 00:00:00	IN_TRANSIT
+1970	970	6	2026-03-30 00:00:00	IN_TRANSIT
+1971	971	1	2026-04-26 00:00:00	IN_TRANSIT
+1972	972	4	2026-04-26 00:00:00	IN_TRANSIT
+1973	973	2	2026-03-31 00:00:00	IN_TRANSIT
+1974	974	1	2026-01-02 00:00:00	IN_TRANSIT
+1975	975	8	2026-05-30 00:00:00	IN_TRANSIT
+1976	976	5	2026-01-17 00:00:00	IN_TRANSIT
+1977	977	1	2026-04-02 00:00:00	IN_TRANSIT
+1978	978	8	2026-05-23 00:00:00	IN_TRANSIT
+1979	979	7	2026-01-14 00:00:00	IN_TRANSIT
+1980	980	2	2026-03-09 00:00:00	IN_TRANSIT
+1981	981	3	2026-06-13 00:00:00	IN_TRANSIT
+1982	982	7	2026-02-13 00:00:00	IN_TRANSIT
+1983	983	7	2026-05-19 00:00:00	IN_TRANSIT
+1984	984	2	2026-01-06 00:00:00	IN_TRANSIT
+1985	985	7	2026-06-14 00:00:00	IN_TRANSIT
+1986	986	5	2026-01-18 00:00:00	IN_TRANSIT
+1987	987	6	2026-03-14 00:00:00	IN_TRANSIT
+1988	988	2	2026-01-06 00:00:00	IN_TRANSIT
+1989	989	6	2026-02-04 00:00:00	IN_TRANSIT
+1990	990	1	2026-01-29 00:00:00	IN_TRANSIT
+1991	991	1	2026-03-01 00:00:00	IN_TRANSIT
+1992	992	7	2026-03-14 00:00:00	IN_TRANSIT
+1993	993	3	2026-06-09 00:00:00	IN_TRANSIT
+1994	994	3	2026-05-09 00:00:00	IN_TRANSIT
+1995	995	2	2026-06-08 00:00:00	IN_TRANSIT
+1996	996	4	2026-06-16 00:00:00	IN_TRANSIT
+1997	997	7	2026-03-29 00:00:00	IN_TRANSIT
+1998	998	5	2026-02-26 00:00:00	IN_TRANSIT
+1999	999	7	2026-03-26 00:00:00	IN_TRANSIT
+2000	1000	5	2026-02-22 00:00:00	IN_TRANSIT
+2001	1	3	2026-01-14 00:00:00	DELIVERED
+2002	2	7	2026-05-07 00:00:00	DELIVERED
+2003	3	2	2026-04-25 00:00:00	DELIVERED
+2004	4	6	2026-01-31 00:00:00	DELIVERED
+2005	5	8	2026-02-18 00:00:00	DELIVERED
+2006	6	8	2026-02-22 00:00:00	DELIVERED
+2007	7	4	2026-05-29 00:00:00	DELIVERED
+2008	8	5	2026-03-12 00:00:00	DELIVERED
+2009	9	2	2026-05-29 00:00:00	DELIVERED
+2010	10	4	2026-03-20 00:00:00	DELIVERED
+2011	11	7	2026-06-26 00:00:00	DELIVERED
+2012	12	8	2026-03-01 00:00:00	DELIVERED
+2013	13	8	2026-04-22 00:00:00	DELIVERED
+2014	14	8	2026-04-17 00:00:00	DELIVERED
+2015	15	8	2026-06-11 00:00:00	DELIVERED
+2016	16	8	2026-01-27 00:00:00	DELIVERED
+2017	17	1	2026-02-26 00:00:00	DELIVERED
+2018	18	5	2026-01-18 00:00:00	DELIVERED
+2019	19	6	2026-03-18 00:00:00	DELIVERED
+2020	20	8	2026-02-01 00:00:00	DELIVERED
+2021	21	5	2026-05-07 00:00:00	DELIVERED
+2022	22	6	2026-04-12 00:00:00	DELIVERED
+2023	23	5	2026-04-15 00:00:00	DELIVERED
+2024	24	1	2026-06-07 00:00:00	DELIVERED
+2025	25	2	2026-05-13 00:00:00	DELIVERED
+2026	26	3	2026-06-04 00:00:00	DELIVERED
+2027	27	3	2026-01-18 00:00:00	DELIVERED
+2028	28	8	2026-05-04 00:00:00	DELIVERED
+2029	29	5	2026-03-12 00:00:00	DELIVERED
+2030	30	4	2026-03-15 00:00:00	DELIVERED
+2031	31	8	2026-04-15 00:00:00	DELIVERED
+2032	32	1	2026-05-06 00:00:00	DELIVERED
+2033	33	2	2026-03-11 00:00:00	DELIVERED
+2034	34	5	2026-05-23 00:00:00	DELIVERED
+2035	35	2	2026-01-31 00:00:00	DELIVERED
+2036	36	5	2026-04-17 00:00:00	DELIVERED
+2037	37	3	2026-04-16 00:00:00	DELIVERED
+2038	38	7	2026-02-12 00:00:00	DELIVERED
+2039	39	7	2026-04-04 00:00:00	DELIVERED
+2040	40	6	2026-01-15 00:00:00	DELIVERED
+2041	41	3	2026-02-01 00:00:00	DELIVERED
+2042	42	4	2026-03-18 00:00:00	DELIVERED
+2043	43	4	2026-02-03 00:00:00	DELIVERED
+2044	44	7	2026-04-18 00:00:00	DELIVERED
+2045	45	2	2026-02-06 00:00:00	DELIVERED
+2046	46	5	2026-06-16 00:00:00	DELIVERED
+2047	47	2	2026-04-11 00:00:00	DELIVERED
+2048	48	7	2026-05-14 00:00:00	DELIVERED
+2049	49	1	2026-02-13 00:00:00	DELIVERED
+2050	50	2	2026-05-10 00:00:00	DELIVERED
+2051	51	7	2026-02-16 00:00:00	DELIVERED
+2052	52	5	2026-04-04 00:00:00	DELIVERED
+2053	53	4	2026-05-03 00:00:00	DELIVERED
+2054	54	1	2026-03-24 00:00:00	DELIVERED
+2055	55	6	2026-01-23 00:00:00	DELIVERED
+2056	56	2	2026-04-24 00:00:00	DELIVERED
+2057	57	7	2026-02-11 00:00:00	DELIVERED
+2058	58	6	2026-01-29 00:00:00	DELIVERED
+2059	59	1	2026-02-07 00:00:00	DELIVERED
+2060	60	1	2026-04-26 00:00:00	DELIVERED
+2061	61	8	2026-03-13 00:00:00	DELIVERED
+2062	62	1	2026-06-28 00:00:00	DELIVERED
+2063	63	5	2026-05-23 00:00:00	DELIVERED
+2064	64	5	2026-06-11 00:00:00	DELIVERED
+2065	65	4	2026-06-29 00:00:00	DELIVERED
+2066	66	3	2026-06-22 00:00:00	DELIVERED
+2067	67	3	2026-03-24 00:00:00	DELIVERED
+2068	68	7	2026-03-12 00:00:00	DELIVERED
+2069	69	6	2026-04-18 00:00:00	DELIVERED
+2070	70	8	2026-01-28 00:00:00	DELIVERED
+2071	71	4	2026-04-23 00:00:00	DELIVERED
+2072	72	7	2026-02-01 00:00:00	DELIVERED
+2073	73	1	2026-02-06 00:00:00	DELIVERED
+2074	74	2	2026-06-03 00:00:00	DELIVERED
+2075	75	2	2026-04-23 00:00:00	DELIVERED
+2076	76	4	2026-03-05 00:00:00	DELIVERED
+2077	77	6	2026-06-27 00:00:00	DELIVERED
+2078	78	4	2026-02-28 00:00:00	DELIVERED
+2079	79	4	2026-01-06 00:00:00	DELIVERED
+2080	80	1	2026-04-23 00:00:00	DELIVERED
+2081	81	7	2026-03-22 00:00:00	DELIVERED
+2082	82	5	2026-06-27 00:00:00	DELIVERED
+2083	83	8	2026-03-03 00:00:00	DELIVERED
+2084	84	6	2026-05-29 00:00:00	DELIVERED
+2085	85	3	2026-05-18 00:00:00	DELIVERED
+2086	86	1	2026-03-31 00:00:00	DELIVERED
+2087	87	7	2026-01-11 00:00:00	DELIVERED
+2088	88	7	2026-02-21 00:00:00	DELIVERED
+2089	89	6	2026-02-16 00:00:00	DELIVERED
+2090	90	5	2026-06-14 00:00:00	DELIVERED
+2091	91	2	2026-03-14 00:00:00	DELIVERED
+2092	92	7	2026-02-21 00:00:00	DELIVERED
+2093	93	6	2026-02-02 00:00:00	DELIVERED
+2094	94	6	2026-02-22 00:00:00	DELIVERED
+2095	95	7	2026-03-13 00:00:00	DELIVERED
+2096	96	4	2026-02-09 00:00:00	DELIVERED
+2097	97	8	2026-06-18 00:00:00	DELIVERED
+2098	98	4	2026-01-29 00:00:00	DELIVERED
+2099	99	7	2026-03-06 00:00:00	DELIVERED
+2100	100	7	2026-06-23 00:00:00	DELIVERED
+2101	101	1	2026-04-06 00:00:00	DELIVERED
+2102	102	6	2026-01-06 00:00:00	DELIVERED
+2103	103	1	2026-06-30 00:00:00	DELIVERED
+2104	104	4	2026-06-13 00:00:00	DELIVERED
+2105	105	3	2026-02-07 00:00:00	DELIVERED
+2106	106	4	2026-06-16 00:00:00	DELIVERED
+2107	107	1	2026-05-12 00:00:00	DELIVERED
+2108	108	1	2026-05-26 00:00:00	DELIVERED
+2109	109	1	2026-03-11 00:00:00	DELIVERED
+2110	110	3	2026-01-05 00:00:00	DELIVERED
+2111	111	4	2026-06-15 00:00:00	DELIVERED
+2112	112	5	2026-02-09 00:00:00	DELIVERED
+2113	113	8	2026-06-22 00:00:00	DELIVERED
+2114	114	7	2026-03-29 00:00:00	DELIVERED
+2115	115	3	2026-03-30 00:00:00	DELIVERED
+2116	116	4	2026-06-21 00:00:00	DELIVERED
+2117	117	4	2026-01-12 00:00:00	DELIVERED
+2118	118	8	2026-02-15 00:00:00	DELIVERED
+2119	119	6	2026-01-17 00:00:00	DELIVERED
+2120	120	2	2026-06-06 00:00:00	DELIVERED
+2121	121	3	2026-05-28 00:00:00	DELIVERED
+2122	122	5	2026-05-19 00:00:00	DELIVERED
+2123	123	3	2026-05-18 00:00:00	DELIVERED
+2124	124	4	2026-06-30 00:00:00	DELIVERED
+2125	125	4	2026-06-01 00:00:00	DELIVERED
+2126	126	5	2026-06-24 00:00:00	DELIVERED
+2127	127	4	2026-01-18 00:00:00	DELIVERED
+2128	128	3	2026-04-26 00:00:00	DELIVERED
+2129	129	6	2026-05-12 00:00:00	DELIVERED
+2130	130	4	2026-01-04 00:00:00	DELIVERED
+2131	131	7	2026-05-28 00:00:00	DELIVERED
+2132	132	3	2026-01-21 00:00:00	DELIVERED
+2133	133	2	2026-03-13 00:00:00	DELIVERED
+2134	134	7	2026-05-07 00:00:00	DELIVERED
+2135	135	5	2026-03-04 00:00:00	DELIVERED
+2136	136	8	2026-01-29 00:00:00	DELIVERED
+2137	137	5	2026-04-24 00:00:00	DELIVERED
+2138	138	6	2026-05-18 00:00:00	DELIVERED
+2139	139	6	2026-06-18 00:00:00	DELIVERED
+2140	140	6	2026-05-02 00:00:00	DELIVERED
+2141	141	1	2026-03-22 00:00:00	DELIVERED
+2142	142	1	2026-05-16 00:00:00	DELIVERED
+2143	143	7	2026-06-19 00:00:00	DELIVERED
+2144	144	1	2026-04-08 00:00:00	DELIVERED
+2145	145	4	2026-05-01 00:00:00	DELIVERED
+2146	146	5	2026-01-24 00:00:00	DELIVERED
+2147	147	2	2026-04-27 00:00:00	DELIVERED
+2148	148	5	2026-03-15 00:00:00	DELIVERED
+2149	149	3	2026-04-26 00:00:00	DELIVERED
+2150	150	5	2026-02-23 00:00:00	DELIVERED
+2151	151	3	2026-02-16 00:00:00	DELIVERED
+2152	152	8	2026-01-12 00:00:00	DELIVERED
+2153	153	2	2026-02-24 00:00:00	DELIVERED
+2154	154	7	2026-01-27 00:00:00	DELIVERED
+2155	155	8	2026-04-19 00:00:00	DELIVERED
+2156	156	5	2026-01-17 00:00:00	DELIVERED
+2157	157	6	2026-01-04 00:00:00	DELIVERED
+2158	158	2	2026-01-05 00:00:00	DELIVERED
+2159	159	8	2026-01-11 00:00:00	DELIVERED
+2160	160	6	2026-01-20 00:00:00	DELIVERED
+2161	161	5	2026-01-07 00:00:00	DELIVERED
+2162	162	4	2026-06-21 00:00:00	DELIVERED
+2163	163	1	2026-06-11 00:00:00	DELIVERED
+2164	164	8	2026-04-17 00:00:00	DELIVERED
+2165	165	4	2026-02-26 00:00:00	DELIVERED
+2166	166	3	2026-04-30 00:00:00	DELIVERED
+2167	167	2	2026-04-05 00:00:00	DELIVERED
+2168	168	4	2026-01-31 00:00:00	DELIVERED
+2169	169	7	2026-03-12 00:00:00	DELIVERED
+2170	170	2	2026-05-15 00:00:00	DELIVERED
+2171	171	1	2026-05-11 00:00:00	DELIVERED
+2172	172	6	2026-03-13 00:00:00	DELIVERED
+2173	173	7	2026-03-14 00:00:00	DELIVERED
+2174	174	1	2026-04-17 00:00:00	DELIVERED
+2175	175	5	2026-01-17 00:00:00	DELIVERED
+2176	176	5	2026-06-14 00:00:00	DELIVERED
+2177	177	5	2026-05-03 00:00:00	DELIVERED
+2178	178	5	2026-06-28 00:00:00	DELIVERED
+2179	179	1	2026-05-11 00:00:00	DELIVERED
+2180	180	8	2026-02-04 00:00:00	DELIVERED
+2181	181	7	2026-02-07 00:00:00	DELIVERED
+2182	182	6	2026-02-18 00:00:00	DELIVERED
+2183	183	3	2026-06-13 00:00:00	DELIVERED
+2184	184	7	2026-06-19 00:00:00	DELIVERED
+2185	185	6	2026-05-10 00:00:00	DELIVERED
+2186	186	4	2026-06-08 00:00:00	DELIVERED
+2187	187	1	2026-05-26 00:00:00	DELIVERED
+2188	188	7	2026-03-11 00:00:00	DELIVERED
+2189	189	2	2026-03-07 00:00:00	DELIVERED
+2190	190	2	2026-07-01 00:00:00	DELIVERED
+2191	191	8	2026-03-17 00:00:00	DELIVERED
+2192	192	8	2026-04-02 00:00:00	DELIVERED
+2193	193	5	2026-04-07 00:00:00	DELIVERED
+2194	194	3	2026-01-17 00:00:00	DELIVERED
+2195	195	6	2026-04-13 00:00:00	DELIVERED
+2196	196	5	2026-03-18 00:00:00	DELIVERED
+2197	197	5	2026-03-13 00:00:00	DELIVERED
+2198	198	5	2026-02-05 00:00:00	DELIVERED
+2199	199	7	2026-06-24 00:00:00	DELIVERED
+2200	200	8	2026-03-17 00:00:00	DELIVERED
+2201	201	6	2026-04-04 00:00:00	DELIVERED
+2202	202	3	2026-03-31 00:00:00	DELIVERED
+2203	203	4	2026-04-27 00:00:00	DELIVERED
+2204	204	3	2026-03-12 00:00:00	DELIVERED
+2205	205	5	2026-06-20 00:00:00	DELIVERED
+2206	206	5	2026-03-04 00:00:00	DELIVERED
+2207	207	2	2026-05-24 00:00:00	DELIVERED
+2208	208	3	2026-02-11 00:00:00	DELIVERED
+2209	209	3	2026-06-19 00:00:00	DELIVERED
+2210	210	4	2026-02-12 00:00:00	DELIVERED
+2211	211	4	2026-03-29 00:00:00	DELIVERED
+2212	212	2	2026-02-11 00:00:00	DELIVERED
+2213	213	2	2026-01-03 00:00:00	DELIVERED
+2214	214	2	2026-06-03 00:00:00	DELIVERED
+2215	215	5	2026-06-29 00:00:00	DELIVERED
+2216	216	2	2026-01-06 00:00:00	DELIVERED
+2217	217	2	2026-03-17 00:00:00	DELIVERED
+2218	218	5	2026-02-28 00:00:00	DELIVERED
+2219	219	2	2026-04-11 00:00:00	DELIVERED
+2220	220	1	2026-06-26 00:00:00	DELIVERED
+2221	221	3	2026-05-05 00:00:00	DELIVERED
+2222	222	7	2026-04-18 00:00:00	DELIVERED
+2223	223	7	2026-04-08 00:00:00	DELIVERED
+2224	224	3	2026-01-16 00:00:00	DELIVERED
+2225	225	4	2026-04-20 00:00:00	DELIVERED
+2226	226	2	2026-03-24 00:00:00	DELIVERED
+2227	227	7	2026-04-25 00:00:00	DELIVERED
+2228	228	1	2026-01-08 00:00:00	DELIVERED
+2229	229	1	2026-01-17 00:00:00	DELIVERED
+2230	230	3	2026-06-16 00:00:00	DELIVERED
+2231	231	6	2026-03-10 00:00:00	DELIVERED
+2232	232	1	2026-02-19 00:00:00	DELIVERED
+2233	233	3	2026-03-03 00:00:00	DELIVERED
+2234	234	6	2026-01-20 00:00:00	DELIVERED
+2235	235	1	2026-04-07 00:00:00	DELIVERED
+2236	236	1	2026-05-22 00:00:00	DELIVERED
+2237	237	7	2026-03-19 00:00:00	DELIVERED
+2238	238	7	2026-01-07 00:00:00	DELIVERED
+2239	239	5	2026-01-14 00:00:00	DELIVERED
+2240	240	2	2026-01-06 00:00:00	DELIVERED
+2241	241	6	2026-01-27 00:00:00	DELIVERED
+2242	242	5	2026-06-20 00:00:00	DELIVERED
+2243	243	7	2026-01-31 00:00:00	DELIVERED
+2244	244	5	2026-04-07 00:00:00	DELIVERED
+2245	245	5	2026-05-11 00:00:00	DELIVERED
+2246	246	3	2026-01-15 00:00:00	DELIVERED
+2247	247	4	2026-03-24 00:00:00	DELIVERED
+2248	248	2	2026-04-21 00:00:00	DELIVERED
+2249	249	8	2026-03-13 00:00:00	DELIVERED
+2250	250	4	2026-01-24 00:00:00	DELIVERED
+2251	251	5	2026-05-25 00:00:00	DELIVERED
+2252	252	4	2026-01-28 00:00:00	DELIVERED
+2253	253	8	2026-03-07 00:00:00	DELIVERED
+2254	254	5	2026-01-06 00:00:00	DELIVERED
+2255	255	6	2026-07-01 00:00:00	DELIVERED
+2256	256	6	2026-02-04 00:00:00	DELIVERED
+2257	257	1	2026-04-13 00:00:00	DELIVERED
+2258	258	6	2026-04-11 00:00:00	DELIVERED
+2259	259	2	2026-02-13 00:00:00	DELIVERED
+2260	260	6	2026-02-24 00:00:00	DELIVERED
+2261	261	6	2026-06-12 00:00:00	DELIVERED
+2262	262	7	2026-05-01 00:00:00	DELIVERED
+2263	263	8	2026-05-13 00:00:00	DELIVERED
+2264	264	2	2026-05-04 00:00:00	DELIVERED
+2265	265	1	2026-06-15 00:00:00	DELIVERED
+2266	266	5	2026-06-18 00:00:00	DELIVERED
+2267	267	8	2026-02-02 00:00:00	DELIVERED
+2268	268	3	2026-04-17 00:00:00	DELIVERED
+2269	269	2	2026-04-04 00:00:00	DELIVERED
+2270	270	4	2026-02-27 00:00:00	DELIVERED
+2271	271	1	2026-01-06 00:00:00	DELIVERED
+2272	272	4	2026-06-07 00:00:00	DELIVERED
+2273	273	2	2026-06-23 00:00:00	DELIVERED
+2274	274	6	2026-03-11 00:00:00	DELIVERED
+2275	275	8	2026-03-14 00:00:00	DELIVERED
+2276	276	4	2026-03-22 00:00:00	DELIVERED
+2277	277	2	2026-04-24 00:00:00	DELIVERED
+2278	278	4	2026-05-10 00:00:00	DELIVERED
+2279	279	1	2026-02-24 00:00:00	DELIVERED
+2280	280	8	2026-01-09 00:00:00	DELIVERED
+2281	281	5	2026-04-24 00:00:00	DELIVERED
+2282	282	5	2026-03-01 00:00:00	DELIVERED
+2283	283	1	2026-02-22 00:00:00	DELIVERED
+2284	284	3	2026-05-08 00:00:00	DELIVERED
+2285	285	8	2026-05-31 00:00:00	DELIVERED
+2286	286	6	2026-02-15 00:00:00	DELIVERED
+2287	287	3	2026-03-02 00:00:00	DELIVERED
+2288	288	1	2026-06-05 00:00:00	DELIVERED
+2289	289	2	2026-06-11 00:00:00	DELIVERED
+2290	290	8	2026-03-13 00:00:00	DELIVERED
+2291	291	2	2026-03-22 00:00:00	DELIVERED
+2292	292	7	2026-03-01 00:00:00	DELIVERED
+2293	293	6	2026-03-28 00:00:00	DELIVERED
+2294	294	3	2026-06-29 00:00:00	DELIVERED
+2295	295	2	2026-05-17 00:00:00	DELIVERED
+2296	296	5	2026-02-21 00:00:00	DELIVERED
+2297	297	3	2026-02-13 00:00:00	DELIVERED
+2298	298	8	2026-04-30 00:00:00	DELIVERED
+2299	299	6	2026-05-28 00:00:00	DELIVERED
+2300	300	2	2026-06-23 00:00:00	DELIVERED
+2301	301	6	2026-04-06 00:00:00	DELIVERED
+2302	302	2	2026-02-10 00:00:00	DELIVERED
+2303	303	6	2026-04-28 00:00:00	DELIVERED
+2304	304	1	2026-06-05 00:00:00	DELIVERED
+2305	305	6	2026-04-29 00:00:00	DELIVERED
+2306	306	4	2026-06-06 00:00:00	DELIVERED
+2307	307	7	2026-05-19 00:00:00	DELIVERED
+2308	308	7	2026-02-24 00:00:00	DELIVERED
+2309	309	1	2026-06-21 00:00:00	DELIVERED
+2310	310	8	2026-05-15 00:00:00	DELIVERED
+2311	311	7	2026-05-03 00:00:00	DELIVERED
+2312	312	3	2026-03-14 00:00:00	DELIVERED
+2313	313	2	2026-05-15 00:00:00	DELIVERED
+2314	314	3	2026-02-17 00:00:00	DELIVERED
+2315	315	2	2026-06-04 00:00:00	DELIVERED
+2316	316	8	2026-04-18 00:00:00	DELIVERED
+2317	317	4	2026-04-21 00:00:00	DELIVERED
+2318	318	8	2026-06-09 00:00:00	DELIVERED
+2319	319	2	2026-06-20 00:00:00	DELIVERED
+2320	320	3	2026-04-15 00:00:00	DELIVERED
+2321	321	6	2026-01-07 00:00:00	DELIVERED
+2322	322	1	2026-03-22 00:00:00	DELIVERED
+2323	323	4	2026-05-13 00:00:00	DELIVERED
+2324	324	3	2026-06-26 00:00:00	DELIVERED
+2325	325	4	2026-06-20 00:00:00	DELIVERED
+2326	326	7	2026-06-07 00:00:00	DELIVERED
+2327	327	2	2026-04-02 00:00:00	DELIVERED
+2328	328	7	2026-01-13 00:00:00	DELIVERED
+2329	329	1	2026-02-09 00:00:00	DELIVERED
+2330	330	7	2026-03-20 00:00:00	DELIVERED
+2331	331	1	2026-04-02 00:00:00	DELIVERED
+2332	332	7	2026-04-11 00:00:00	DELIVERED
+2333	333	1	2026-04-11 00:00:00	DELIVERED
+2334	334	1	2026-03-06 00:00:00	DELIVERED
+2335	335	2	2026-02-20 00:00:00	DELIVERED
+2336	336	7	2026-05-19 00:00:00	DELIVERED
+2337	337	1	2026-06-27 00:00:00	DELIVERED
+2338	338	2	2026-05-09 00:00:00	DELIVERED
+2339	339	6	2026-06-01 00:00:00	DELIVERED
+2340	340	6	2026-05-06 00:00:00	DELIVERED
+2341	341	8	2026-03-13 00:00:00	DELIVERED
+2342	342	7	2026-02-13 00:00:00	DELIVERED
+2343	343	4	2026-05-31 00:00:00	DELIVERED
+2344	344	6	2026-01-22 00:00:00	DELIVERED
+2345	345	4	2026-05-21 00:00:00	DELIVERED
+2346	346	1	2026-05-11 00:00:00	DELIVERED
+2347	347	4	2026-02-20 00:00:00	DELIVERED
+2348	348	6	2026-04-13 00:00:00	DELIVERED
+2349	349	3	2026-05-06 00:00:00	DELIVERED
+2350	350	6	2026-03-07 00:00:00	DELIVERED
+2351	351	2	2026-03-27 00:00:00	DELIVERED
+2352	352	8	2026-02-26 00:00:00	DELIVERED
+2353	353	3	2026-02-11 00:00:00	DELIVERED
+2354	354	7	2026-05-06 00:00:00	DELIVERED
+2355	355	6	2026-03-12 00:00:00	DELIVERED
+2356	356	6	2026-03-12 00:00:00	DELIVERED
+2357	357	4	2026-02-19 00:00:00	DELIVERED
+2358	358	2	2026-04-03 00:00:00	DELIVERED
+2359	359	2	2026-01-20 00:00:00	DELIVERED
+2360	360	3	2026-05-10 00:00:00	DELIVERED
+2361	361	5	2026-05-23 00:00:00	DELIVERED
+2362	362	5	2026-03-05 00:00:00	DELIVERED
+2363	363	6	2026-05-09 00:00:00	DELIVERED
+2364	364	5	2026-03-13 00:00:00	DELIVERED
+2365	365	4	2026-07-01 00:00:00	DELIVERED
+2366	366	2	2026-05-11 00:00:00	DELIVERED
+2367	367	5	2026-05-12 00:00:00	DELIVERED
+2368	368	2	2026-05-11 00:00:00	DELIVERED
+2369	369	4	2026-01-06 00:00:00	DELIVERED
+2370	370	1	2026-03-10 00:00:00	DELIVERED
+2371	371	2	2026-03-20 00:00:00	DELIVERED
+2372	372	6	2026-04-14 00:00:00	DELIVERED
+2373	373	5	2026-04-26 00:00:00	DELIVERED
+2374	374	8	2026-02-05 00:00:00	DELIVERED
+2375	375	3	2026-04-09 00:00:00	DELIVERED
+2376	376	6	2026-06-19 00:00:00	DELIVERED
+2377	377	8	2026-02-03 00:00:00	DELIVERED
+2378	378	6	2026-03-20 00:00:00	DELIVERED
+2379	379	3	2026-03-03 00:00:00	DELIVERED
+2380	380	4	2026-04-12 00:00:00	DELIVERED
+2381	381	7	2026-05-25 00:00:00	DELIVERED
+2382	382	6	2026-06-03 00:00:00	DELIVERED
+2383	383	8	2026-05-14 00:00:00	DELIVERED
+2384	384	8	2026-04-19 00:00:00	DELIVERED
+2385	385	6	2026-04-25 00:00:00	DELIVERED
+2386	386	2	2026-04-28 00:00:00	DELIVERED
+2387	387	3	2026-06-29 00:00:00	DELIVERED
+2388	388	3	2026-06-02 00:00:00	DELIVERED
+2389	389	8	2026-01-15 00:00:00	DELIVERED
+2390	390	8	2026-04-05 00:00:00	DELIVERED
+2391	391	4	2026-07-01 00:00:00	DELIVERED
+2392	392	5	2026-03-05 00:00:00	DELIVERED
+2393	393	4	2026-03-30 00:00:00	DELIVERED
+2394	394	3	2026-06-27 00:00:00	DELIVERED
+2395	395	3	2026-06-11 00:00:00	DELIVERED
+2396	396	1	2026-02-01 00:00:00	DELIVERED
+2397	397	8	2026-02-04 00:00:00	DELIVERED
+2398	398	5	2026-02-09 00:00:00	DELIVERED
+2399	399	5	2026-05-02 00:00:00	DELIVERED
+2400	400	3	2026-04-02 00:00:00	DELIVERED
+2401	401	2	2026-06-05 00:00:00	DELIVERED
+2402	402	2	2026-03-28 00:00:00	DELIVERED
+2403	403	4	2026-03-23 00:00:00	DELIVERED
+2404	404	7	2026-01-19 00:00:00	DELIVERED
+2405	405	4	2026-05-16 00:00:00	DELIVERED
+2406	406	6	2026-06-08 00:00:00	DELIVERED
+2407	407	1	2026-06-01 00:00:00	DELIVERED
+2408	408	2	2026-04-15 00:00:00	DELIVERED
+2409	409	7	2026-03-30 00:00:00	DELIVERED
+2410	410	6	2026-02-14 00:00:00	DELIVERED
+2411	411	3	2026-03-21 00:00:00	DELIVERED
+2412	412	6	2026-03-14 00:00:00	DELIVERED
+2413	413	1	2026-05-19 00:00:00	DELIVERED
+2414	414	4	2026-06-04 00:00:00	DELIVERED
+2415	415	8	2026-02-16 00:00:00	DELIVERED
+2416	416	4	2026-04-12 00:00:00	DELIVERED
+2417	417	7	2026-06-22 00:00:00	DELIVERED
+2418	418	6	2026-06-15 00:00:00	DELIVERED
+2419	419	8	2026-01-19 00:00:00	DELIVERED
+2420	420	4	2026-04-13 00:00:00	DELIVERED
+2421	421	1	2026-04-29 00:00:00	DELIVERED
+2422	422	5	2026-01-30 00:00:00	DELIVERED
+2423	423	7	2026-01-05 00:00:00	DELIVERED
+2424	424	4	2026-04-23 00:00:00	DELIVERED
+2425	425	7	2026-01-30 00:00:00	DELIVERED
+2426	426	3	2026-01-22 00:00:00	DELIVERED
+2427	427	1	2026-05-07 00:00:00	DELIVERED
+2428	428	1	2026-05-06 00:00:00	DELIVERED
+2429	429	1	2026-05-05 00:00:00	DELIVERED
+2430	430	5	2026-06-14 00:00:00	DELIVERED
+2431	431	4	2026-01-26 00:00:00	DELIVERED
+2432	432	6	2026-04-07 00:00:00	DELIVERED
+2433	433	2	2026-02-15 00:00:00	DELIVERED
+2434	434	6	2026-02-20 00:00:00	DELIVERED
+2435	435	1	2026-03-18 00:00:00	DELIVERED
+2436	436	3	2026-04-08 00:00:00	DELIVERED
+2437	437	4	2026-04-02 00:00:00	DELIVERED
+2438	438	6	2026-05-27 00:00:00	DELIVERED
+2439	439	3	2026-03-23 00:00:00	DELIVERED
+2440	440	5	2026-05-25 00:00:00	DELIVERED
+2441	441	6	2026-05-22 00:00:00	DELIVERED
+2442	442	5	2026-01-26 00:00:00	DELIVERED
+2443	443	2	2026-02-13 00:00:00	DELIVERED
+2444	444	3	2026-02-13 00:00:00	DELIVERED
+2445	445	4	2026-05-11 00:00:00	DELIVERED
+2446	446	7	2026-06-22 00:00:00	DELIVERED
+2447	447	8	2026-05-24 00:00:00	DELIVERED
+2448	448	1	2026-04-20 00:00:00	DELIVERED
+2449	449	3	2026-03-06 00:00:00	DELIVERED
+2450	450	2	2026-02-03 00:00:00	DELIVERED
+2451	451	8	2026-01-30 00:00:00	DELIVERED
+2452	452	8	2026-04-12 00:00:00	DELIVERED
+2453	453	4	2026-04-19 00:00:00	DELIVERED
+2454	454	6	2026-01-16 00:00:00	DELIVERED
+2455	455	7	2026-04-10 00:00:00	DELIVERED
+2456	456	6	2026-05-17 00:00:00	DELIVERED
+2457	457	2	2026-05-15 00:00:00	DELIVERED
+2458	458	6	2026-01-08 00:00:00	DELIVERED
+2459	459	3	2026-06-10 00:00:00	DELIVERED
+2460	460	6	2026-03-06 00:00:00	DELIVERED
+2461	461	6	2026-01-14 00:00:00	DELIVERED
+2462	462	2	2026-04-20 00:00:00	DELIVERED
+2463	463	7	2026-04-26 00:00:00	DELIVERED
+2464	464	1	2026-06-18 00:00:00	DELIVERED
+2465	465	4	2026-03-19 00:00:00	DELIVERED
+2466	466	4	2026-03-14 00:00:00	DELIVERED
+2467	467	3	2026-06-29 00:00:00	DELIVERED
+2468	468	8	2026-04-10 00:00:00	DELIVERED
+2469	469	3	2026-01-11 00:00:00	DELIVERED
+2470	470	7	2026-04-07 00:00:00	DELIVERED
+2471	471	6	2026-02-23 00:00:00	DELIVERED
+2472	472	1	2026-06-24 00:00:00	DELIVERED
+2473	473	7	2026-04-21 00:00:00	DELIVERED
+2474	474	7	2026-05-01 00:00:00	DELIVERED
+2475	475	8	2026-06-17 00:00:00	DELIVERED
+2476	476	4	2026-01-04 00:00:00	DELIVERED
+2477	477	2	2026-04-17 00:00:00	DELIVERED
+2478	478	7	2026-05-31 00:00:00	DELIVERED
+2479	479	7	2026-04-21 00:00:00	DELIVERED
+2480	480	5	2026-03-04 00:00:00	DELIVERED
+2481	481	1	2026-01-16 00:00:00	DELIVERED
+2482	482	3	2026-06-02 00:00:00	DELIVERED
+2483	483	5	2026-02-01 00:00:00	DELIVERED
+2484	484	4	2026-03-15 00:00:00	DELIVERED
+2485	485	3	2026-03-25 00:00:00	DELIVERED
+2486	486	6	2026-01-23 00:00:00	DELIVERED
+2487	487	6	2026-06-16 00:00:00	DELIVERED
+2488	488	1	2026-02-27 00:00:00	DELIVERED
+2489	489	1	2026-06-25 00:00:00	DELIVERED
+2490	490	1	2026-05-01 00:00:00	DELIVERED
+2491	491	7	2026-01-13 00:00:00	DELIVERED
+2492	492	7	2026-01-25 00:00:00	DELIVERED
+2493	493	3	2026-05-02 00:00:00	DELIVERED
+2494	494	6	2026-03-10 00:00:00	DELIVERED
+2495	495	2	2026-02-20 00:00:00	DELIVERED
+2496	496	2	2026-04-24 00:00:00	DELIVERED
+2497	497	1	2026-04-13 00:00:00	DELIVERED
+2498	498	5	2026-01-22 00:00:00	DELIVERED
+2499	499	7	2026-02-26 00:00:00	DELIVERED
+2500	500	3	2026-06-27 00:00:00	DELIVERED
+2501	501	5	2026-01-30 00:00:00	DELIVERED
+2502	502	2	2026-04-12 00:00:00	DELIVERED
+2503	503	1	2026-05-24 00:00:00	DELIVERED
+2504	504	3	2026-02-27 00:00:00	DELIVERED
+2505	505	7	2026-03-15 00:00:00	DELIVERED
+2506	506	2	2026-05-01 00:00:00	DELIVERED
+2507	507	6	2026-06-19 00:00:00	DELIVERED
+2508	508	2	2026-02-26 00:00:00	DELIVERED
+2509	509	3	2026-05-29 00:00:00	DELIVERED
+2510	510	3	2026-03-11 00:00:00	DELIVERED
+2511	511	2	2026-05-16 00:00:00	DELIVERED
+2512	512	1	2026-05-15 00:00:00	DELIVERED
+2513	513	8	2026-05-09 00:00:00	DELIVERED
+2514	514	8	2026-02-17 00:00:00	DELIVERED
+2515	515	8	2026-06-12 00:00:00	DELIVERED
+2516	516	4	2026-04-16 00:00:00	DELIVERED
+2517	517	8	2026-06-23 00:00:00	DELIVERED
+2518	518	6	2026-01-13 00:00:00	DELIVERED
+2519	519	4	2026-04-04 00:00:00	DELIVERED
+2520	520	1	2026-03-24 00:00:00	DELIVERED
+2521	521	1	2026-04-15 00:00:00	DELIVERED
+2522	522	2	2026-03-21 00:00:00	DELIVERED
+2523	523	2	2026-04-02 00:00:00	DELIVERED
+2524	524	8	2026-04-08 00:00:00	DELIVERED
+2525	525	5	2026-01-24 00:00:00	DELIVERED
+2526	526	5	2026-04-02 00:00:00	DELIVERED
+2527	527	1	2026-01-11 00:00:00	DELIVERED
+2528	528	4	2026-01-19 00:00:00	DELIVERED
+2529	529	3	2026-03-04 00:00:00	DELIVERED
+2530	530	4	2026-02-25 00:00:00	DELIVERED
+2531	531	3	2026-05-14 00:00:00	DELIVERED
+2532	532	6	2026-06-03 00:00:00	DELIVERED
+2533	533	6	2026-06-22 00:00:00	DELIVERED
+2534	534	2	2026-04-16 00:00:00	DELIVERED
+2535	535	2	2026-04-04 00:00:00	DELIVERED
+2536	536	8	2026-06-27 00:00:00	DELIVERED
+2537	537	4	2026-06-23 00:00:00	DELIVERED
+2538	538	3	2026-04-23 00:00:00	DELIVERED
+2539	539	8	2026-02-15 00:00:00	DELIVERED
+2540	540	6	2026-06-11 00:00:00	DELIVERED
+2541	541	5	2026-04-05 00:00:00	DELIVERED
+2542	542	2	2026-01-09 00:00:00	DELIVERED
+2543	543	2	2026-01-13 00:00:00	DELIVERED
+2544	544	5	2026-04-17 00:00:00	DELIVERED
+2545	545	1	2026-02-19 00:00:00	DELIVERED
+2546	546	7	2026-03-01 00:00:00	DELIVERED
+2547	547	4	2026-04-16 00:00:00	DELIVERED
+2548	548	5	2026-06-23 00:00:00	DELIVERED
+2549	549	4	2026-02-16 00:00:00	DELIVERED
+2550	550	1	2026-02-24 00:00:00	DELIVERED
+2551	551	5	2026-04-07 00:00:00	DELIVERED
+2552	552	1	2026-01-30 00:00:00	DELIVERED
+2553	553	5	2026-02-07 00:00:00	DELIVERED
+2554	554	5	2026-01-20 00:00:00	DELIVERED
+2555	555	7	2026-04-02 00:00:00	DELIVERED
+2556	556	8	2026-03-10 00:00:00	DELIVERED
+2557	557	8	2026-07-01 00:00:00	DELIVERED
+2558	558	3	2026-06-12 00:00:00	DELIVERED
+2559	559	2	2026-02-18 00:00:00	DELIVERED
+2560	560	6	2026-06-05 00:00:00	DELIVERED
+2561	561	4	2026-01-26 00:00:00	DELIVERED
+2562	562	8	2026-02-09 00:00:00	DELIVERED
+2563	563	5	2026-06-05 00:00:00	DELIVERED
+2564	564	2	2026-01-24 00:00:00	DELIVERED
+2565	565	6	2026-05-07 00:00:00	DELIVERED
+2566	566	2	2026-03-03 00:00:00	DELIVERED
+2567	567	8	2026-06-02 00:00:00	DELIVERED
+2568	568	5	2026-03-23 00:00:00	DELIVERED
+2569	569	4	2026-04-16 00:00:00	DELIVERED
+2570	570	6	2026-04-01 00:00:00	DELIVERED
+2571	571	2	2026-04-25 00:00:00	DELIVERED
+2572	572	3	2026-01-15 00:00:00	DELIVERED
+2573	573	5	2026-01-14 00:00:00	DELIVERED
+2574	574	6	2026-02-13 00:00:00	DELIVERED
+2575	575	3	2026-02-10 00:00:00	DELIVERED
+2576	576	3	2026-05-16 00:00:00	DELIVERED
+2577	577	2	2026-05-18 00:00:00	DELIVERED
+2578	578	3	2026-05-28 00:00:00	DELIVERED
+2579	579	5	2026-01-23 00:00:00	DELIVERED
+2580	580	6	2026-03-08 00:00:00	DELIVERED
+2581	581	3	2026-01-16 00:00:00	DELIVERED
+2582	582	8	2026-06-03 00:00:00	DELIVERED
+2583	583	5	2026-04-20 00:00:00	DELIVERED
+2584	584	6	2026-05-29 00:00:00	DELIVERED
+2585	585	2	2026-03-11 00:00:00	DELIVERED
+2586	586	1	2026-03-26 00:00:00	DELIVERED
+2587	587	2	2026-04-24 00:00:00	DELIVERED
+2588	588	7	2026-04-05 00:00:00	DELIVERED
+2589	589	7	2026-04-23 00:00:00	DELIVERED
+2590	590	7	2026-02-08 00:00:00	DELIVERED
+2591	591	6	2026-05-01 00:00:00	DELIVERED
+2592	592	4	2026-04-13 00:00:00	DELIVERED
+2593	593	4	2026-03-02 00:00:00	DELIVERED
+2594	594	4	2026-01-03 00:00:00	DELIVERED
+2595	595	3	2026-06-01 00:00:00	DELIVERED
+2596	596	5	2026-04-13 00:00:00	DELIVERED
+2597	597	3	2026-01-27 00:00:00	DELIVERED
+2598	598	8	2026-05-24 00:00:00	DELIVERED
+2599	599	4	2026-01-16 00:00:00	DELIVERED
+2600	600	5	2026-06-03 00:00:00	DELIVERED
+2601	601	3	2026-02-16 00:00:00	DELIVERED
+2602	602	4	2026-05-04 00:00:00	DELIVERED
+2603	603	4	2026-04-23 00:00:00	DELIVERED
+2604	604	7	2026-06-09 00:00:00	DELIVERED
+2605	605	8	2026-06-23 00:00:00	DELIVERED
+2606	606	2	2026-04-01 00:00:00	DELIVERED
+2607	607	8	2026-05-09 00:00:00	DELIVERED
+2608	608	5	2026-01-28 00:00:00	DELIVERED
+2609	609	4	2026-02-24 00:00:00	DELIVERED
+2610	610	1	2026-05-12 00:00:00	DELIVERED
+2611	611	3	2026-03-29 00:00:00	DELIVERED
+2612	612	1	2026-03-10 00:00:00	DELIVERED
+2613	613	3	2026-04-16 00:00:00	DELIVERED
+2614	614	4	2026-04-13 00:00:00	DELIVERED
+2615	615	8	2026-03-26 00:00:00	DELIVERED
+2616	616	5	2026-03-02 00:00:00	DELIVERED
+2617	617	5	2026-01-07 00:00:00	DELIVERED
+2618	618	2	2026-06-22 00:00:00	DELIVERED
+2619	619	4	2026-04-17 00:00:00	DELIVERED
+2620	620	3	2026-06-14 00:00:00	DELIVERED
+2621	621	4	2026-04-03 00:00:00	DELIVERED
+2622	622	4	2026-05-14 00:00:00	DELIVERED
+2623	623	1	2026-06-16 00:00:00	DELIVERED
+2624	624	1	2026-04-26 00:00:00	DELIVERED
+2625	625	5	2026-03-15 00:00:00	DELIVERED
+2626	626	7	2026-04-04 00:00:00	DELIVERED
+2627	627	3	2026-04-03 00:00:00	DELIVERED
+2628	628	4	2026-05-13 00:00:00	DELIVERED
+2629	629	4	2026-01-29 00:00:00	DELIVERED
+2630	630	5	2026-04-30 00:00:00	DELIVERED
+2631	631	6	2026-01-17 00:00:00	DELIVERED
+2632	632	6	2026-04-12 00:00:00	DELIVERED
+2633	633	8	2026-06-15 00:00:00	DELIVERED
+2634	634	1	2026-03-16 00:00:00	DELIVERED
+2635	635	3	2026-04-17 00:00:00	DELIVERED
+2636	636	2	2026-05-15 00:00:00	DELIVERED
+2637	637	7	2026-05-08 00:00:00	DELIVERED
+2638	638	4	2026-03-09 00:00:00	DELIVERED
+2639	639	2	2026-01-20 00:00:00	DELIVERED
+2640	640	5	2026-07-01 00:00:00	DELIVERED
+2641	641	1	2026-01-22 00:00:00	DELIVERED
+2642	642	4	2026-01-18 00:00:00	DELIVERED
+2643	643	3	2026-03-05 00:00:00	DELIVERED
+2644	644	3	2026-05-18 00:00:00	DELIVERED
+2645	645	4	2026-05-29 00:00:00	DELIVERED
+2646	646	6	2026-01-03 00:00:00	DELIVERED
+2647	647	7	2026-04-30 00:00:00	DELIVERED
+2648	648	4	2026-01-11 00:00:00	DELIVERED
+2649	649	2	2026-04-16 00:00:00	DELIVERED
+2650	650	2	2026-02-01 00:00:00	DELIVERED
+2651	651	8	2026-03-07 00:00:00	DELIVERED
+2652	652	4	2026-04-05 00:00:00	DELIVERED
+2653	653	7	2026-04-18 00:00:00	DELIVERED
+2654	654	3	2026-04-27 00:00:00	DELIVERED
+2655	655	7	2026-01-21 00:00:00	DELIVERED
+2656	656	5	2026-05-16 00:00:00	DELIVERED
+2657	657	4	2026-01-29 00:00:00	DELIVERED
+2658	658	1	2026-03-04 00:00:00	DELIVERED
+2659	659	8	2026-03-20 00:00:00	DELIVERED
+2660	660	5	2026-05-06 00:00:00	DELIVERED
+2661	661	6	2026-04-12 00:00:00	DELIVERED
+2662	662	8	2026-01-14 00:00:00	DELIVERED
+2663	663	5	2026-06-07 00:00:00	DELIVERED
+2664	664	8	2026-03-29 00:00:00	DELIVERED
+2665	665	5	2026-05-12 00:00:00	DELIVERED
+2666	666	2	2026-06-04 00:00:00	DELIVERED
+2667	667	6	2026-05-12 00:00:00	DELIVERED
+2668	668	6	2026-01-29 00:00:00	DELIVERED
+2669	669	4	2026-01-22 00:00:00	DELIVERED
+2670	670	7	2026-06-09 00:00:00	DELIVERED
+2671	671	5	2026-01-09 00:00:00	DELIVERED
+2672	672	6	2026-05-02 00:00:00	DELIVERED
+2673	673	2	2026-03-23 00:00:00	DELIVERED
+2674	674	2	2026-04-18 00:00:00	DELIVERED
+2675	675	8	2026-04-20 00:00:00	DELIVERED
+2676	676	7	2026-02-04 00:00:00	DELIVERED
+2677	677	2	2026-03-10 00:00:00	DELIVERED
+2678	678	8	2026-02-02 00:00:00	DELIVERED
+2679	679	7	2026-02-07 00:00:00	DELIVERED
+2680	680	2	2026-02-05 00:00:00	DELIVERED
+2681	681	6	2026-06-11 00:00:00	DELIVERED
+2682	682	6	2026-04-08 00:00:00	DELIVERED
+2683	683	8	2026-05-28 00:00:00	DELIVERED
+2684	684	4	2026-05-30 00:00:00	DELIVERED
+2685	685	2	2026-01-12 00:00:00	DELIVERED
+2686	686	2	2026-02-03 00:00:00	DELIVERED
+2687	687	4	2026-06-03 00:00:00	DELIVERED
+2688	688	4	2026-04-10 00:00:00	DELIVERED
+2689	689	3	2026-05-15 00:00:00	DELIVERED
+2690	690	1	2026-02-06 00:00:00	DELIVERED
+2691	691	2	2026-01-27 00:00:00	DELIVERED
+2692	692	3	2026-02-12 00:00:00	DELIVERED
+2693	693	3	2026-02-01 00:00:00	DELIVERED
+2694	694	7	2026-03-15 00:00:00	DELIVERED
+2695	695	7	2026-01-11 00:00:00	DELIVERED
+2696	696	4	2026-01-03 00:00:00	DELIVERED
+2697	697	8	2026-04-19 00:00:00	DELIVERED
+2698	698	2	2026-01-30 00:00:00	DELIVERED
+2699	699	3	2026-03-23 00:00:00	DELIVERED
+2700	700	2	2026-04-19 00:00:00	DELIVERED
+2701	701	1	2026-05-23 00:00:00	IN_TRANSIT
+2702	702	8	2026-06-06 00:00:00	IN_TRANSIT
+2703	703	6	2026-04-07 00:00:00	IN_TRANSIT
+2704	704	2	2026-06-02 00:00:00	IN_TRANSIT
+2705	705	8	2026-04-19 00:00:00	IN_TRANSIT
+2706	706	1	2026-06-21 00:00:00	IN_TRANSIT
+2707	707	5	2026-02-11 00:00:00	IN_TRANSIT
+2708	708	3	2026-06-17 00:00:00	IN_TRANSIT
+2709	709	6	2026-02-03 00:00:00	IN_TRANSIT
+2710	710	5	2026-06-11 00:00:00	IN_TRANSIT
+2711	711	3	2026-02-08 00:00:00	IN_TRANSIT
+2712	712	8	2026-01-26 00:00:00	IN_TRANSIT
+2713	713	8	2026-03-09 00:00:00	IN_TRANSIT
+2714	714	2	2026-02-19 00:00:00	IN_TRANSIT
+2715	715	1	2026-05-29 00:00:00	IN_TRANSIT
+2716	716	8	2026-06-26 00:00:00	IN_TRANSIT
+2717	717	6	2026-06-19 00:00:00	IN_TRANSIT
+2718	718	6	2026-04-08 00:00:00	IN_TRANSIT
+2719	719	3	2026-06-04 00:00:00	IN_TRANSIT
+2720	720	4	2026-01-18 00:00:00	IN_TRANSIT
+2721	721	3	2026-03-25 00:00:00	IN_TRANSIT
+2722	722	4	2026-01-26 00:00:00	IN_TRANSIT
+2723	723	4	2026-01-28 00:00:00	IN_TRANSIT
+2724	724	8	2026-04-17 00:00:00	IN_TRANSIT
+2725	725	7	2026-01-13 00:00:00	IN_TRANSIT
+2726	726	2	2026-04-18 00:00:00	IN_TRANSIT
+2727	727	2	2026-03-22 00:00:00	IN_TRANSIT
+2728	728	6	2026-04-20 00:00:00	IN_TRANSIT
+2729	729	3	2026-03-10 00:00:00	IN_TRANSIT
+2730	730	8	2026-02-09 00:00:00	IN_TRANSIT
+2731	731	3	2026-05-20 00:00:00	IN_TRANSIT
+2732	732	3	2026-06-20 00:00:00	IN_TRANSIT
+2733	733	8	2026-02-19 00:00:00	IN_TRANSIT
+2734	734	2	2026-03-10 00:00:00	IN_TRANSIT
+2735	735	4	2026-01-21 00:00:00	IN_TRANSIT
+2736	736	8	2026-03-13 00:00:00	IN_TRANSIT
+2737	737	5	2026-01-16 00:00:00	IN_TRANSIT
+2738	738	1	2026-01-15 00:00:00	IN_TRANSIT
+2739	739	8	2026-03-13 00:00:00	IN_TRANSIT
+2740	740	2	2026-06-28 00:00:00	IN_TRANSIT
+2741	741	5	2026-04-16 00:00:00	IN_TRANSIT
+2742	742	4	2026-04-06 00:00:00	IN_TRANSIT
+2743	743	6	2026-06-28 00:00:00	IN_TRANSIT
+2744	744	7	2026-06-02 00:00:00	IN_TRANSIT
+2745	745	8	2026-05-07 00:00:00	IN_TRANSIT
+2746	746	2	2026-05-25 00:00:00	IN_TRANSIT
+2747	747	7	2026-05-08 00:00:00	IN_TRANSIT
+2748	748	8	2026-03-28 00:00:00	IN_TRANSIT
+2749	749	2	2026-04-02 00:00:00	IN_TRANSIT
+2750	750	8	2026-02-27 00:00:00	IN_TRANSIT
+2751	751	6	2026-04-18 00:00:00	IN_TRANSIT
+2752	752	4	2026-02-09 00:00:00	IN_TRANSIT
+2753	753	8	2026-04-19 00:00:00	IN_TRANSIT
+2754	754	3	2026-01-14 00:00:00	IN_TRANSIT
+2755	755	2	2026-06-03 00:00:00	IN_TRANSIT
+2756	756	7	2026-02-07 00:00:00	IN_TRANSIT
+2757	757	2	2026-06-11 00:00:00	IN_TRANSIT
+2758	758	2	2026-05-26 00:00:00	IN_TRANSIT
+2759	759	7	2026-02-05 00:00:00	IN_TRANSIT
+2760	760	6	2026-02-13 00:00:00	IN_TRANSIT
+2761	761	5	2026-05-10 00:00:00	IN_TRANSIT
+2762	762	3	2026-05-07 00:00:00	IN_TRANSIT
+2763	763	7	2026-04-16 00:00:00	IN_TRANSIT
+2764	764	3	2026-03-27 00:00:00	IN_TRANSIT
+2765	765	4	2026-01-29 00:00:00	IN_TRANSIT
+2766	766	2	2026-03-05 00:00:00	IN_TRANSIT
+2767	767	4	2026-03-26 00:00:00	IN_TRANSIT
+2768	768	7	2026-05-29 00:00:00	IN_TRANSIT
+2769	769	8	2026-05-27 00:00:00	IN_TRANSIT
+2770	770	1	2026-02-10 00:00:00	IN_TRANSIT
+2771	771	6	2026-01-10 00:00:00	IN_TRANSIT
+2772	772	4	2026-02-15 00:00:00	IN_TRANSIT
+2773	773	2	2026-04-11 00:00:00	IN_TRANSIT
+2774	774	8	2026-06-21 00:00:00	IN_TRANSIT
+2775	775	4	2026-06-01 00:00:00	IN_TRANSIT
+2776	776	2	2026-04-23 00:00:00	IN_TRANSIT
+2777	777	1	2026-01-16 00:00:00	IN_TRANSIT
+2778	778	1	2026-06-23 00:00:00	IN_TRANSIT
+2779	779	5	2026-04-11 00:00:00	IN_TRANSIT
+2780	780	3	2026-05-04 00:00:00	IN_TRANSIT
+2781	781	8	2026-06-09 00:00:00	IN_TRANSIT
+2782	782	4	2026-04-08 00:00:00	IN_TRANSIT
+2783	783	1	2026-03-28 00:00:00	IN_TRANSIT
+2784	784	1	2026-05-02 00:00:00	IN_TRANSIT
+2785	785	1	2026-05-14 00:00:00	IN_TRANSIT
+2786	786	1	2026-06-24 00:00:00	IN_TRANSIT
+2787	787	4	2026-06-02 00:00:00	IN_TRANSIT
+2788	788	6	2026-04-20 00:00:00	IN_TRANSIT
+2789	789	2	2026-06-05 00:00:00	IN_TRANSIT
+2790	790	3	2026-06-28 00:00:00	IN_TRANSIT
+2791	791	5	2026-01-05 00:00:00	IN_TRANSIT
+2792	792	4	2026-04-06 00:00:00	IN_TRANSIT
+2793	793	6	2026-02-05 00:00:00	IN_TRANSIT
+2794	794	8	2026-04-22 00:00:00	IN_TRANSIT
+2795	795	2	2026-02-12 00:00:00	IN_TRANSIT
+2796	796	2	2026-06-20 00:00:00	IN_TRANSIT
+2797	797	5	2026-02-18 00:00:00	IN_TRANSIT
+2798	798	3	2026-04-17 00:00:00	IN_TRANSIT
+2799	799	2	2026-03-05 00:00:00	IN_TRANSIT
+2800	800	7	2026-01-13 00:00:00	IN_TRANSIT
+2801	801	2	2026-02-28 00:00:00	IN_TRANSIT
+2802	802	6	2026-02-27 00:00:00	IN_TRANSIT
+2803	803	4	2026-05-20 00:00:00	IN_TRANSIT
+2804	804	5	2026-04-14 00:00:00	IN_TRANSIT
+2805	805	5	2026-01-17 00:00:00	IN_TRANSIT
+2806	806	2	2026-04-22 00:00:00	IN_TRANSIT
+2807	807	8	2026-02-22 00:00:00	IN_TRANSIT
+2808	808	1	2026-01-05 00:00:00	IN_TRANSIT
+2809	809	4	2026-05-07 00:00:00	IN_TRANSIT
+2810	810	1	2026-02-21 00:00:00	IN_TRANSIT
+2811	811	7	2026-03-18 00:00:00	IN_TRANSIT
+2812	812	6	2026-02-14 00:00:00	IN_TRANSIT
+2813	813	2	2026-03-10 00:00:00	IN_TRANSIT
+2814	814	2	2026-06-18 00:00:00	IN_TRANSIT
+2815	815	5	2026-06-10 00:00:00	IN_TRANSIT
+2816	816	4	2026-03-15 00:00:00	IN_TRANSIT
+2817	817	8	2026-06-11 00:00:00	IN_TRANSIT
+2818	818	2	2026-04-22 00:00:00	IN_TRANSIT
+2819	819	4	2026-05-31 00:00:00	IN_TRANSIT
+2820	820	4	2026-06-11 00:00:00	IN_TRANSIT
+2821	821	6	2026-01-26 00:00:00	IN_TRANSIT
+2822	822	8	2026-04-17 00:00:00	IN_TRANSIT
+2823	823	2	2026-06-12 00:00:00	IN_TRANSIT
+2824	824	8	2026-02-12 00:00:00	IN_TRANSIT
+2825	825	1	2026-01-22 00:00:00	IN_TRANSIT
+2826	826	4	2026-04-18 00:00:00	IN_TRANSIT
+2827	827	3	2026-03-13 00:00:00	IN_TRANSIT
+2828	828	6	2026-05-21 00:00:00	IN_TRANSIT
+2829	829	4	2026-01-16 00:00:00	IN_TRANSIT
+2830	830	6	2026-02-26 00:00:00	IN_TRANSIT
+2831	831	7	2026-03-24 00:00:00	IN_TRANSIT
+2832	832	4	2026-04-30 00:00:00	IN_TRANSIT
+2833	833	1	2026-01-09 00:00:00	IN_TRANSIT
+2834	834	7	2026-05-05 00:00:00	IN_TRANSIT
+2835	835	7	2026-04-18 00:00:00	IN_TRANSIT
+2836	836	3	2026-03-24 00:00:00	IN_TRANSIT
+2837	837	7	2026-06-26 00:00:00	IN_TRANSIT
+2838	838	1	2026-05-04 00:00:00	IN_TRANSIT
+2839	839	7	2026-01-12 00:00:00	IN_TRANSIT
+2840	840	8	2026-02-25 00:00:00	IN_TRANSIT
+2841	841	3	2026-03-28 00:00:00	IN_TRANSIT
+2842	842	5	2026-03-16 00:00:00	IN_TRANSIT
+2843	843	4	2026-05-27 00:00:00	IN_TRANSIT
+2844	844	1	2026-02-15 00:00:00	IN_TRANSIT
+2845	845	5	2026-03-31 00:00:00	IN_TRANSIT
+2846	846	4	2026-03-03 00:00:00	IN_TRANSIT
+2847	847	2	2026-03-06 00:00:00	IN_TRANSIT
+2848	848	4	2026-04-07 00:00:00	IN_TRANSIT
+2849	849	3	2026-03-31 00:00:00	IN_TRANSIT
+2850	850	2	2026-04-15 00:00:00	IN_TRANSIT
+2851	851	8	2026-02-26 00:00:00	IN_TRANSIT
+2852	852	8	2026-01-10 00:00:00	IN_TRANSIT
+2853	853	3	2026-03-31 00:00:00	IN_TRANSIT
+2854	854	2	2026-02-28 00:00:00	IN_TRANSIT
+2855	855	1	2026-06-16 00:00:00	IN_TRANSIT
+2856	856	7	2026-01-05 00:00:00	IN_TRANSIT
+2857	857	8	2026-03-08 00:00:00	IN_TRANSIT
+2858	858	1	2026-02-21 00:00:00	IN_TRANSIT
+2859	859	2	2026-06-24 00:00:00	IN_TRANSIT
+2860	860	3	2026-05-25 00:00:00	IN_TRANSIT
+2861	861	1	2026-05-17 00:00:00	IN_TRANSIT
+2862	862	3	2026-05-30 00:00:00	IN_TRANSIT
+2863	863	3	2026-05-11 00:00:00	IN_TRANSIT
+2864	864	1	2026-02-07 00:00:00	IN_TRANSIT
+2865	865	5	2026-06-01 00:00:00	IN_TRANSIT
+2866	866	1	2026-03-13 00:00:00	IN_TRANSIT
+2867	867	3	2026-05-03 00:00:00	IN_TRANSIT
+2868	868	1	2026-03-14 00:00:00	IN_TRANSIT
+2869	869	4	2026-03-03 00:00:00	IN_TRANSIT
+2870	870	2	2026-02-18 00:00:00	IN_TRANSIT
+2871	871	2	2026-05-13 00:00:00	IN_TRANSIT
+2872	872	4	2026-02-24 00:00:00	IN_TRANSIT
+2873	873	3	2026-05-03 00:00:00	IN_TRANSIT
+2874	874	3	2026-06-02 00:00:00	IN_TRANSIT
+2875	875	1	2026-04-06 00:00:00	IN_TRANSIT
+2876	876	8	2026-04-23 00:00:00	IN_TRANSIT
+2877	877	6	2026-06-26 00:00:00	IN_TRANSIT
+2878	878	1	2026-05-10 00:00:00	IN_TRANSIT
+2879	879	8	2026-03-21 00:00:00	IN_TRANSIT
+2880	880	7	2026-04-01 00:00:00	IN_TRANSIT
+2881	881	5	2026-05-18 00:00:00	IN_TRANSIT
+2882	882	5	2026-06-11 00:00:00	IN_TRANSIT
+2883	883	1	2026-02-13 00:00:00	IN_TRANSIT
+2884	884	5	2026-06-11 00:00:00	IN_TRANSIT
+2885	885	4	2026-05-07 00:00:00	IN_TRANSIT
+2886	886	2	2026-04-10 00:00:00	IN_TRANSIT
+2887	887	8	2026-06-23 00:00:00	IN_TRANSIT
+2888	888	2	2026-02-21 00:00:00	IN_TRANSIT
+2889	889	5	2026-06-01 00:00:00	IN_TRANSIT
+2890	890	1	2026-05-08 00:00:00	IN_TRANSIT
+2891	891	4	2026-01-28 00:00:00	IN_TRANSIT
+2892	892	5	2026-06-17 00:00:00	IN_TRANSIT
+2893	893	5	2026-05-22 00:00:00	IN_TRANSIT
+2894	894	2	2026-02-13 00:00:00	IN_TRANSIT
+2895	895	6	2026-03-01 00:00:00	IN_TRANSIT
+2896	896	3	2026-06-20 00:00:00	IN_TRANSIT
+2897	897	7	2026-06-05 00:00:00	IN_TRANSIT
+2898	898	4	2026-06-06 00:00:00	IN_TRANSIT
+2899	899	4	2026-04-07 00:00:00	IN_TRANSIT
+2900	900	1	2026-02-20 00:00:00	IN_TRANSIT
+2901	901	3	2026-05-17 00:00:00	CANCELLED
+2902	902	4	2026-06-11 00:00:00	CANCELLED
+2903	903	8	2026-06-18 00:00:00	CANCELLED
+2904	904	1	2026-03-20 00:00:00	CANCELLED
+2905	905	1	2026-05-11 00:00:00	CANCELLED
+2906	906	3	2026-04-20 00:00:00	CANCELLED
+2907	907	2	2026-03-08 00:00:00	CANCELLED
+2908	908	8	2026-05-19 00:00:00	CANCELLED
+2909	909	5	2026-04-13 00:00:00	CANCELLED
+2910	910	1	2026-01-19 00:00:00	CANCELLED
+2911	911	1	2026-01-12 00:00:00	CANCELLED
+2912	912	6	2026-06-02 00:00:00	CANCELLED
+2913	913	3	2026-06-11 00:00:00	CANCELLED
+2914	914	1	2026-01-23 00:00:00	CANCELLED
+2915	915	7	2026-04-08 00:00:00	CANCELLED
+2916	916	4	2026-06-01 00:00:00	CANCELLED
+2917	917	3	2026-06-26 00:00:00	CANCELLED
+2918	918	8	2026-04-22 00:00:00	CANCELLED
+2919	919	5	2026-02-26 00:00:00	CANCELLED
+2920	920	3	2026-03-01 00:00:00	CANCELLED
+2921	921	5	2026-01-08 00:00:00	CANCELLED
+2922	922	8	2026-05-08 00:00:00	CANCELLED
+2923	923	4	2026-02-15 00:00:00	CANCELLED
+2924	924	3	2026-05-06 00:00:00	CANCELLED
+2925	925	5	2026-06-04 00:00:00	CANCELLED
+2926	926	5	2026-05-13 00:00:00	CANCELLED
+2927	927	6	2026-01-22 00:00:00	CANCELLED
+2928	928	7	2026-02-07 00:00:00	CANCELLED
+2929	929	3	2026-01-22 00:00:00	CANCELLED
+2930	930	5	2026-01-22 00:00:00	CANCELLED
+2931	931	2	2026-01-14 00:00:00	CANCELLED
+2932	932	2	2026-05-18 00:00:00	CANCELLED
+2933	933	5	2026-05-22 00:00:00	CANCELLED
+2934	934	3	2026-02-17 00:00:00	CANCELLED
+2935	935	4	2026-06-26 00:00:00	CANCELLED
+2936	936	6	2026-06-21 00:00:00	CANCELLED
+2937	937	5	2026-03-05 00:00:00	CANCELLED
+2938	938	6	2026-06-12 00:00:00	CANCELLED
+2939	939	6	2026-03-21 00:00:00	CANCELLED
+2940	940	1	2026-02-19 00:00:00	CANCELLED
+2941	941	2	2026-02-09 00:00:00	CANCELLED
+2942	942	3	2026-01-03 00:00:00	CANCELLED
+2943	943	8	2026-04-13 00:00:00	CANCELLED
+2944	944	7	2026-04-08 00:00:00	CANCELLED
+2945	945	7	2026-01-25 00:00:00	CANCELLED
+2946	946	8	2026-04-30 00:00:00	CANCELLED
+2947	947	8	2026-05-08 00:00:00	CANCELLED
+2948	948	4	2026-02-04 00:00:00	CANCELLED
+2949	949	3	2026-01-09 00:00:00	CANCELLED
+2950	950	6	2026-02-07 00:00:00	CANCELLED
+2951	951	6	2026-06-19 00:00:00	CANCELLED
+2952	952	6	2026-02-13 00:00:00	CANCELLED
+2953	953	8	2026-04-26 00:00:00	CANCELLED
+2954	954	4	2026-03-23 00:00:00	CANCELLED
+2955	955	4	2026-04-27 00:00:00	CANCELLED
+2956	956	5	2026-04-30 00:00:00	CANCELLED
+2957	957	1	2026-03-27 00:00:00	CANCELLED
+2958	958	7	2026-05-16 00:00:00	CANCELLED
+2959	959	4	2026-03-20 00:00:00	CANCELLED
+2960	960	7	2026-05-28 00:00:00	CANCELLED
+2961	961	6	2026-01-12 00:00:00	CANCELLED
+2962	962	5	2026-02-07 00:00:00	CANCELLED
+2963	963	7	2026-06-20 00:00:00	CANCELLED
+2964	964	7	2026-03-16 00:00:00	CANCELLED
+2965	965	3	2026-03-10 00:00:00	CANCELLED
+2966	966	2	2026-06-05 00:00:00	CANCELLED
+2967	967	2	2026-06-29 00:00:00	CANCELLED
+2968	968	3	2026-04-27 00:00:00	CANCELLED
+2969	969	6	2026-03-12 00:00:00	CANCELLED
+2970	970	2	2026-03-31 00:00:00	CANCELLED
+2971	971	4	2026-04-27 00:00:00	CANCELLED
+2972	972	5	2026-04-27 00:00:00	CANCELLED
+2973	973	3	2026-04-01 00:00:00	CANCELLED
+2974	974	4	2026-01-03 00:00:00	CANCELLED
+2975	975	2	2026-05-31 00:00:00	CANCELLED
+2976	976	7	2026-01-18 00:00:00	CANCELLED
+2977	977	5	2026-04-03 00:00:00	CANCELLED
+2978	978	8	2026-05-24 00:00:00	CANCELLED
+2979	979	5	2026-01-15 00:00:00	CANCELLED
+2980	980	1	2026-03-10 00:00:00	CANCELLED
+2981	981	1	2026-06-14 00:00:00	CANCELLED
+2982	982	7	2026-02-14 00:00:00	CANCELLED
+2983	983	3	2026-05-20 00:00:00	CANCELLED
+2984	984	3	2026-01-07 00:00:00	CANCELLED
+2985	985	7	2026-06-15 00:00:00	CANCELLED
+2986	986	6	2026-01-19 00:00:00	CANCELLED
+2987	987	1	2026-03-15 00:00:00	CANCELLED
+2988	988	5	2026-01-07 00:00:00	CANCELLED
+2989	989	3	2026-02-05 00:00:00	CANCELLED
+2990	990	3	2026-01-30 00:00:00	CANCELLED
+2991	991	3	2026-03-02 00:00:00	CANCELLED
+2992	992	5	2026-03-15 00:00:00	CANCELLED
+2993	993	1	2026-06-10 00:00:00	CANCELLED
+2994	994	8	2026-05-10 00:00:00	CANCELLED
+2995	995	7	2026-06-09 00:00:00	CANCELLED
+2996	996	6	2026-06-17 00:00:00	CANCELLED
+2997	997	7	2026-03-30 00:00:00	CANCELLED
+2998	998	7	2026-02-27 00:00:00	CANCELLED
+2999	999	2	2026-03-27 00:00:00	CANCELLED
+3000	1000	1	2026-02-23 00:00:00	CANCELLED
+\.
+
+
+--
+-- TOC entry 3531 (class 0 OID 16664)
+-- Dependencies: 236
+-- Data for Name: vehicle_logs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.vehicle_logs (log_id, vehicle_id, driver_id, log_time, speed_kmh, latitude, longitude) FROM stdin;
+1	2	2	2026-01-01 08:10:00	46	-3.283141	114.625514
+2	4	5	2026-01-01 08:20:00	67	-3.313043	114.616364
+3	3	2	2026-01-01 08:30:00	68	-3.336375	114.580083
+4	5	1	2026-01-01 08:40:00	59	-3.327722	114.640525
+5	2	3	2026-01-01 08:50:00	41	-3.312141	114.610478
+6	3	4	2026-01-01 09:00:00	54	-3.332725	114.591394
+7	2	1	2026-01-01 09:10:00	41	-3.331434	114.609107
+8	4	4	2026-01-01 09:20:00	31	-3.287525	114.634685
+9	1	1	2026-01-01 09:30:00	46	-3.278473	114.553097
+10	3	5	2026-01-01 09:40:00	62	-3.349683	114.569681
+11	3	1	2026-01-01 09:50:00	37	-3.325161	114.597576
+12	5	4	2026-01-01 10:00:00	45	-3.269283	114.553353
+13	5	5	2026-01-01 10:10:00	47	-3.315477	114.586516
+14	2	5	2026-01-01 10:20:00	36	-3.273224	114.629234
+15	4	5	2026-01-01 10:30:00	63	-3.304025	114.649741
+16	5	3	2026-01-01 10:40:00	51	-3.263700	114.593257
+17	4	2	2026-01-01 10:50:00	60	-3.285793	114.568845
+18	5	3	2026-01-01 11:00:00	62	-3.309136	114.565088
+19	3	4	2026-01-01 11:10:00	49	-3.298331	114.608183
+20	2	5	2026-01-01 11:20:00	51	-3.268197	114.582762
+21	4	1	2026-01-01 11:30:00	67	-3.253381	114.574353
+22	2	4	2026-01-01 11:40:00	56	-3.340559	114.612197
+23	3	5	2026-01-01 11:50:00	67	-3.281760	114.550646
+24	1	5	2026-01-01 12:00:00	45	-3.251017	114.556573
+25	2	5	2026-01-01 12:10:00	60	-3.318179	114.551174
+26	3	5	2026-01-01 12:20:00	42	-3.300777	114.593065
+27	5	2	2026-01-01 12:30:00	45	-3.304421	114.638316
+28	4	2	2026-01-01 12:40:00	66	-3.252933	114.605737
+29	1	2	2026-01-01 12:50:00	58	-3.343678	114.584854
+30	3	5	2026-01-01 13:00:00	39	-3.253596	114.593588
+31	3	2	2026-01-01 13:10:00	65	-3.290936	114.626821
+32	3	2	2026-01-01 13:20:00	33	-3.284252	114.635689
+33	1	3	2026-01-01 13:30:00	64	-3.296467	114.592134
+34	1	5	2026-01-01 13:40:00	35	-3.311893	114.623934
+35	1	3	2026-01-01 13:50:00	38	-3.258020	114.599037
+36	4	4	2026-01-01 14:00:00	57	-3.343115	114.629407
+37	5	4	2026-01-01 14:10:00	54	-3.337939	114.561733
+38	3	3	2026-01-01 14:20:00	47	-3.270789	114.643074
+39	4	5	2026-01-01 14:30:00	53	-3.258549	114.553184
+40	4	5	2026-01-01 14:40:00	63	-3.331696	114.565610
+41	5	1	2026-01-01 14:50:00	34	-3.295483	114.627949
+42	4	3	2026-01-01 15:00:00	36	-3.282874	114.613085
+43	4	5	2026-01-01 15:10:00	60	-3.294085	114.639926
+44	1	1	2026-01-01 15:20:00	39	-3.264220	114.581452
+45	4	3	2026-01-01 15:30:00	52	-3.325257	114.565835
+46	5	1	2026-01-01 15:40:00	54	-3.259092	114.569981
+47	5	4	2026-01-01 15:50:00	44	-3.253578	114.596854
+48	5	1	2026-01-01 16:00:00	56	-3.257471	114.612486
+49	2	3	2026-01-01 16:10:00	30	-3.304810	114.559806
+50	2	3	2026-01-01 16:20:00	35	-3.346506	114.552649
+51	3	5	2026-01-01 16:30:00	58	-3.275491	114.622309
+52	1	5	2026-01-01 16:40:00	40	-3.260036	114.554773
+53	4	1	2026-01-01 16:50:00	34	-3.348929	114.641763
+54	5	1	2026-01-01 17:00:00	33	-3.252158	114.633474
+55	2	5	2026-01-01 17:10:00	64	-3.272435	114.624979
+56	5	4	2026-01-01 17:20:00	68	-3.259424	114.601761
+57	3	4	2026-01-01 17:30:00	39	-3.285139	114.608753
+58	3	1	2026-01-01 17:40:00	44	-3.309028	114.559738
+59	3	3	2026-01-01 17:50:00	62	-3.273732	114.637105
+60	3	4	2026-01-01 18:00:00	46	-3.310243	114.627377
+61	5	5	2026-01-01 18:10:00	30	-3.287362	114.573971
+62	4	3	2026-01-01 18:20:00	67	-3.288077	114.631087
+63	4	4	2026-01-01 18:30:00	60	-3.261235	114.555398
+64	5	4	2026-01-01 18:40:00	35	-3.296816	114.581339
+65	5	2	2026-01-01 18:50:00	68	-3.270880	114.611745
+66	4	3	2026-01-01 19:00:00	40	-3.329628	114.606489
+67	1	3	2026-01-01 19:10:00	57	-3.284328	114.618812
+68	1	3	2026-01-01 19:20:00	55	-3.337154	114.582431
+69	3	3	2026-01-01 19:30:00	65	-3.293947	114.568030
+70	4	4	2026-01-01 19:40:00	61	-3.272276	114.561082
+71	5	3	2026-01-01 19:50:00	59	-3.278754	114.601557
+72	1	2	2026-01-01 20:00:00	62	-3.296243	114.567326
+73	2	2	2026-01-01 20:10:00	70	-3.293126	114.585145
+74	4	1	2026-01-01 20:20:00	38	-3.349135	114.555208
+75	1	5	2026-01-01 20:30:00	62	-3.293570	114.589243
+76	4	1	2026-01-01 20:40:00	37	-3.252145	114.562207
+77	2	3	2026-01-01 20:50:00	66	-3.274138	114.644432
+78	3	3	2026-01-01 21:00:00	38	-3.344254	114.599420
+79	1	1	2026-01-01 21:10:00	46	-3.339012	114.585746
+80	1	3	2026-01-01 21:20:00	42	-3.272006	114.644578
+81	3	5	2026-01-01 21:30:00	67	-3.274253	114.568488
+82	4	1	2026-01-01 21:40:00	64	-3.276408	114.620558
+83	2	5	2026-01-01 21:50:00	41	-3.296319	114.613776
+84	5	1	2026-01-01 22:00:00	65	-3.281005	114.600820
+85	2	5	2026-01-01 22:10:00	58	-3.327914	114.570911
+86	4	2	2026-01-01 22:20:00	50	-3.279016	114.577138
+87	4	5	2026-01-01 22:30:00	69	-3.341678	114.618842
+88	4	4	2026-01-01 22:40:00	64	-3.273972	114.555268
+89	5	3	2026-01-01 22:50:00	43	-3.330424	114.608702
+90	5	1	2026-01-01 23:00:00	40	-3.295736	114.633862
+91	5	5	2026-01-01 23:10:00	37	-3.333250	114.591897
+92	5	3	2026-01-01 23:20:00	31	-3.348018	114.631567
+93	1	4	2026-01-01 23:30:00	61	-3.292560	114.567603
+94	4	4	2026-01-01 23:40:00	53	-3.277208	114.614785
+95	1	4	2026-01-01 23:50:00	65	-3.330695	114.566179
+96	4	5	2026-01-02 00:00:00	40	-3.253813	114.581659
+97	3	3	2026-01-02 00:10:00	45	-3.254571	114.601627
+98	5	2	2026-01-02 00:20:00	59	-3.313083	114.630681
+99	4	3	2026-01-02 00:30:00	47	-3.325321	114.586366
+100	1	3	2026-01-02 00:40:00	47	-3.345464	114.555792
+101	1	3	2026-01-02 00:50:00	45	-3.311642	114.616201
+102	1	2	2026-01-02 01:00:00	34	-3.260617	114.607680
+103	5	2	2026-01-02 01:10:00	45	-3.327585	114.644586
+104	4	3	2026-01-02 01:20:00	47	-3.317215	114.640582
+105	4	2	2026-01-02 01:30:00	64	-3.310218	114.554780
+106	4	1	2026-01-02 01:40:00	58	-3.325819	114.575051
+107	4	2	2026-01-02 01:50:00	65	-3.332712	114.561177
+108	1	4	2026-01-02 02:00:00	59	-3.293251	114.600324
+109	4	5	2026-01-02 02:10:00	43	-3.305862	114.624721
+110	4	1	2026-01-02 02:20:00	32	-3.261705	114.640902
+111	3	1	2026-01-02 02:30:00	32	-3.330924	114.595895
+112	1	5	2026-01-02 02:40:00	52	-3.312402	114.616048
+113	4	4	2026-01-02 02:50:00	50	-3.319075	114.628857
+114	1	4	2026-01-02 03:00:00	48	-3.300467	114.574951
+115	3	2	2026-01-02 03:10:00	40	-3.307646	114.602220
+116	2	1	2026-01-02 03:20:00	55	-3.263418	114.632947
+117	1	5	2026-01-02 03:30:00	63	-3.330318	114.569549
+118	5	5	2026-01-02 03:40:00	57	-3.289400	114.634028
+119	5	3	2026-01-02 03:50:00	65	-3.304454	114.646337
+120	4	2	2026-01-02 04:00:00	43	-3.259231	114.586152
+121	1	2	2026-01-02 04:10:00	60	-3.332988	114.647137
+122	3	3	2026-01-02 04:20:00	38	-3.328378	114.642984
+123	3	5	2026-01-02 04:30:00	53	-3.292658	114.582649
+124	2	3	2026-01-02 04:40:00	59	-3.289121	114.557972
+125	1	4	2026-01-02 04:50:00	33	-3.296964	114.638144
+126	5	4	2026-01-02 05:00:00	46	-3.329760	114.635452
+127	1	2	2026-01-02 05:10:00	69	-3.333471	114.640993
+128	3	2	2026-01-02 05:20:00	39	-3.302525	114.621564
+129	1	1	2026-01-02 05:30:00	36	-3.289266	114.613612
+130	1	2	2026-01-02 05:40:00	39	-3.278717	114.608973
+131	5	3	2026-01-02 05:50:00	62	-3.258910	114.567318
+132	2	2	2026-01-02 06:00:00	43	-3.289330	114.572046
+133	3	4	2026-01-02 06:10:00	60	-3.290191	114.558449
+134	5	2	2026-01-02 06:20:00	67	-3.304288	114.593236
+135	2	5	2026-01-02 06:30:00	66	-3.285934	114.631061
+136	2	2	2026-01-02 06:40:00	32	-3.278750	114.593504
+137	5	5	2026-01-02 06:50:00	67	-3.255916	114.602312
+138	4	5	2026-01-02 07:00:00	32	-3.252845	114.642339
+139	2	4	2026-01-02 07:10:00	35	-3.300738	114.553506
+140	3	4	2026-01-02 07:20:00	67	-3.328478	114.638462
+141	1	1	2026-01-02 07:30:00	63	-3.287813	114.585203
+142	5	4	2026-01-02 07:40:00	40	-3.272428	114.610826
+143	3	2	2026-01-02 07:50:00	69	-3.288745	114.606270
+144	4	4	2026-01-02 08:00:00	44	-3.281878	114.617168
+145	1	1	2026-01-02 08:10:00	66	-3.288655	114.562265
+146	1	5	2026-01-02 08:20:00	47	-3.298589	114.574986
+147	5	2	2026-01-02 08:30:00	47	-3.306348	114.600662
+148	2	2	2026-01-02 08:40:00	37	-3.333627	114.632374
+149	3	5	2026-01-02 08:50:00	32	-3.277474	114.601228
+150	2	5	2026-01-02 09:00:00	64	-3.275095	114.644722
+151	3	2	2026-01-02 09:10:00	69	-3.304173	114.580274
+152	1	1	2026-01-02 09:20:00	33	-3.340243	114.557762
+153	4	5	2026-01-02 09:30:00	64	-3.333883	114.646308
+154	1	3	2026-01-02 09:40:00	50	-3.304612	114.560252
+155	3	3	2026-01-02 09:50:00	46	-3.254928	114.555225
+156	1	1	2026-01-02 10:00:00	54	-3.316407	114.629281
+157	1	1	2026-01-02 10:10:00	49	-3.333481	114.604975
+158	3	3	2026-01-02 10:20:00	33	-3.265307	114.614167
+159	3	4	2026-01-02 10:30:00	58	-3.264764	114.557459
+160	1	5	2026-01-02 10:40:00	68	-3.345763	114.641504
+161	2	1	2026-01-02 10:50:00	54	-3.300095	114.591372
+162	2	2	2026-01-02 11:00:00	34	-3.279529	114.634357
+163	2	5	2026-01-02 11:10:00	65	-3.296196	114.568881
+164	4	3	2026-01-02 11:20:00	39	-3.290720	114.580793
+165	2	3	2026-01-02 11:30:00	32	-3.279911	114.598232
+166	3	4	2026-01-02 11:40:00	47	-3.331139	114.592268
+167	5	5	2026-01-02 11:50:00	48	-3.311266	114.566326
+168	1	1	2026-01-02 12:00:00	67	-3.304332	114.562541
+169	1	3	2026-01-02 12:10:00	36	-3.312505	114.558678
+170	4	4	2026-01-02 12:20:00	43	-3.327498	114.596611
+171	5	1	2026-01-02 12:30:00	34	-3.263907	114.584747
+172	1	3	2026-01-02 12:40:00	57	-3.343829	114.586492
+173	5	2	2026-01-02 12:50:00	38	-3.349497	114.611690
+174	3	4	2026-01-02 13:00:00	39	-3.301962	114.576503
+175	2	5	2026-01-02 13:10:00	32	-3.346693	114.591520
+176	5	5	2026-01-02 13:20:00	65	-3.343592	114.620400
+177	2	2	2026-01-02 13:30:00	33	-3.259803	114.643156
+178	3	4	2026-01-02 13:40:00	49	-3.285010	114.627558
+179	5	1	2026-01-02 13:50:00	55	-3.331612	114.567965
+180	4	3	2026-01-02 14:00:00	48	-3.296017	114.565641
+181	2	3	2026-01-02 14:10:00	55	-3.251454	114.574007
+182	2	2	2026-01-02 14:20:00	41	-3.298426	114.628673
+183	2	1	2026-01-02 14:30:00	69	-3.311725	114.608145
+184	4	3	2026-01-02 14:40:00	63	-3.337338	114.634626
+185	2	1	2026-01-02 14:50:00	34	-3.294322	114.580700
+186	2	4	2026-01-02 15:00:00	66	-3.286941	114.648248
+187	4	3	2026-01-02 15:10:00	36	-3.319549	114.581820
+188	4	1	2026-01-02 15:20:00	31	-3.297447	114.605915
+189	5	5	2026-01-02 15:30:00	45	-3.335785	114.588004
+190	2	2	2026-01-02 15:40:00	43	-3.263064	114.581070
+191	4	1	2026-01-02 15:50:00	56	-3.297581	114.591486
+192	5	5	2026-01-02 16:00:00	62	-3.339500	114.634036
+193	4	2	2026-01-02 16:10:00	65	-3.328627	114.639668
+194	2	2	2026-01-02 16:20:00	51	-3.286952	114.623041
+195	3	1	2026-01-02 16:30:00	67	-3.271351	114.630882
+196	3	3	2026-01-02 16:40:00	68	-3.322763	114.594362
+197	4	5	2026-01-02 16:50:00	46	-3.305433	114.565723
+198	4	5	2026-01-02 17:00:00	68	-3.322382	114.599147
+199	2	3	2026-01-02 17:10:00	48	-3.298441	114.585104
+200	3	3	2026-01-02 17:20:00	31	-3.340377	114.577792
+201	4	1	2026-01-02 17:30:00	49	-3.326466	114.631661
+202	4	2	2026-01-02 17:40:00	52	-3.325757	114.571511
+203	2	4	2026-01-02 17:50:00	59	-3.263243	114.563201
+204	3	5	2026-01-02 18:00:00	52	-3.327526	114.580709
+205	4	4	2026-01-02 18:10:00	57	-3.345662	114.594025
+206	5	3	2026-01-02 18:20:00	51	-3.314444	114.640151
+207	3	3	2026-01-02 18:30:00	38	-3.273123	114.550106
+208	5	1	2026-01-02 18:40:00	53	-3.324811	114.584680
+209	5	4	2026-01-02 18:50:00	42	-3.310190	114.595430
+210	3	1	2026-01-02 19:00:00	49	-3.313992	114.627697
+211	4	2	2026-01-02 19:10:00	36	-3.253068	114.606555
+212	3	5	2026-01-02 19:20:00	63	-3.295056	114.609171
+213	4	4	2026-01-02 19:30:00	60	-3.318852	114.644989
+214	2	5	2026-01-02 19:40:00	56	-3.274707	114.636998
+215	4	3	2026-01-02 19:50:00	53	-3.292994	114.582473
+216	2	2	2026-01-02 20:00:00	49	-3.251190	114.600380
+217	3	4	2026-01-02 20:10:00	64	-3.327624	114.642504
+218	3	3	2026-01-02 20:20:00	49	-3.264198	114.572731
+219	1	3	2026-01-02 20:30:00	47	-3.252622	114.633287
+220	5	3	2026-01-02 20:40:00	48	-3.347562	114.602823
+221	2	2	2026-01-02 20:50:00	34	-3.291200	114.635186
+222	4	4	2026-01-02 21:00:00	56	-3.308724	114.621241
+223	5	2	2026-01-02 21:10:00	50	-3.277701	114.614150
+224	5	2	2026-01-02 21:20:00	67	-3.293079	114.601274
+225	4	5	2026-01-02 21:30:00	47	-3.266950	114.591301
+226	1	3	2026-01-02 21:40:00	48	-3.267435	114.587038
+227	4	5	2026-01-02 21:50:00	61	-3.272790	114.558361
+228	4	4	2026-01-02 22:00:00	56	-3.272493	114.554933
+229	5	1	2026-01-02 22:10:00	67	-3.254042	114.645230
+230	3	1	2026-01-02 22:20:00	36	-3.284589	114.583898
+231	1	2	2026-01-02 22:30:00	45	-3.316459	114.597439
+232	1	2	2026-01-02 22:40:00	48	-3.255107	114.630533
+233	3	2	2026-01-02 22:50:00	60	-3.296424	114.600037
+234	1	3	2026-01-02 23:00:00	32	-3.328844	114.558232
+235	4	5	2026-01-02 23:10:00	44	-3.259863	114.558172
+236	4	3	2026-01-02 23:20:00	64	-3.333702	114.552582
+237	5	3	2026-01-02 23:30:00	56	-3.302343	114.646055
+238	2	2	2026-01-02 23:40:00	39	-3.290281	114.646168
+239	5	3	2026-01-02 23:50:00	55	-3.272265	114.569951
+240	3	2	2026-01-03 00:00:00	61	-3.283582	114.572307
+241	3	5	2026-01-03 00:10:00	57	-3.271091	114.567511
+242	4	5	2026-01-03 00:20:00	32	-3.276684	114.583379
+243	4	4	2026-01-03 00:30:00	52	-3.258790	114.601809
+244	5	3	2026-01-03 00:40:00	51	-3.286584	114.640864
+245	2	3	2026-01-03 00:50:00	33	-3.290409	114.560046
+246	2	1	2026-01-03 01:00:00	48	-3.325021	114.561979
+247	5	3	2026-01-03 01:10:00	47	-3.315906	114.605638
+248	3	2	2026-01-03 01:20:00	44	-3.331398	114.558008
+249	5	2	2026-01-03 01:30:00	67	-3.303000	114.632662
+250	3	2	2026-01-03 01:40:00	49	-3.277188	114.554999
+251	1	3	2026-01-03 01:50:00	63	-3.277719	114.608749
+252	4	5	2026-01-03 02:00:00	30	-3.288210	114.587930
+253	3	3	2026-01-03 02:10:00	32	-3.330060	114.610221
+254	5	4	2026-01-03 02:20:00	60	-3.253995	114.552116
+255	4	3	2026-01-03 02:30:00	51	-3.337365	114.647840
+256	4	5	2026-01-03 02:40:00	67	-3.303079	114.560757
+257	5	5	2026-01-03 02:50:00	49	-3.323800	114.587735
+258	2	2	2026-01-03 03:00:00	56	-3.266135	114.571895
+259	5	4	2026-01-03 03:10:00	35	-3.270584	114.646852
+260	4	5	2026-01-03 03:20:00	48	-3.288605	114.611764
+261	4	2	2026-01-03 03:30:00	57	-3.306220	114.616379
+262	1	4	2026-01-03 03:40:00	62	-3.275599	114.624289
+263	3	4	2026-01-03 03:50:00	69	-3.335318	114.593078
+264	5	1	2026-01-03 04:00:00	46	-3.265367	114.578074
+265	3	2	2026-01-03 04:10:00	64	-3.313094	114.615732
+266	1	4	2026-01-03 04:20:00	69	-3.298752	114.560197
+267	5	2	2026-01-03 04:30:00	55	-3.272583	114.553471
+268	5	3	2026-01-03 04:40:00	43	-3.270099	114.561116
+269	5	4	2026-01-03 04:50:00	48	-3.309578	114.588481
+270	5	2	2026-01-03 05:00:00	67	-3.321153	114.645460
+271	2	2	2026-01-03 05:10:00	37	-3.307398	114.565816
+272	1	5	2026-01-03 05:20:00	44	-3.268560	114.570379
+273	3	1	2026-01-03 05:30:00	63	-3.326334	114.623183
+274	3	5	2026-01-03 05:40:00	65	-3.310781	114.626691
+275	3	3	2026-01-03 05:50:00	38	-3.271953	114.648640
+276	2	3	2026-01-03 06:00:00	38	-3.313214	114.610819
+277	1	5	2026-01-03 06:10:00	50	-3.264402	114.564742
+278	2	1	2026-01-03 06:20:00	67	-3.310300	114.643957
+279	4	2	2026-01-03 06:30:00	68	-3.326358	114.577753
+280	3	4	2026-01-03 06:40:00	43	-3.282493	114.610490
+281	4	1	2026-01-03 06:50:00	45	-3.258894	114.621411
+282	2	3	2026-01-03 07:00:00	42	-3.278652	114.615776
+283	2	2	2026-01-03 07:10:00	65	-3.294628	114.620173
+284	5	4	2026-01-03 07:20:00	37	-3.324051	114.610556
+285	1	1	2026-01-03 07:30:00	54	-3.252128	114.603642
+286	3	5	2026-01-03 07:40:00	48	-3.291528	114.646500
+287	5	4	2026-01-03 07:50:00	65	-3.323039	114.626981
+288	1	4	2026-01-03 08:00:00	43	-3.307523	114.634996
+289	1	1	2026-01-03 08:10:00	39	-3.261616	114.645801
+290	1	3	2026-01-03 08:20:00	46	-3.329241	114.579787
+291	4	2	2026-01-03 08:30:00	58	-3.326100	114.622936
+292	5	3	2026-01-03 08:40:00	49	-3.293537	114.606904
+293	2	1	2026-01-03 08:50:00	63	-3.262219	114.589971
+294	2	1	2026-01-03 09:00:00	44	-3.260094	114.601837
+295	5	3	2026-01-03 09:10:00	63	-3.298077	114.571988
+296	1	2	2026-01-03 09:20:00	46	-3.306764	114.586802
+297	1	3	2026-01-03 09:30:00	41	-3.321217	114.580999
+298	3	4	2026-01-03 09:40:00	55	-3.310863	114.573014
+299	4	2	2026-01-03 09:50:00	35	-3.253451	114.563819
+300	4	4	2026-01-03 10:00:00	55	-3.290534	114.636099
+301	2	2	2026-01-03 10:10:00	39	-3.313199	114.584993
+302	4	1	2026-01-03 10:20:00	54	-3.334957	114.623447
+303	2	5	2026-01-03 10:30:00	54	-3.309731	114.583708
+304	4	1	2026-01-03 10:40:00	54	-3.349360	114.601546
+305	1	3	2026-01-03 10:50:00	47	-3.349279	114.647456
+306	2	3	2026-01-03 11:00:00	53	-3.270384	114.589642
+307	2	3	2026-01-03 11:10:00	65	-3.337486	114.630278
+308	3	4	2026-01-03 11:20:00	62	-3.296977	114.588220
+309	5	1	2026-01-03 11:30:00	43	-3.308855	114.620975
+310	4	3	2026-01-03 11:40:00	32	-3.349494	114.556359
+311	5	3	2026-01-03 11:50:00	51	-3.344356	114.610242
+312	2	1	2026-01-03 12:00:00	66	-3.319742	114.622810
+313	2	5	2026-01-03 12:10:00	41	-3.269659	114.638144
+314	2	5	2026-01-03 12:20:00	34	-3.266912	114.643732
+315	1	4	2026-01-03 12:30:00	48	-3.295077	114.600556
+316	2	1	2026-01-03 12:40:00	58	-3.259160	114.611481
+317	1	5	2026-01-03 12:50:00	64	-3.285792	114.594904
+318	5	3	2026-01-03 13:00:00	50	-3.266785	114.636656
+319	3	1	2026-01-03 13:10:00	39	-3.301489	114.561847
+320	2	4	2026-01-03 13:20:00	35	-3.284838	114.605850
+321	5	5	2026-01-03 13:30:00	43	-3.303175	114.583105
+322	4	1	2026-01-03 13:40:00	37	-3.290979	114.616074
+323	4	2	2026-01-03 13:50:00	51	-3.307850	114.614670
+324	2	2	2026-01-03 14:00:00	62	-3.271345	114.572676
+325	1	3	2026-01-03 14:10:00	33	-3.279446	114.567683
+326	5	4	2026-01-03 14:20:00	47	-3.258420	114.563567
+327	3	3	2026-01-03 14:30:00	34	-3.259805	114.615645
+328	5	4	2026-01-03 14:40:00	58	-3.250551	114.633917
+329	5	5	2026-01-03 14:50:00	60	-3.318035	114.607890
+330	4	3	2026-01-03 15:00:00	64	-3.277543	114.582377
+331	4	1	2026-01-03 15:10:00	45	-3.312185	114.582058
+332	3	1	2026-01-03 15:20:00	47	-3.348627	114.572726
+333	3	4	2026-01-03 15:30:00	35	-3.250600	114.622101
+334	1	1	2026-01-03 15:40:00	47	-3.314477	114.638837
+335	1	4	2026-01-03 15:50:00	31	-3.306608	114.552519
+336	1	4	2026-01-03 16:00:00	42	-3.341787	114.596372
+337	1	3	2026-01-03 16:10:00	31	-3.294487	114.642314
+338	3	2	2026-01-03 16:20:00	51	-3.306650	114.564045
+339	4	3	2026-01-03 16:30:00	64	-3.349279	114.561638
+340	4	1	2026-01-03 16:40:00	50	-3.337783	114.607086
+341	1	4	2026-01-03 16:50:00	60	-3.266814	114.598297
+342	1	3	2026-01-03 17:00:00	43	-3.342529	114.557905
+343	3	5	2026-01-03 17:10:00	32	-3.328674	114.587270
+344	4	4	2026-01-03 17:20:00	57	-3.256020	114.576348
+345	5	1	2026-01-03 17:30:00	42	-3.317211	114.646483
+346	3	5	2026-01-03 17:40:00	48	-3.286470	114.573839
+347	1	2	2026-01-03 17:50:00	66	-3.294672	114.598850
+348	2	5	2026-01-03 18:00:00	53	-3.257683	114.579628
+349	3	2	2026-01-03 18:10:00	63	-3.340553	114.610254
+350	1	3	2026-01-03 18:20:00	39	-3.311658	114.564826
+351	5	3	2026-01-03 18:30:00	39	-3.287913	114.622142
+352	5	5	2026-01-03 18:40:00	62	-3.302482	114.593241
+353	2	5	2026-01-03 18:50:00	56	-3.256102	114.635496
+354	1	1	2026-01-03 19:00:00	41	-3.323485	114.616464
+355	5	1	2026-01-03 19:10:00	39	-3.338821	114.602264
+356	4	4	2026-01-03 19:20:00	47	-3.265789	114.580944
+357	5	4	2026-01-03 19:30:00	42	-3.339178	114.637909
+358	2	1	2026-01-03 19:40:00	68	-3.259276	114.588191
+359	5	2	2026-01-03 19:50:00	58	-3.326706	114.604816
+360	3	3	2026-01-03 20:00:00	44	-3.260240	114.556401
+361	2	5	2026-01-03 20:10:00	40	-3.250352	114.646753
+362	4	1	2026-01-03 20:20:00	68	-3.282628	114.647530
+363	3	2	2026-01-03 20:30:00	52	-3.324466	114.565583
+364	5	1	2026-01-03 20:40:00	63	-3.333929	114.550814
+365	1	1	2026-01-03 20:50:00	47	-3.286940	114.577023
+366	1	5	2026-01-03 21:00:00	45	-3.346470	114.633059
+367	1	5	2026-01-03 21:10:00	42	-3.337482	114.630326
+368	5	4	2026-01-03 21:20:00	30	-3.258618	114.563372
+369	2	1	2026-01-03 21:30:00	47	-3.256641	114.556367
+370	3	1	2026-01-03 21:40:00	34	-3.303243	114.567118
+371	1	1	2026-01-03 21:50:00	50	-3.294103	114.637656
+372	4	2	2026-01-03 22:00:00	34	-3.250159	114.636631
+373	2	2	2026-01-03 22:10:00	38	-3.254383	114.645386
+374	2	1	2026-01-03 22:20:00	33	-3.320892	114.629452
+375	5	4	2026-01-03 22:30:00	42	-3.336220	114.572048
+376	2	2	2026-01-03 22:40:00	66	-3.293830	114.620326
+377	3	1	2026-01-03 22:50:00	56	-3.321221	114.551929
+378	4	2	2026-01-03 23:00:00	48	-3.279695	114.579234
+379	2	2	2026-01-03 23:10:00	53	-3.281526	114.563882
+380	5	1	2026-01-03 23:20:00	67	-3.284762	114.581262
+381	1	1	2026-01-03 23:30:00	53	-3.326816	114.591005
+382	4	1	2026-01-03 23:40:00	32	-3.303336	114.606506
+383	1	3	2026-01-03 23:50:00	70	-3.295317	114.631510
+384	2	5	2026-01-04 00:00:00	30	-3.324945	114.591831
+385	4	4	2026-01-04 00:10:00	58	-3.327703	114.565883
+386	2	2	2026-01-04 00:20:00	44	-3.315862	114.589347
+387	2	3	2026-01-04 00:30:00	53	-3.273131	114.649164
+388	4	4	2026-01-04 00:40:00	56	-3.258709	114.552292
+389	3	5	2026-01-04 00:50:00	41	-3.250524	114.622368
+390	2	1	2026-01-04 01:00:00	69	-3.327535	114.566464
+391	4	5	2026-01-04 01:10:00	42	-3.311178	114.617818
+392	5	5	2026-01-04 01:20:00	38	-3.296050	114.606708
+393	5	2	2026-01-04 01:30:00	36	-3.336194	114.572152
+394	3	5	2026-01-04 01:40:00	35	-3.346026	114.640775
+395	5	1	2026-01-04 01:50:00	47	-3.321075	114.592167
+396	1	1	2026-01-04 02:00:00	59	-3.273637	114.632920
+397	2	1	2026-01-04 02:10:00	44	-3.346548	114.597210
+398	5	4	2026-01-04 02:20:00	58	-3.279302	114.641756
+399	2	4	2026-01-04 02:30:00	41	-3.296427	114.599944
+400	1	2	2026-01-04 02:40:00	47	-3.262827	114.626953
+401	2	2	2026-01-04 02:50:00	48	-3.335425	114.585069
+402	4	4	2026-01-04 03:00:00	35	-3.260931	114.646435
+403	1	2	2026-01-04 03:10:00	64	-3.349257	114.555251
+404	3	2	2026-01-04 03:20:00	63	-3.260713	114.590492
+405	5	2	2026-01-04 03:30:00	63	-3.267881	114.596825
+406	4	1	2026-01-04 03:40:00	60	-3.275283	114.572406
+407	5	1	2026-01-04 03:50:00	69	-3.312309	114.583436
+408	1	2	2026-01-04 04:00:00	32	-3.299551	114.562228
+409	5	1	2026-01-04 04:10:00	63	-3.275556	114.628903
+410	4	5	2026-01-04 04:20:00	32	-3.270928	114.585804
+411	5	4	2026-01-04 04:30:00	68	-3.344464	114.626770
+412	3	1	2026-01-04 04:40:00	69	-3.335077	114.628926
+413	4	1	2026-01-04 04:50:00	56	-3.322230	114.629344
+414	1	1	2026-01-04 05:00:00	58	-3.348540	114.558959
+415	5	3	2026-01-04 05:10:00	35	-3.342048	114.602880
+416	2	1	2026-01-04 05:20:00	41	-3.274493	114.626509
+417	4	1	2026-01-04 05:30:00	41	-3.297922	114.559807
+418	5	1	2026-01-04 05:40:00	46	-3.253614	114.645703
+419	3	4	2026-01-04 05:50:00	67	-3.344639	114.560479
+420	2	5	2026-01-04 06:00:00	49	-3.322148	114.631347
+421	5	3	2026-01-04 06:10:00	48	-3.275984	114.649076
+422	1	1	2026-01-04 06:20:00	37	-3.279236	114.610424
+423	1	4	2026-01-04 06:30:00	47	-3.256089	114.621306
+424	4	1	2026-01-04 06:40:00	68	-3.272036	114.642358
+425	4	5	2026-01-04 06:50:00	51	-3.296888	114.647208
+426	5	2	2026-01-04 07:00:00	55	-3.341946	114.626593
+427	4	3	2026-01-04 07:10:00	41	-3.315797	114.586926
+428	4	2	2026-01-04 07:20:00	44	-3.301161	114.649310
+429	5	1	2026-01-04 07:30:00	52	-3.345832	114.640880
+430	2	4	2026-01-04 07:40:00	50	-3.334830	114.630883
+431	2	5	2026-01-04 07:50:00	67	-3.254842	114.634812
+432	2	4	2026-01-04 08:00:00	49	-3.321907	114.563630
+433	5	1	2026-01-04 08:10:00	40	-3.348472	114.619606
+434	1	4	2026-01-04 08:20:00	43	-3.293239	114.569360
+435	4	5	2026-01-04 08:30:00	68	-3.257455	114.558177
+436	3	3	2026-01-04 08:40:00	65	-3.328172	114.628629
+437	3	5	2026-01-04 08:50:00	45	-3.266383	114.568836
+438	1	5	2026-01-04 09:00:00	56	-3.328591	114.624979
+439	1	4	2026-01-04 09:10:00	41	-3.328402	114.568714
+440	4	4	2026-01-04 09:20:00	31	-3.335106	114.561255
+441	5	5	2026-01-04 09:30:00	35	-3.277996	114.641629
+442	4	2	2026-01-04 09:40:00	61	-3.258783	114.582082
+443	3	5	2026-01-04 09:50:00	32	-3.303374	114.614374
+444	4	5	2026-01-04 10:00:00	56	-3.320926	114.634469
+445	5	1	2026-01-04 10:10:00	64	-3.343455	114.573840
+446	4	5	2026-01-04 10:20:00	57	-3.274451	114.561228
+447	1	5	2026-01-04 10:30:00	40	-3.343194	114.561478
+448	1	1	2026-01-04 10:40:00	64	-3.339187	114.585153
+449	2	3	2026-01-04 10:50:00	69	-3.298496	114.566219
+450	4	4	2026-01-04 11:00:00	68	-3.265447	114.607443
+451	4	3	2026-01-04 11:10:00	45	-3.303800	114.551226
+452	3	1	2026-01-04 11:20:00	43	-3.278943	114.590008
+453	2	4	2026-01-04 11:30:00	62	-3.275741	114.574374
+454	2	4	2026-01-04 11:40:00	49	-3.334127	114.559643
+455	1	5	2026-01-04 11:50:00	37	-3.327579	114.625485
+456	2	4	2026-01-04 12:00:00	60	-3.330396	114.607797
+457	3	4	2026-01-04 12:10:00	64	-3.250576	114.640254
+458	1	1	2026-01-04 12:20:00	47	-3.269528	114.624957
+459	4	4	2026-01-04 12:30:00	65	-3.275554	114.598632
+460	3	5	2026-01-04 12:40:00	41	-3.272705	114.571835
+461	2	2	2026-01-04 12:50:00	67	-3.305201	114.614644
+462	5	4	2026-01-04 13:00:00	53	-3.283609	114.574600
+463	5	5	2026-01-04 13:10:00	43	-3.310084	114.648634
+464	4	1	2026-01-04 13:20:00	47	-3.313839	114.591572
+465	1	1	2026-01-04 13:30:00	63	-3.280045	114.562813
+466	3	2	2026-01-04 13:40:00	56	-3.313892	114.571646
+467	2	1	2026-01-04 13:50:00	34	-3.295226	114.580677
+468	2	3	2026-01-04 14:00:00	63	-3.317605	114.604464
+469	5	2	2026-01-04 14:10:00	50	-3.312403	114.582507
+470	3	3	2026-01-04 14:20:00	64	-3.327904	114.580320
+471	4	4	2026-01-04 14:30:00	58	-3.309092	114.561666
+472	1	3	2026-01-04 14:40:00	32	-3.326779	114.627342
+473	4	1	2026-01-04 14:50:00	58	-3.280511	114.558969
+474	5	3	2026-01-04 15:00:00	46	-3.326085	114.606167
+475	4	2	2026-01-04 15:10:00	59	-3.343087	114.593852
+476	4	2	2026-01-04 15:20:00	54	-3.289421	114.579666
+477	2	1	2026-01-04 15:30:00	45	-3.274875	114.619623
+478	2	4	2026-01-04 15:40:00	68	-3.311567	114.637686
+479	2	5	2026-01-04 15:50:00	47	-3.349070	114.595503
+480	4	2	2026-01-04 16:00:00	53	-3.277506	114.594153
+481	4	5	2026-01-04 16:10:00	67	-3.345147	114.550626
+482	3	4	2026-01-04 16:20:00	34	-3.268054	114.641339
+483	5	5	2026-01-04 16:30:00	50	-3.295680	114.614015
+484	5	4	2026-01-04 16:40:00	41	-3.254683	114.640645
+485	1	1	2026-01-04 16:50:00	61	-3.327844	114.558237
+486	3	2	2026-01-04 17:00:00	48	-3.304183	114.620581
+487	5	2	2026-01-04 17:10:00	32	-3.346639	114.608412
+488	2	2	2026-01-04 17:20:00	64	-3.295268	114.635024
+489	1	1	2026-01-04 17:30:00	43	-3.327340	114.583086
+490	5	3	2026-01-04 17:40:00	42	-3.260423	114.641029
+491	4	3	2026-01-04 17:50:00	40	-3.313240	114.609835
+492	4	4	2026-01-04 18:00:00	56	-3.295559	114.643464
+493	4	5	2026-01-04 18:10:00	39	-3.258815	114.646691
+494	5	3	2026-01-04 18:20:00	64	-3.296402	114.648357
+495	3	4	2026-01-04 18:30:00	39	-3.276272	114.562957
+496	1	4	2026-01-04 18:40:00	59	-3.341649	114.635740
+497	2	1	2026-01-04 18:50:00	62	-3.260921	114.588907
+498	3	3	2026-01-04 19:00:00	43	-3.306010	114.606423
+499	2	2	2026-01-04 19:10:00	37	-3.259805	114.629213
+500	1	3	2026-01-04 19:20:00	49	-3.289178	114.558316
+\.
+
+
+--
+-- TOC entry 3517 (class 0 OID 16551)
+-- Dependencies: 222
+-- Data for Name: vehicles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.vehicles (vehicle_id, plate_number, vehicle_type) FROM stdin;
+1	DA 8101 AB	Delivery Van
+2	DA 8102 AC	Delivery Van
+3	DA 8201 AD	Box Truck
+4	DA 8202 AE	Box Truck
+5	DA 8301 AF	Delivery Van
+\.
+
+
+--
+-- TOC entry 3547 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: customers_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.customers_customer_id_seq', 11, true);
+
+
+--
+-- TOC entry 3548 (class 0 OID 0)
+-- Dependencies: 233
+-- Name: deliveries_delivery_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.deliveries_delivery_id_seq', 700, true);
+
+
+--
+-- TOC entry 3549 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: drivers_driver_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.drivers_driver_id_seq', 5, true);
+
+
+--
+-- TOC entry 3550 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: locations_location_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.locations_location_id_seq', 8, true);
+
+
+--
+-- TOC entry 3551 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: pickups_pickup_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.pickups_pickup_id_seq', 1000, true);
+
+
+--
+-- TOC entry 3552 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: services_service_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.services_service_id_seq', 3, true);
+
+
+--
+-- TOC entry 3553 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: shipments_shipment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shipments_shipment_id_seq', 1000, true);
+
+
+--
+-- TOC entry 3554 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: tracking_events_tracking_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tracking_events_tracking_id_seq', 3000, true);
+
+
+--
+-- TOC entry 3555 (class 0 OID 0)
+-- Dependencies: 235
+-- Name: vehicle_logs_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.vehicle_logs_log_id_seq', 500, true);
+
+
+--
+-- TOC entry 3556 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: vehicles_vehicle_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.vehicles_vehicle_id_seq', 5, true);
+
+
+--
+-- TOC entry 3330 (class 2606 OID 16542)
+-- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_pkey PRIMARY KEY (customer_id);
+
+
+--
+-- TOC entry 3350 (class 2606 OID 16647)
+-- Name: deliveries deliveries_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveries
+    ADD CONSTRAINT deliveries_pkey PRIMARY KEY (delivery_id);
+
+
+--
+-- TOC entry 3332 (class 2606 OID 16549)
+-- Name: drivers drivers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.drivers
+    ADD CONSTRAINT drivers_pkey PRIMARY KEY (driver_id);
+
+
+--
+-- TOC entry 3338 (class 2606 OID 16565)
+-- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_pkey PRIMARY KEY (location_id);
+
+
+--
+-- TOC entry 3346 (class 2606 OID 16608)
+-- Name: pickups pickups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pickups
+    ADD CONSTRAINT pickups_pkey PRIMARY KEY (pickup_id);
+
+
+--
+-- TOC entry 3340 (class 2606 OID 16572)
+-- Name: services services_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.services
+    ADD CONSTRAINT services_pkey PRIMARY KEY (service_id);
+
+
+--
+-- TOC entry 3342 (class 2606 OID 16579)
+-- Name: shipments shipments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipments
+    ADD CONSTRAINT shipments_pkey PRIMARY KEY (shipment_id);
+
+
+--
+-- TOC entry 3344 (class 2606 OID 16581)
+-- Name: shipments shipments_tracking_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipments
+    ADD CONSTRAINT shipments_tracking_number_key UNIQUE (tracking_number);
+
+
+--
+-- TOC entry 3348 (class 2606 OID 16630)
+-- Name: tracking_events tracking_events_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tracking_events
+    ADD CONSTRAINT tracking_events_pkey PRIMARY KEY (tracking_id);
+
+
+--
+-- TOC entry 3352 (class 2606 OID 16669)
+-- Name: vehicle_logs vehicle_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vehicle_logs
+    ADD CONSTRAINT vehicle_logs_pkey PRIMARY KEY (log_id);
+
+
+--
+-- TOC entry 3334 (class 2606 OID 16556)
+-- Name: vehicles vehicles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vehicles
+    ADD CONSTRAINT vehicles_pkey PRIMARY KEY (vehicle_id);
+
+
+--
+-- TOC entry 3336 (class 2606 OID 16558)
+-- Name: vehicles vehicles_plate_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vehicles
+    ADD CONSTRAINT vehicles_plate_number_key UNIQUE (plate_number);
+
+
+--
+-- TOC entry 3362 (class 2606 OID 16653)
+-- Name: deliveries deliveries_driver_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveries
+    ADD CONSTRAINT deliveries_driver_id_fkey FOREIGN KEY (driver_id) REFERENCES public.drivers(driver_id);
+
+
+--
+-- TOC entry 3363 (class 2606 OID 16648)
+-- Name: deliveries deliveries_shipment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveries
+    ADD CONSTRAINT deliveries_shipment_id_fkey FOREIGN KEY (shipment_id) REFERENCES public.shipments(shipment_id);
+
+
+--
+-- TOC entry 3364 (class 2606 OID 16658)
+-- Name: deliveries deliveries_vehicle_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveries
+    ADD CONSTRAINT deliveries_vehicle_id_fkey FOREIGN KEY (vehicle_id) REFERENCES public.vehicles(vehicle_id);
+
+
+--
+-- TOC entry 3357 (class 2606 OID 16614)
+-- Name: pickups pickups_driver_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pickups
+    ADD CONSTRAINT pickups_driver_id_fkey FOREIGN KEY (driver_id) REFERENCES public.drivers(driver_id);
+
+
+--
+-- TOC entry 3358 (class 2606 OID 16609)
+-- Name: pickups pickups_shipment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pickups
+    ADD CONSTRAINT pickups_shipment_id_fkey FOREIGN KEY (shipment_id) REFERENCES public.shipments(shipment_id);
+
+
+--
+-- TOC entry 3359 (class 2606 OID 16619)
+-- Name: pickups pickups_vehicle_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pickups
+    ADD CONSTRAINT pickups_vehicle_id_fkey FOREIGN KEY (vehicle_id) REFERENCES public.vehicles(vehicle_id);
+
+
+--
+-- TOC entry 3353 (class 2606 OID 16582)
+-- Name: shipments shipments_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipments
+    ADD CONSTRAINT shipments_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+
+
+--
+-- TOC entry 3354 (class 2606 OID 16597)
+-- Name: shipments shipments_destination_location_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipments
+    ADD CONSTRAINT shipments_destination_location_id_fkey FOREIGN KEY (destination_location_id) REFERENCES public.locations(location_id);
+
+
+--
+-- TOC entry 3355 (class 2606 OID 16592)
+-- Name: shipments shipments_origin_location_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipments
+    ADD CONSTRAINT shipments_origin_location_id_fkey FOREIGN KEY (origin_location_id) REFERENCES public.locations(location_id);
+
+
+--
+-- TOC entry 3356 (class 2606 OID 16587)
+-- Name: shipments shipments_service_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shipments
+    ADD CONSTRAINT shipments_service_id_fkey FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+
+
+--
+-- TOC entry 3360 (class 2606 OID 16636)
+-- Name: tracking_events tracking_events_location_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tracking_events
+    ADD CONSTRAINT tracking_events_location_id_fkey FOREIGN KEY (location_id) REFERENCES public.locations(location_id);
+
+
+--
+-- TOC entry 3361 (class 2606 OID 16631)
+-- Name: tracking_events tracking_events_shipment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tracking_events
+    ADD CONSTRAINT tracking_events_shipment_id_fkey FOREIGN KEY (shipment_id) REFERENCES public.shipments(shipment_id);
+
+
+--
+-- TOC entry 3365 (class 2606 OID 16675)
+-- Name: vehicle_logs vehicle_logs_driver_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vehicle_logs
+    ADD CONSTRAINT vehicle_logs_driver_id_fkey FOREIGN KEY (driver_id) REFERENCES public.drivers(driver_id);
+
+
+--
+-- TOC entry 3366 (class 2606 OID 16670)
+-- Name: vehicle_logs vehicle_logs_vehicle_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.vehicle_logs
+    ADD CONSTRAINT vehicle_logs_vehicle_id_fkey FOREIGN KEY (vehicle_id) REFERENCES public.vehicles(vehicle_id);
+
+
+-- Completed on 2026-09-23 20:53:20
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict sHob7IwjFGRqoZknlbsLy4p1LF8WhrWszPNLLwJWEOSx5hfPFVVoJzzFq5Zl3Io
+
