@@ -4,7 +4,6 @@
 - **Hafiz Perdana (2410817210027)**
 
 
-
 # UPS Logistics Database
 
 Repository ini berisi database dummy bertema operasional United Parcel Service (UPS) untuk tugas mata kuliah Kecerdasan Bisnis.
