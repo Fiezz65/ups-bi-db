@@ -106,5 +106,5 @@ Seluruh data yang digunakan pada database ini merupakan data dummy untuk kebutuh
 
 ## Anggota Kelompok
 
-1. Faisal Tanjung (2410817310012)
-2. Hafiz Perdana (2410817210027)
+**1. Faisal Tanjung (2410817310012)**
+**2. Hafiz Perdana (2410817210027)**
