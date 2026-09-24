@@ -103,3 +103,8 @@ vehicle_logs        500
 ```
 
 Seluruh data yang digunakan pada database ini merupakan data dummy untuk kebutuhan simulasi tugas dan bukan merupakan data operasional asli UPS.
+
+## Anggota Kelompok
+
+1. Faisal Tanjung (2410817310012)
+2. Hafiz Perdana (2410817210027)
