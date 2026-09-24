@@ -1,3 +1,8 @@
+## Anggota Kelompok
+
+- **Faisal Tanjung (2410817310012)**
+- **Hafiz Perdana (2410817210027)**
+
 # UPS Logistics Database
 
 Repository ini berisi database dummy bertema operasional United Parcel Service (UPS) untuk tugas mata kuliah Kecerdasan Bisnis.
@@ -103,8 +108,3 @@ vehicle_logs        500
 ```
 
 Seluruh data yang digunakan pada database ini merupakan data dummy untuk kebutuhan simulasi tugas dan bukan merupakan data operasional asli UPS.
-
-## Anggota Kelompok
-
-- **Faisal Tanjung (2410817310012)**
-- **Hafiz Perdana (2410817210027)**
