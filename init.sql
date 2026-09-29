@@ -5,18 +5,6 @@ CREATE TABLE customers (
     address VARCHAR(200)
 );
 
-CREATE TABLE drivers (
-    driver_id SERIAL PRIMARY KEY,
-    driver_name VARCHAR(100) NOT NULL,
-    phone VARCHAR(20)
-);
-
-CREATE TABLE vehicles (
-    vehicle_id SERIAL PRIMARY KEY,
-    plate_number VARCHAR(20) NOT NULL UNIQUE,
-    vehicle_type VARCHAR(50) NOT NULL
-);
-
 CREATE TABLE locations (
     location_id SERIAL PRIMARY KEY,
     location_name VARCHAR(100) NOT NULL,
@@ -57,19 +45,11 @@ CREATE TABLE shipments (
 CREATE TABLE pickups (
     pickup_id SERIAL PRIMARY KEY,
     shipment_id INT NOT NULL,
-    driver_id INT NOT NULL,
-    vehicle_id INT NOT NULL,
     pickup_time TIMESTAMP NOT NULL,
     pickup_status VARCHAR(30) NOT NULL,
 
     FOREIGN KEY (shipment_id)
-        REFERENCES shipments(shipment_id),
-
-    FOREIGN KEY (driver_id)
-        REFERENCES drivers(driver_id),
-
-    FOREIGN KEY (vehicle_id)
-        REFERENCES vehicles(vehicle_id)
+        REFERENCES shipments(shipment_id)
 );
 
 CREATE TABLE tracking_events (
@@ -86,37 +66,25 @@ CREATE TABLE tracking_events (
         REFERENCES locations(location_id)
 );
 
+CREATE TABLE payments (
+    payment_id SERIAL PRIMARY KEY,
+    shipment_id INT NOT NULL,
+    payment_date TIMESTAMP NOT NULL,
+    payment_method VARCHAR(30) NOT NULL,
+    amount NUMERIC(12, 2) NOT NULL,
+    payment_status VARCHAR(30) NOT NULL,
+
+    FOREIGN KEY (shipment_id)
+        REFERENCES shipments(shipment_id)
+);
+
 CREATE TABLE deliveries (
     delivery_id SERIAL PRIMARY KEY,
     shipment_id INT NOT NULL,
-    driver_id INT NOT NULL,
-    vehicle_id INT NOT NULL,
     delivery_time TIMESTAMP NOT NULL,
     receiver_name VARCHAR(100),
     delivery_status VARCHAR(30) NOT NULL,
 
     FOREIGN KEY (shipment_id)
-        REFERENCES shipments(shipment_id),
-
-    FOREIGN KEY (driver_id)
-        REFERENCES drivers(driver_id),
-
-    FOREIGN KEY (vehicle_id)
-        REFERENCES vehicles(vehicle_id)
-);
-
-CREATE TABLE vehicle_logs (
-    log_id SERIAL PRIMARY KEY,
-    vehicle_id INT NOT NULL,
-    driver_id INT NOT NULL,
-    log_time TIMESTAMP NOT NULL,
-    speed_kmh INT,
-    latitude NUMERIC(9, 6),
-    longitude NUMERIC(9, 6),
-
-    FOREIGN KEY (vehicle_id)
-        REFERENCES vehicles(vehicle_id),
-
-    FOREIGN KEY (driver_id)
-        REFERENCES drivers(driver_id)
+        REFERENCES shipments(shipment_id)
 );

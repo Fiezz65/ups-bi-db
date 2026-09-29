@@ -16,28 +16,6 @@ VALUES
     ('Muhammad Naufal Khalish', '081200000010', 'Banjarmasin'),
     ('Achmad Reihan Alfaiz', '081200000011', 'Banjarmasin');
 
-INSERT INTO drivers (
-    driver_name,
-    phone
-)
-VALUES
-    ('Faisal Tanjung', '081300000001'),
-    ('Afrian Pradipta Rizky', '081300000002'),
-    ('Muhammad Rizki Dinar', '081300000003'),
-    ('Hafiz Perdana', '081300000004'),
-    ('Muhammad Kusuma', '081300000005');
-
-INSERT INTO vehicles (
-    plate_number,
-    vehicle_type
-)
-VALUES
-    ('DA 8101 AB', 'Delivery Van'),
-    ('DA 8102 AC', 'Delivery Van'),
-    ('DA 8201 AD', 'Box Truck'),
-    ('DA 8202 AE', 'Box Truck'),
-    ('DA 8301 AF', 'Delivery Van');
-
 INSERT INTO locations (
     location_name,
     city
@@ -78,14 +56,9 @@ SELECT
     (FLOOR(RANDOM() * 3) + 1)::INT,
     (FLOOR(RANDOM() * 8) + 1)::INT,
     (FLOOR(RANDOM() * 8) + 1)::INT,
-    DATE '2026-01-01'
-        + (FLOOR(RANDOM() * 180))::INT,
-    ROUND(
-        (1 + RANDOM() * 19)::NUMERIC,
-        2
-    ),
-    50000
-        + (FLOOR(RANDOM() * 10)::INT * 10000),
+    DATE '2026-01-01' + (FLOOR(RANDOM() * 180))::INT,
+    ROUND((1 + RANDOM() * 19)::NUMERIC, 2),
+    50000 + (FLOOR(RANDOM() * 10)::INT * 10000),
     CASE
         WHEN g <= 700 THEN 'DELIVERED'
         WHEN g <= 900 THEN 'IN_TRANSIT'
@@ -95,15 +68,11 @@ FROM generate_series(1, 1000) AS g;
 
 INSERT INTO pickups (
     shipment_id,
-    driver_id,
-    vehicle_id,
     pickup_time,
     pickup_status
 )
 SELECT
     shipment_id,
-    (FLOOR(RANDOM() * 5) + 1)::INT,
-    (FLOOR(RANDOM() * 5) + 1)::INT,
     shipment_date + TIME '08:00',
     'COMPLETED'
 FROM shipments;
@@ -147,44 +116,38 @@ SELECT
     status
 FROM shipments;
 
+INSERT INTO payments (
+    shipment_id,
+    payment_date,
+    payment_method,
+    amount,
+    payment_status
+)
+SELECT
+    shipment_id,
+    shipment_date + TIME '09:00',
+    CASE
+        WHEN shipment_id % 3 = 0 THEN 'Transfer'
+        WHEN shipment_id % 3 = 1 THEN 'QRIS'
+        ELSE 'Cash'
+    END,
+    shipping_cost,
+    CASE
+        WHEN status = 'CANCELLED' THEN 'REFUNDED'
+        ELSE 'PAID'
+    END
+FROM shipments;
+
 INSERT INTO deliveries (
     shipment_id,
-    driver_id,
-    vehicle_id,
     delivery_time,
     receiver_name,
     delivery_status
 )
 SELECT
     shipment_id,
-    (FLOOR(RANDOM() * 5) + 1)::INT,
-    (FLOOR(RANDOM() * 5) + 1)::INT,
     shipment_date + INTERVAL '2 days',
     'Penerima ' || shipment_id,
     'DELIVERED'
 FROM shipments
 WHERE status = 'DELIVERED';
-
-INSERT INTO vehicle_logs (
-    vehicle_id,
-    driver_id,
-    log_time,
-    speed_kmh,
-    latitude,
-    longitude
-)
-SELECT
-    (FLOOR(RANDOM() * 5) + 1)::INT,
-    (FLOOR(RANDOM() * 5) + 1)::INT,
-    TIMESTAMP '2026-01-01 08:00:00'
-        + (g * INTERVAL '10 minutes'),
-    (30 + RANDOM() * 40)::INT,
-    ROUND(
-        (-3.35 + RANDOM() * 0.10)::NUMERIC,
-        6
-    ),
-    ROUND(
-        (114.55 + RANDOM() * 0.10)::NUMERIC,
-        6
-    )
-FROM generate_series(1, 500) AS g;
