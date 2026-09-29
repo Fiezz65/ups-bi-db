@@ -2,7 +2,7 @@
 
 Repository ini berisi database dummy bertema operasional UPS untuk tugas mata kuliah Kecerdasan Bisnis.
 
-Database menggunakan PostgreSQL yang dijalankan melalui Docker. Project terdiri dari database OLTP dan hasil konversinya ke dimensional modeling menggunakan Star Schema.
+Database menggunakan PostgreSQL yang dijalankan melalui Docker. Project terdiri dari database OLTP dan hasil konversinya ke dimensional modeling dengan pendekatan Kimball menggunakan dua Star Schema, yaitu Shipment Star Schema dan Payment Star Schema.
 
 ## Anggota Kelompok
 
