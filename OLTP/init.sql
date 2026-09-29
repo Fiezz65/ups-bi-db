@@ -44,7 +44,7 @@ CREATE TABLE shipments (
 
 CREATE TABLE pickups (
     pickup_id SERIAL PRIMARY KEY,
-    shipment_id INT NOT NULL,
+    shipment_id INT NOT NULL UNIQUE,
     pickup_time TIMESTAMP NOT NULL,
     pickup_status VARCHAR(30) NOT NULL,
 
@@ -80,7 +80,7 @@ CREATE TABLE payments (
 
 CREATE TABLE deliveries (
     delivery_id SERIAL PRIMARY KEY,
-    shipment_id INT NOT NULL,
+    shipment_id INT NOT NULL UNIQUE,
     delivery_time TIMESTAMP NOT NULL,
     receiver_name VARCHAR(100),
     delivery_status VARCHAR(30) NOT NULL,
