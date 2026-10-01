@@ -2,3 +2,10 @@ queries.sql
 query.md
 dw_queries.sql
 dw_query.md
+
+.env
+
+__pycache__/
+*.pyc
+
+ETL/logs/

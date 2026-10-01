@@ -1,17 +1,16 @@
 services:
-  postgres:
-    image: postgres:17
-    container_name: ups_postgres
+  etl:
+    build:
+      context: .
+      dockerfile: ETL/Dockerfile
+
+    container_name: ups_etl
+
+    env_file:
+      - .env
 
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-
-    ports:
-      - "5433:5432"
+      TZ: Asia/Makassar
 
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
+      - ./ETL/logs:/app/logs

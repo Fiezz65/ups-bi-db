@@ -34,11 +34,19 @@ CREATE TABLE dw.dim_location (
     city VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE dw.dim_status (
-    status_key SERIAL PRIMARY KEY,
-    status_type VARCHAR(30) NOT NULL,
-    status_name VARCHAR(50) NOT NULL,
-    UNIQUE (status_type, status_name)
+CREATE TABLE dw.dim_shipment_status (
+    shipment_status_key SERIAL PRIMARY KEY,
+    status_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE dw.dim_pickup_status (
+    pickup_status_key SERIAL PRIMARY KEY,
+    status_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE dw.dim_delivery_status (
+    delivery_status_key SERIAL PRIMARY KEY,
+    status_name VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE dw.dim_payment (
@@ -50,6 +58,7 @@ CREATE TABLE dw.dim_payment (
 
 CREATE TABLE dw.fact_shipment (
     shipment_fact_key SERIAL PRIMARY KEY,
+    shipment_id INT NOT NULL UNIQUE,
     shipment_date_key INT NOT NULL,
     pickup_date_key INT,
     delivery_date_key INT,
@@ -72,20 +81,20 @@ CREATE TABLE dw.fact_shipment (
     FOREIGN KEY (service_key) REFERENCES dw.dim_service(service_key),
     FOREIGN KEY (origin_location_key) REFERENCES dw.dim_location(location_key),
     FOREIGN KEY (destination_location_key) REFERENCES dw.dim_location(location_key),
-    FOREIGN KEY (shipment_status_key) REFERENCES dw.dim_status(status_key),
-    FOREIGN KEY (pickup_status_key) REFERENCES dw.dim_status(status_key),
-    FOREIGN KEY (delivery_status_key) REFERENCES dw.dim_status(status_key)
+    FOREIGN KEY (shipment_status_key) REFERENCES dw.dim_shipment_status(shipment_status_key),
+    FOREIGN KEY (pickup_status_key) REFERENCES dw.dim_pickup_status(pickup_status_key),
+    FOREIGN KEY (delivery_status_key) REFERENCES dw.dim_delivery_status(delivery_status_key)
 );
 
 CREATE TABLE dw.fact_payment (
     payment_fact_key SERIAL PRIMARY KEY,
+    payment_id INT NOT NULL UNIQUE,
     payment_date_key INT NOT NULL,
     customer_key INT NOT NULL,
     service_key INT NOT NULL,
     origin_location_key INT NOT NULL,
     destination_location_key INT NOT NULL,
     payment_key INT NOT NULL,
-    payment_id INT NOT NULL,
     tracking_number VARCHAR(30) NOT NULL,
     amount NUMERIC(12,2) NOT NULL,
     FOREIGN KEY (payment_date_key) REFERENCES dw.dim_date(date_key),

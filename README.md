@@ -1,27 +1,50 @@
-# UPS Logistics Database
+# UPS Logistics Data Warehouse
 
-Repository ini berisi database dummy bertema operasional UPS untuk tugas mata kuliah Kecerdasan Bisnis.
+Repository ini merupakan project tugas mata kuliah **Kecerdasan Bisnis** dengan studi kasus UPS Logistics.
 
-Database menggunakan PostgreSQL yang dijalankan melalui Docker. Project terdiri dari database OLTP dan hasil konversinya ke dimensional modeling dengan pendekatan Kimball menggunakan dua Star Schema, yaitu Shipment Star Schema dan Payment Star Schema.
+Project menggunakan database OLTP sebagai sumber data, kemudian data diproses melalui ETL berbasis Python dan dimuat ke Data Warehouse dengan pendekatan dimensional modeling.
 
 ## Anggota Kelompok
 
-- Faisal Tanjung (2410817310012)
-- Hafiz Perdana (2410817210027)
+- Faisal Tanjung  (2410817310012)
+- Hafiz Perdana   (2410817210027)
 
-## OLTP Database Design
+## Arsitektur
 
-Database OLTP digunakan untuk menyimpan data transaksi operasional UPS Logistics.
+Arsitektur yang digunakan terdiri dari tiga bagian utama:
 
-![UPS Logistics OLTP ERD](OLTP/ERD_OLTP_UPS_Logistics.png)
+```text
+PostgreSQL Lokal
+ups_logistics
+(OLTP)
+      |
+      | Extract
+      v
+Python ETL
+(Docker)
+      |
+      | Transform & Load
+      v
+PostgreSQL Lokal
+ups_logistics_dw
+(Data Warehouse)
+```
 
-### Tabel Master
+Database OLTP dan Data Warehouse berjalan pada PostgreSQL lokal, sedangkan proses ETL dan cron scheduler dijalankan melalui Docker.
+
+## OLTP Database
+
+Database `ups_logistics` digunakan sebagai sumber data operasional.
+
+Tabel yang digunakan:
+
+### Master
 
 - `customers`
 - `locations`
 - `services`
 
-### Tabel Transaksi
+### Transaksi
 
 - `shipments`
 - `pickups`
@@ -29,25 +52,133 @@ Database OLTP digunakan untuk menyimpan data transaksi operasional UPS Logistics
 - `payments`
 - `deliveries`
 
-Tabel `shipments` menjadi transaksi utama yang menyimpan data pengiriman. Proses selanjutnya dicatat melalui `pickups`, `tracking_events`, `payments`, dan `deliveries`.
+`shipments` menjadi tabel transaksi utama yang menghubungkan customer, service, lokasi asal, dan lokasi tujuan. Proses pengiriman selanjutnya dicatat melalui pickup, tracking event, payment, dan delivery.
 
-## Dimensional Modeling
+### Jumlah Data
 
-Database OLTP kemudian dikonversi ke dimensional modeling untuk kebutuhan analisis data.
+| Tabel | Jumlah |
+|---|---:|
+| customers | 11 |
+| locations | 8 |
+| services | 3 |
+| shipments | 1000 |
+| pickups | 1000 |
+| tracking_events | 3000 |
+| payments | 1000 |
+| deliveries | 700 |
 
-Dimensional modeling menggunakan dua Star Schema karena proses shipment dan payment memiliki grain yang berbeda.
+## ERD OLTP
 
-### Shipment Star Schema
+![ERD OLTP UPS Logistics](OLTP/ERD_OLTP.png)
 
-`Fact_Shipment` digunakan untuk analisis proses pengiriman, seperti jumlah shipment, customer, layanan, lokasi, status, biaya pengiriman, durasi pengiriman, dan jumlah tracking event.
+## Data Warehouse
+
+Data Warehouse menggunakan pendekatan dimensional modeling dengan **2 fact table dan 8 dimension table**.
+
+### Fact Table
+
+- `fact_shipment`
+- `fact_payment`
+
+### Dimension Table
+
+- `dim_date`
+- `dim_customer`
+- `dim_service`
+- `dim_location`
+- `dim_shipment_status`
+- `dim_pickup_status`
+- `dim_delivery_status`
+- `dim_payment`
+
+## Business Process dan Grain
+
+### Fact Shipment
+
+Business process yang dianalisis adalah proses pengiriman paket.
+
+**Grain:** satu row pada `fact_shipment` merepresentasikan satu transaksi shipment.
+
+Measure yang digunakan:
+
+- `weight_kg`
+- `shipping_cost`
+- `delivery_duration_hours`
+- `tracking_event_count`
+
+### Fact Payment
+
+Business process yang dianalisis adalah transaksi pembayaran pada shipment.
+
+**Grain:** satu row pada `fact_payment` merepresentasikan satu transaksi pembayaran.
+
+Measure yang digunakan:
+
+- `amount`
+
+## Shipment Star Schema
+
+`fact_shipment` digunakan untuk menganalisis proses pengiriman berdasarkan customer, service, tanggal, lokasi, dan status pengiriman.
 
 ![Shipment Star Schema](DW/Shipment_Star_Schema.png)
 
-### Payment Star Schema
+## Payment Star Schema
 
-`Fact_Payment` digunakan untuk analisis transaksi pembayaran berdasarkan customer, layanan, lokasi, tanggal, metode pembayaran, dan status pembayaran.
+`fact_payment` digunakan untuk menganalisis transaksi pembayaran berdasarkan customer, service, tanggal, lokasi, metode pembayaran, dan status pembayaran.
 
 ![Payment Star Schema](DW/Payment_Star_Schema.png)
+
+## ETL
+
+Proses ETL dibuat menggunakan Python dan dijalankan sebagai service di dalam Docker.
+
+Alur ETL:
+
+```text
+OLTP
+  |
+  v
+Extract
+  |
+  v
+Transform
+  |
+  v
+Load Dimension
+  |
+  v
+Load Fact
+  |
+  v
+Data Warehouse
+```
+
+### Extract
+
+ETL membaca data dari tabel OLTP dan mencatat beberapa metric:
+
+- jumlah row
+- duration
+- throughput
+
+Pengujian extract dilakukan minimal tiga kali untuk melihat konsistensi proses.
+
+### Transform
+
+Transform test yang digunakan terdiri dari:
+
+1. Validasi tipe data tanggal
+2. Null handling delivery
+3. Deduplication customer
+4. Normalisasi status
+
+Setiap rule menampilkan nilai `Before`, `Expected`, `Actual`, dan `Status`.
+
+### Load
+
+Dimension dimuat terlebih dahulu sebelum fact.
+
+Fact menggunakan surrogate key dari dimension yang sesuai. Proses load juga dibuat agar dapat dijalankan ulang tanpa menambahkan transaksi fact yang sama.
 
 ## Cara Menjalankan
 
@@ -55,120 +186,165 @@ Dimensional modeling menggunakan dua Star Schema karena proses shipment dan paym
 
 ```bash
 git clone https://github.com/Fiezz65/ups-bi-db.git
-```
-
-### 2. Masuk ke Folder Project
-
-```bash
 cd ups-bi-db
 ```
 
-### 3. Jalankan PostgreSQL Melalui Docker
+### 2. Buat Database OLTP
 
-```bash
-docker compose up -d
-```
-
-### 4. Hubungkan pgAdmin
-
-Gunakan konfigurasi berikut:
-
-```text
-Host     : localhost
-Port     : 5433
-Username : postgres
-Password : postgres
-```
-
-### 5. Buat Database
-
-Buat database:
+Buat database PostgreSQL lokal:
 
 ```text
 ups_logistics
 ```
 
-## Menjalankan OLTP
-
-Jalankan file berikut secara berurutan:
+Kemudian jalankan secara berurutan:
 
 ```text
 OLTP/init.sql
 OLTP/seed.sql
 ```
 
-`init.sql` digunakan untuk membuat tabel dan relasi database OLTP.
+`init.sql` digunakan untuk membuat tabel dan relasi OLTP, sedangkan `seed.sql` digunakan untuk mengisi data dummy.
 
-`seed.sql` digunakan untuk mengisi data dummy.
+### 3. Buat Database Data Warehouse
 
-### Jumlah Data Transaksi OLTP
+Buat database PostgreSQL lokal:
 
 ```text
-shipments          1000
-pickups            1000
-tracking_events    3000
-payments           1000
-deliveries          700
+ups_logistics_dw
 ```
 
-Untuk mengecek jumlah data:
-
-```sql
-SELECT 'shipments' AS table_name, COUNT(*) AS total
-FROM shipments
-
-UNION ALL
-
-SELECT 'pickups', COUNT(*)
-FROM pickups
-
-UNION ALL
-
-SELECT 'tracking_events', COUNT(*)
-FROM tracking_events
-
-UNION ALL
-
-SELECT 'payments', COUNT(*)
-FROM payments
-
-UNION ALL
-
-SELECT 'deliveries', COUNT(*)
-FROM deliveries;
-```
-
-## Menjalankan Dimensional Modeling
-
-Setelah database OLTP selesai dibuat dan diisi, jalankan file berikut secara berurutan:
+Kemudian jalankan:
 
 ```text
 DW/dw_init.sql
-DW/dw_load.sql
 ```
 
-`dw_init.sql` digunakan untuk membuat schema `dw`, dimension table, dan fact table.
+File tersebut membuat schema `dw`, dimension table, fact table, primary key, dan foreign key yang digunakan pada Data Warehouse.
 
-`dw_load.sql` digunakan untuk mengambil data dari OLTP dan memasukkannya ke tabel dimension dan fact.
+### 4. Konfigurasi Environment
 
-Data OLTP tetap berada pada schema `public`, sedangkan dimensional modeling berada pada schema `dw`.
-
-Untuk mengecek jumlah data pada fact table:
-
-```sql
-SELECT COUNT(*) AS total_shipment
-FROM dw.fact_shipment;
-
-SELECT COUNT(*) AS total_payment
-FROM dw.fact_payment;
-```
-
-Jumlah data utama yang diharapkan:
+Salin file:
 
 ```text
-fact_shipment    1000
-fact_payment     1000
+.env.example
 ```
+
+menjadi:
+
+```text
+.env
+```
+
+Kemudian sesuaikan konfigurasi koneksi PostgreSQL lokal.
+
+File `.env` digunakan untuk menyimpan konfigurasi koneksi source OLTP dan target Data Warehouse dan tidak disimpan ke repository.
+
+### 5. Build Service ETL
+
+Pastikan Docker Desktop sudah berjalan.
+
+```bash
+docker compose build --no-cache etl
+```
+
+### 6. Menjalankan ETL Secara Manual
+
+```bash
+docker compose run --rm etl python /app/etl.py
+```
+
+Jika berhasil, output akan menunjukkan proses:
+
+```text
+Source OLTP : connected
+Target DW   : connected
+
+=== EXTRACT ===
+
+=== TRANSFORM TEST ===
+
+=== LOAD DIMENSION ===
+Dimension berhasil dimuat
+
+=== LOAD FACT ===
+Fact berhasil dimuat
+
+Status : SUCCESS
+```
+
+### 7. Menjalankan Cron Scheduler
+
+Jalankan service ETL:
+
+```bash
+docker compose up -d etl
+```
+
+Cron dikonfigurasi untuk menjalankan ETL secara otomatis setiap satu menit.
+
+Untuk melihat jadwal cron:
+
+```bash
+docker exec -it ups_etl cat /etc/cron.d/ups-etl
+```
+
+Konfigurasi:
+
+```text
+* * * * * root /bin/sh /app/run_etl.sh >> /app/logs/cron.log 2>&1
+```
+
+Untuk melihat log ETL otomatis:
+
+```bash
+docker exec -it ups_etl tail -n 120 /app/logs/cron.log
+```
+
+## Validasi Data Warehouse
+
+Pengujian Data Warehouse tersedia pada:
+
+```text
+DW/acceptance_test.sql
+```
+
+Pengujian mencakup:
+
+- duplicate fact
+- orphan foreign key
+- join fact dengan dimension
+- penggunaan date dimension
+
+Hasil yang diharapkan:
+
+```text
+Duplicate Fact = 0
+Orphan Foreign Key = 0
+```
+
+Proses ETL juga diuji dengan rerun menggunakan source yang sama. Jumlah data fact harus tetap sama dan tidak menghasilkan duplicate load.
+
+Jumlah data utama setelah ETL:
+
+```text
+fact_shipment = 1000
+fact_payment  = 1000
+```
+
+## Report Data Warehouse
+
+Query report tersedia pada:
+
+```text
+DW/report_queries.sql
+```
+
+Report yang digunakan:
+
+1. Jumlah shipment dan total biaya pengiriman per bulan
+2. Jumlah shipment dan total biaya pengiriman per customer
+3. Ringkasan pembayaran berdasarkan metode dan status pembayaran
 
 ## Catatan
 
