@@ -2,7 +2,7 @@
 
 Repository ini merupakan project tugas mata kuliah **Kecerdasan Bisnis** dengan studi kasus UPS Logistics.
 
-Project menggunakan database OLTP sebagai sumber data, kemudian data diproses melalui ETL berbasis Python dan dimuat ke Data Warehouse dengan pendekatan dimensional modeling.
+Project menggunakan database OLTP sebagai sumber data, kemudian data diproses melalui ETL berbasis Python dan dimuat ke Data Warehouse dengan pendekatan dimensional modeling. Proses ETL diorkestrasi dan dijadwalkan menggunakan **Apache Airflow** sebagai pengganti cron pada tahap sebelumnya.
 
 ## Anggota Kelompok
 
@@ -20,17 +20,38 @@ ups_logistics
       |
       | Extract
       v
-Python ETL
-(Docker)
+Apache Airflow (Docker)
+DAG: ups_logistics_etl
+check_connection -> extract -> transform -> load_dimension -> load_fact -> validate
       |
-      | Transform & Load
+      | Load
       v
 PostgreSQL Lokal
 ups_logistics_dw
 (Data Warehouse)
 ```
 
-Database OLTP dan Data Warehouse berjalan pada PostgreSQL lokal, sedangkan proses ETL dan cron scheduler dijalankan melalui Docker.
+Database OLTP dan Data Warehouse berjalan pada PostgreSQL lokal, sedangkan Apache Airflow dijalankan melalui Docker. Airflow terdiri dari dua container:
+
+- `airflow`: Airflow mode standalone (scheduler, web UI, dan DAG processor)
+- `airflow-metadb`: PostgreSQL khusus untuk menyimpan metadata internal Airflow (riwayat eksekusi dan status task), bukan OLTP maupun Data Warehouse
+
+## Struktur Repository
+
+```text
+ups-bi-db/
+├── OLTP/        # skema, data dummy, dan ERD database OLTP
+├── DW/          # skema Data Warehouse, star schema, acceptance test, dan report
+├── ETL/         # ETL Python + cron (tahap sebelumnya)
+├── AIRFLOW/     # orkestrasi ETL dengan Apache Airflow
+│   ├── docker-compose.yml
+│   ├── verification_queries.sql
+│   └── dags/
+│       ├── ups_etl_dag.py
+│       └── etl_functions.py
+├── compose.yaml
+└── .env.example
+```
 
 ## OLTP Database
 
@@ -130,7 +151,7 @@ Measure yang digunakan:
 
 ## ETL
 
-Proses ETL dibuat menggunakan Python dan dijalankan sebagai service di dalam Docker.
+Proses ETL dibuat menggunakan Python. Logika ETL (extract, transform, load dimension, load fact) berada pada `ETL/etl.py` dan dipakai kembali oleh Airflow melalui `AIRFLOW/dags/etl_functions.py`.
 
 Alur ETL:
 
@@ -179,6 +200,43 @@ Setiap rule menampilkan nilai `Before`, `Expected`, `Actual`, dan `Status`.
 Dimension dimuat terlebih dahulu sebelum fact.
 
 Fact menggunakan surrogate key dari dimension yang sesuai. Proses load juga dibuat agar dapat dijalankan ulang tanpa menambahkan transaksi fact yang sama.
+
+## Orkestrasi ETL dengan Apache Airflow
+
+Pada tahap ini, penjadwalan ETL yang sebelumnya menggunakan cron digantikan oleh **Apache Airflow**. Airflow tidak menulis ulang logika ETL, melainkan memecah fungsi ETL yang sudah ada menjadi beberapa task yang dijalankan berurutan.
+
+### DAG `ups_logistics_etl`
+
+| Task | Keterangan |
+|---|---|
+| `check_connection` | Memastikan koneksi ke database OLTP dan Data Warehouse |
+| `extract` | Membaca 8 tabel OLTP dan mencatat jumlah row, duration, dan throughput |
+| `transform` | Menjalankan 4 transform test |
+| `load_dimension` | Memuat 8 dimension table |
+| `load_fact` | Memuat `fact_shipment` dan `fact_payment` |
+| `validate` | Memastikan fact tidak kosong dan tidak ada duplikasi |
+
+Konfigurasi DAG:
+
+| Pengaturan | Nilai | Keterangan |
+|---|---|---|
+| `schedule` | `*/5 * * * *` | Dijalankan otomatis setiap 5 menit |
+| `catchup` | `False` | Jadwal yang terlewat tidak dijalankan ulang |
+| `max_active_runs` | `1` | Tidak ada dua eksekusi yang berjalan bersamaan |
+| `retries` | `1` | Task yang gagal dicoba ulang satu kali |
+
+Karena setiap task Airflow berjalan sebagai proses terpisah, hasil extract dan transform disimpan sementara sebagai file staging (`AIRFLOW/staging/`) agar dapat dibaca oleh task berikutnya.
+
+### Perbandingan Cron dan Airflow
+
+| Aspek | Cron | Apache Airflow |
+|---|---|---|
+| Struktur | Satu script | Dipecah menjadi beberapa task |
+| Status | Tidak diketahui berhasil atau gagal | Setiap task memiliki status |
+| Kegagalan | Tidak ada retry | Retry otomatis |
+| Gagal di tengah | Tahap berikutnya tetap berjalan | Tahap berikutnya dihentikan |
+| Log | Satu file `cron.log` | Terpisah per task dan per eksekusi |
+| Pemantauan | Melalui terminal | Melalui dashboard web |
 
 ## Cara Menjalankan
 
@@ -238,58 +296,78 @@ menjadi:
 
 Kemudian sesuaikan konfigurasi koneksi PostgreSQL lokal.
 
-File `.env` digunakan untuk menyimpan konfigurasi koneksi source OLTP dan target Data Warehouse dan tidak disimpan ke repository.
+File `.env` digunakan untuk menyimpan konfigurasi koneksi source OLTP dan target Data Warehouse dan tidak disimpan ke repository. File yang sama digunakan oleh ETL berbasis cron maupun Apache Airflow.
 
-### 5. Build Service ETL
+### 5. Menjalankan Apache Airflow
 
-Pastikan Docker Desktop sudah berjalan.
+Pastikan Docker Desktop dan PostgreSQL lokal sudah berjalan, serta container ETL berbasis cron tidak sedang aktif:
+
+```bash
+docker stop ups_etl
+```
+
+Jalankan Airflow:
+
+```bash
+cd AIRFLOW
+docker compose up -d
+docker compose ps
+```
+
+Ambil password login admin (PowerShell):
+
+```powershell
+docker compose logs airflow | Select-String "Password for user"
+```
+
+Buka dashboard Airflow:
+
+```text
+http://localhost:8080
+```
+
+Login dengan username `admin` dan password yang diperoleh, kemudian aktifkan DAG `ups_logistics_etl`. DAG akan berjalan otomatis setiap 5 menit, atau dapat dijalankan manual melalui tombol **Trigger**.
+
+Jika berhasil, seluruh task berstatus **Success** dan log task `validate` menampilkan:
+
+```text
+=== VALIDASI DATA WAREHOUSE ===
+fact_shipment          : 1000
+fact_payment           : 1000
+duplicate fact_shipment: 0
+duplicate fact_payment : 0
+Status                 : SUCCESS
+```
+
+Untuk menghentikan Airflow:
+
+```bash
+docker compose stop
+```
+
+### 6. ETL dengan Cron (Tahap Sebelumnya)
+
+Pada tahap sebelumnya, ETL dijalankan menggunakan cron di dalam Docker.
+
+Build service ETL:
 
 ```bash
 docker compose build --no-cache etl
 ```
 
-### 6. Menjalankan ETL Secara Manual
+Menjalankan ETL secara manual:
 
 ```bash
 docker compose run --rm etl python /app/etl.py
 ```
 
-Jika berhasil, output akan menunjukkan proses:
-
-```text
-Source OLTP : connected
-Target DW   : connected
-
-=== EXTRACT ===
-
-=== TRANSFORM TEST ===
-
-=== LOAD DIMENSION ===
-Dimension berhasil dimuat
-
-=== LOAD FACT ===
-Fact berhasil dimuat
-
-Status : SUCCESS
-```
-
-### 7. Menjalankan Cron Scheduler
-
-Jalankan service ETL:
+Menjalankan cron scheduler (setiap satu menit):
 
 ```bash
 docker compose up -d etl
 ```
 
-Cron dikonfigurasi untuk menjalankan ETL secara otomatis setiap satu menit.
-
-Untuk melihat jadwal cron:
-
-```bash
-docker exec -it ups_etl cat /etc/cron.d/ups-etl
-```
-
-Konfigurasi:
+Konfigurasi cron:
 
 ```text
 * * * * * root /bin/sh /app/run_etl.sh >> /app/logs/cron.log 2>&1
@@ -307,6 +385,7 @@ Pengujian Data Warehouse tersedia pada:
 
 ```text
 DW/acceptance_test.sql
+AIRFLOW/verification_queries.sql
 ```
 
 Pengujian mencakup:
@@ -315,6 +394,7 @@ Pengujian mencakup:
 - orphan foreign key
 - join fact dengan dimension
 - penggunaan date dimension
+- jumlah baris dimension dan fact
 
 Hasil yang diharapkan:
 
@@ -323,7 +403,7 @@ Duplicate Fact = 0
 Orphan Foreign Key = 0
 ```
 
-Proses ETL juga diuji dengan rerun menggunakan source yang sama. Jumlah data fact harus tetap sama dan tidak menghasilkan duplicate load.
+Proses ETL juga diuji dengan rerun menggunakan source yang sama. Jumlah data fact harus tetap sama dan tidak menghasilkan duplicate load, baik saat dijalankan manual maupun terjadwal oleh Airflow.
 
 Jumlah data utama setelah ETL:
 

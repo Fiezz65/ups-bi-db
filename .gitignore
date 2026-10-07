@@ -8,4 +8,7 @@ dw_query.md
 __pycache__/
 *.pyc
 
-ETL/logs/
+ETL/logs/*
+
+AIRFLOW/logs/*
+AIRFLOW/staging/*
